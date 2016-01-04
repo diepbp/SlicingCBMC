@@ -1,0 +1,10 @@
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix012_power.oepc_false-unreach-call.c line 152 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix012_power.oepc_false-unreach-call.c line 166 function P1: function `nondet_1' is not declared
+        6.44 real         6.16 user         0.16 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix012_power.opt_false-unreach-call.c line 153 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix012_power.opt_false-unreach-call.c line 167 function P1: function `nondet_1' is not declared
+        8.55 real         8.28 user         0.17 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix012_pso.oepc_false-unreach-call.c line 153 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix012_pso.oepc_false-unreach-call.c line 167 function P1: function `nondet_1' is not declared
+Command terminated abnormally.
+        4.27 real         4.08 user         0.12 sys

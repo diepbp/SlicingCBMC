@@ -1,0 +1,4 @@
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix007_power.oepc_false-unreach-call.c line 190 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix007_power.oepc_false-unreach-call.c line 253 function P3: function `nondet_1' is not declared
+Command terminated abnormally.
+      115.09 real       112.64 user         0.98 sys
