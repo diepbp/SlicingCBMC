@@ -672,8 +672,8 @@ void build_goto_trace_new(
   {
     const symex_target_equationt::SSA_stept &SSA_step=*it;
 
-    if (SSA_step.hidden)
-    	std::cout << "Why hidden: " << SSA_step.source.pc->source_location  << std::endl;
+//    if (SSA_step.hidden)
+//    	std::cout << "Why hidden: " << SSA_step.source.pc->source_location  << std::endl;
 
     std::string string_value;
 		languages.from_expr(it->cond_expr, string_value);
