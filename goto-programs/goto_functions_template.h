@@ -121,8 +121,7 @@ public:
 
   std::vector<std::vector<int>> get_dependencies(
   		std::vector<variable_struct> vars,
-  		const namespacet &ns,
-  		const std::vector<std::string> lines) const;
+  		const namespacet &ns) const;
     
   void compute_location_numbers();
   void compute_loop_numbers();
@@ -219,20 +218,17 @@ std::vector<int> goto_functions_templatet<bodyT>::slice_variable(
     if(it->second.body_available)
     {
       const symbolt &symbol=ns.lookup(it->first);
-      std::string name = as_string(symbol.name);
-//			if ((as_string(symbol.name)[0] == '_' && as_string(symbol.name).find("__VERIFIER_") != std::string::npos)
-  		if ((name.compare("__VERIFIER_atomic_end") == 0)
-  				|| name.compare("__VERIFIER_atomic_begin") == 0
-					|| name.find("pthread_") != std::string::npos
-					|| name.compare("__actual_thread_spawn") == 0
-					|| name.compare("_start") == 0
-					|| name.compare("__CPROVER_initialize") == 0)
+			if ((as_string(symbol.name)[0] == '_' && as_string(symbol.name).find("__VERIFIER_") != std::string::npos)
+					|| as_string(symbol.name).find("pthread_") != std::string::npos
+					|| as_string(symbol.name).compare("__actual_thread_spawn") == 0
+					|| as_string(symbol.name).compare("_start") == 0
+					|| as_string(symbol.name).compare("__CPROVER_initialize") == 0)
 			{
-				std::cout << "Do not slice " << name << std::endl;
+				std::cout << "Do not slice " << as_string(symbol.name) << std::endl;
 				//default procedure of CPROVER
 				continue;
 			}
-			std::cout << "Slicing procedure: " << name << std::endl;
+			std::cout << "Slicing procedure: " << symbol.name << std::endl;
 			std::vector<std::pair<int, Slice_Type>> partial_result =
 					it->second.body.slice_variable_instruction(ns, symbol.name, selected_variables, variables);
 			resultt.insert(resultt.begin(), partial_result.begin(), partial_result.end());
@@ -248,10 +244,8 @@ std::vector<int> goto_functions_templatet<bodyT>::slice_variable(
   	else
   	{
   		if (result[(*it).first] != (*it).second)
-  		{
   			std::cout << "Line: " << (*it).first << " Problem might be in std::vector<std::pair<int, Slice_Type>> goto_functions_templatet<bodyT>::slice_variable\n";
-  			std::cout << it->second << " ---- " << result[(*it).first]  << std::endl;
-  		}
+
   		if (result[(*it).first] == Call && (*it).second && LeftAssign)
   			result[(*it).first] = CallnLeftAssign;
   		else
@@ -367,8 +361,7 @@ Function: goto_functions_templatet::get_dependency
 template <class bodyT>
 std::vector<std::vector<int>> goto_functions_templatet<bodyT>::get_dependencies(
 		std::vector<variable_struct> vars,
-		const namespacet &ns,
-		const std::vector<std::string> lines) const
+		const namespacet &ns) const
 {
 	// TODO
 	std::vector<std::map<int, int>> r(vars.size() + 10);
@@ -390,7 +383,7 @@ std::vector<std::vector<int>> goto_functions_templatet<bodyT>::get_dependencies(
 			std::cout << "std::vector<std::vector<int>> goto_functions_templatet<bodyT>::get_dependencies: " << as_string(symbol.name) << std::endl;
 
     	std::vector<std::vector<int>> partialResult;
-    	partialResult = it->second.body.get_program_dependencies(ns, symbol.name, vars, lines);
+    	partialResult = it->second.body.get_program_dependencies(ns, symbol.name, vars);
 
     	// add to result
     	for (int i = 0; i < partialResult.size(); ++i)

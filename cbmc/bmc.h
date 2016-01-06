@@ -80,34 +80,25 @@ struct command_data{
 	std::string condition;
 	bool nondet_assign = false;
 
-	std::string proc_name;
-	int thread_no;
-
-	command_data(int _line_number, std::string _condition, bool _nondet_assign, std::string _proc_name, int _thread_no)
+	command_data(int _line_number, std::string _condition, bool _nondet_assign)
 	{
 		line_number = _line_number;
 		condition = _condition;
 		nondet_assign = _nondet_assign;
-		proc_name = _proc_name;
-		thread_no = _thread_no;
 	}
 
-	command_data(int _line_number, std::string _condition, std::string _proc_name, int _thread_no)
+	command_data(int _line_number, std::string _condition)
 	{
 		line_number = _line_number;
 		condition = _condition;
 		nondet_assign = false;
-		proc_name = _proc_name;
-		thread_no = _thread_no;
 	}
 
-	command_data(int _line_number, std::string _proc_name, int _thread_no)
+	command_data(int _line_number)
 	{
 		line_number = _line_number;
 		condition = "";
 		nondet_assign = false;
-		proc_name = _proc_name;
-		thread_no = _thread_no;
 	}
 };
 struct procedure_data{
@@ -159,15 +150,12 @@ public:
   		std::vector<int> lines_map,
   		std::vector<std::string> lines,
   		std::vector<std::vector<int>> CFG,
-  		const std::vector<int> slicing_lines,
-  		std::vector<variable_struct> alone_vars);
+  		const std::vector<int> slicing_lines);
 
-  std::string get_condition_expr(
-  		const std::vector<std::string> lines,
+  virtual std::string get_condition_expr(const std::vector<std::string> lines,
   		int line1,
   		const std::list<goto_trace_stept>::iterator it,
-  		int line2,
-  		int slicing_type);
+  		const int line2);
 
   virtual ~bmct() { }
 
@@ -206,8 +194,7 @@ protected:
 	    std::vector<int> lines_map,
 	    std::vector<std::string> lines,
 	    std::vector<std::vector<int>> CFG,
-	    const std::vector<int> slicing_lines,
-	    std::vector<variable_struct> alone_vars);
+	    const std::vector<int> slicing_lines);
     
   // the solvers we have
   virtual bool decide_default(const goto_functionst &,
@@ -215,9 +202,7 @@ protected:
   			    std::vector<int> lines_map,
   			    std::vector<std::string> lines,
   			    std::vector<std::vector<int>> CFG,
-  			    const std::vector<int> slicing_lines,
-  			    std::vector<variable_struct> alone_vars);
-
+  			    const std::vector<int> slicing_lines);
   virtual bool decide_bv_refinement(const goto_functionst &);
   virtual bool decide_aig(const goto_functionst &);
   virtual bool decide_smt1(const goto_functionst &);
@@ -250,8 +235,7 @@ protected:
     		std::vector<int> lines_map,
     		std::vector<std::string> lines,
     		std::vector<std::vector<int>> CFG,
-    		const std::vector<int> slicing_lines,
-    		std::vector<variable_struct> alone_vars);
+    		const std::vector<int> slicing_lines);
 
   virtual bool all_properties(
       const goto_functionst &goto_functions,
@@ -301,15 +285,9 @@ protected:
 
 	bool is_index_member_symbol(const exprt &src);
 
-	exprt creat_new_guard(std::vector<exprt> new_guards, std::vector<variable_struct> alone_vars);
-
 	std::vector<int> find_lines(int x, int y, std::vector<std::vector<int>> CFG, bool bak_checked[10000]);
-	std::vector<int> find_lines(int x, int y, std::vector<std::vector<int>> CFG);
-
 	std::vector<std::string> parse_string_bmc(std::string s);
 	bool has_token_bmc(std::string s, std::vector<std::string> list);
-	bool has_token_bmc(std::string s, std::vector<TokenElement> list);
-	std::string edit_line(command_data i, std::string s, std::vector<variable_struct> variables, CParser c_parser);
 	void find_brackets(int line, std::vector<std::string> lines, int &start, int &finish);
 	std::string generate_new_name(std::string name, int number);
 	void insert_brackets(int line_number, std::vector<std::pair<int, int>> &brackets, std::vector<std::string> &procedure);
@@ -317,26 +295,9 @@ protected:
 	void reorder_atomic(std::vector<std::string> &procedure);
 	void write_to_file(int counter, std::vector<std::vector<std::string>> text_file, std::vector<std::string> lines);
 	void write_to_file(int counter, std::vector<procedure_data> new_file, std::vector<std::string> lines);
-	void write_to_file_2(int counter, std::vector<command_data> new_file, std::vector<std::string> lines, std::vector<variable_struct> variables);
+	void write_to_file_2(int counter, std::vector<command_data> new_file, std::vector<std::string> lines);
 	std::string get_proc_name(std::string code);
 	int find_procedure_index(std::string name, int instance, const std::vector<procedure_data> new_file);
-	std::vector<std::vector<std::string>> classify_atomic(
-			std::vector<std::string> lines,
-			std::vector<std::vector<int>> CFG);
-	void read_program(std::string file_name, std::vector<std::string> &lines);
-	bool is_local_variable_bmc(std::string s, std::string proc_name, std::vector<variable_struct> variables)
-	{
-		for (std::vector<variable_struct>::iterator it = variables.begin(); it != variables.end(); ++it)
-		{
-			if ((*it).name.compare(s) == 0 &&
-					(*it).proc.compare(proc_name) == 0
-				 )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
 
 
 	// to handle expr

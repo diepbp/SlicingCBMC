@@ -413,8 +413,7 @@ Function: cbmc_parse_optionst::DFS_dependence
 \*******************************************************************/
 std::vector<int> cbmc_parse_optionst::DFS_dependence(
     		std::vector<int> properties,
-    		std::vector<std::vector<int>> dependencies,
-    		std::vector<int> &alone_vars)
+    		std::vector<std::vector<int>> dependencies)
 {
 	std::vector<int> r;
 	bool checked[dependencies.size() + 10];
@@ -422,7 +421,7 @@ std::vector<int> cbmc_parse_optionst::DFS_dependence(
 
 
 	// sequential programs
-//	return properties;
+	return properties;
 
 
 	// concurrent programs
@@ -431,14 +430,6 @@ std::vector<int> cbmc_parse_optionst::DFS_dependence(
 	{
 		std::vector<int> partial_result = DFS_dependence_1(*i, dependencies,
 		    checked);
-
-		std::cout << "partial_result: " << partial_result.size() << std::endl;
-		if (partial_result.size() <= 1 && dependencies[*i].size() < 1)
-		{
-			// alone variables
-			alone_vars.push_back(*i);
-		}
-
 		for (std::vector<int>::iterator it = partial_result.begin();
 		    it != partial_result.end(); ++it)
 		{
@@ -508,17 +499,6 @@ std::vector<int> cbmc_parse_optionst::DFS_dependence_1(
 	return q;
 }
 
-/*******************************************************************\
-
-Function: has_element
-
-  Inputs:
-
- Outputs:
-
- Purpose:
-
-\*******************************************************************/
 bool has_element(std::vector<int> v, int element)
 {
 	for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it)
@@ -563,17 +543,6 @@ void cbmc_parse_optionst::edit_CFG(std::vector<std::string> lines)
 //	  }
 }
 
-/*******************************************************************\
-
-Function: cbmc_parse_optionst::doit()
-
-  Inputs:
-
- Outputs:
-
- Purpose:
-
-\*******************************************************************/
 int cbmc_parse_optionst::doit()
 {
 	std::vector<variable_struct> variables;
@@ -585,25 +554,15 @@ int cbmc_parse_optionst::doit()
 
   goto_functionst goto_functions;
   bmct bmc(options, symbol_table, ui_message_handler);
-  int get_goto_program_ret = get_goto_program(options, bmc, goto_functions);
+  int get_goto_program_ret=
+    get_goto_program(options, bmc, goto_functions);
 
-  std::vector<std::string> lines;
-  read_program(cmdline.args[cmdline.args.size() - 1], lines);
 	/*
 	 * my code -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 * my code -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 */
   namespacet ns(symbol_table);
 	variables = get_variables();
-
-	// check if an array is exist
-	bool have_array = false;
-	for (std::vector<variable_struct>::const_iterator it = variables.begin(); it != variables.end(); ++it)
-		if (it->type == 2)
-		{
-			have_array = true;
-			break;
-		}
 
 	std::vector<std::pair<std::string, std::string>> tmp_properties = get_properties(ns, goto_functions);
 	std::vector<int> properties_1;
@@ -619,6 +578,7 @@ int cbmc_parse_optionst::doit()
 			    && tmp_properties[i].second.compare(variables[j].proc) == 0)
 			{
 				properties_1.push_back(j);
+//				properties_2.push_back(variables[j]);
 				found = true;
 				break;
 			}
@@ -642,16 +602,11 @@ int cbmc_parse_optionst::doit()
 
 	label_properties(goto_functions);
 
-	std::vector<std::vector<int>> dependencies;
-	if (!have_array)
-		dependencies = goto_functions.get_dependencies(variables, ns, lines);
+	std::vector<std::vector<int>> dependencies = goto_functions.get_dependencies(variables, ns);
 
 	// TODO: select variables for slicing
 	// --> use properties
-	std::vector<int> alone_variables;
-	std::vector<int> slice_variables;
-	if (!have_array)
-		slice_variables = DFS_dependence(properties_1, dependencies, alone_variables);
+	std::vector<int> slice_variables = DFS_dependence(properties_1, dependencies);
 
 	for (int i = 0; i < variables.size(); ++i)
 		if (variables[i].type == -1)
@@ -667,28 +622,16 @@ int cbmc_parse_optionst::doit()
 		std::cout << variables[slice_variables[i]].name << std::endl;
 	}
 
-	std::cout << "Alone variables: \n";
-	std::vector<variable_struct> alone_vars;
-	for (int i = 0 ; i < alone_variables.size(); ++i)
-	{
-		std::cout << variables[alone_variables[i]].name << std::endl;
-		alone_vars.push_back(variables[alone_variables[i]]);
-	}
-	std::vector<int> slicing_lines;
 	// doing slicing
-	if (have_array == true)
-	{
-		properties_2 = variables;
-		for (int i = 0; i < lines.size(); ++i)
-			slicing_lines.push_back(0);
-	}
-	else
-		slicing_lines = goto_functions.slice_variable(ns, properties_2, variables);
+	std::vector<int> slicing_lines = goto_functions.slice_variable(ns, properties_2, variables);
 
 	for (int i = 0 ; i < slicing_lines.size(); ++i)
-		std::cout << i << ":-> " << slicing_lines[i] << std::endl;
+		std::cout << i << ": " << slicing_lines[i] << std::endl;
+
 	std::vector<int> lines_map;
-	slice_program(slicing_lines,variables, properties_2, lines_map, lines);
+	std::vector<std::string> lines;
+
+	slice_program(cmdline.args[cmdline.args.size() - 1], slicing_lines,variables, properties_2, lines_map, lines);
 	/*
 	 * my code -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 * my code -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -703,7 +646,7 @@ int cbmc_parse_optionst::doit()
 	symbol_table.clear();
 
 //	return 1;
-  return do_slice(variables, lines_map, lines, CFG, slicing_lines, alone_vars);
+  return do_slice(variables, lines_map, lines, CFG, slicing_lines);
 }
 
 /*******************************************************************\
@@ -723,8 +666,7 @@ int cbmc_parse_optionst::do_slice(
 		std::vector<int> lines_map,
 		std::vector<std::string> lines,
 		std::vector<std::vector<int>> original_CFG,
-		std::vector<int> slicing_lines,
-		std::vector<variable_struct> alone_vars)
+		std::vector<int> slicing_lines)
 {
   if(cmdline.isset("version"))
   {
@@ -814,7 +756,7 @@ int cbmc_parse_optionst::do_slice(
   namespacet ns(symbol_table);
 
   // do actual BMC
-  return do_bmc(bmc, goto_functions, variables, lines_map, lines, original_CFG, slicing_lines, alone_vars);
+  return do_bmc(bmc, goto_functions, variables, lines_map, lines, original_CFG, slicing_lines);
 }
 
 /*******************************************************************\
@@ -1046,69 +988,6 @@ std::vector<std::string> line_to_proc(std::vector<std::string> lines)
 
 /*******************************************************************\
 
-Function: cbmc_parse_optionst::is_procedure_call
-
-  Inputs:
-
- Outputs:
-
- Purpose:
-
-\*******************************************************************/
-bool cbmc_parse_optionst::is_procedure_call(std::string line)
-{
-	bool is_call = false;
-	for (int c = 0; c < line.size(); ++c)
-		if (line[c] == '(')
-		{
-			// find backward to get char
-			int pos_c = c - 1;
-			while (pos_c >= 0)
-			{
-			if (line[pos_c] >= 'a' && line[pos_c] <= 'z')
-				return true;
-			else if (line[pos_c] >= 'A' && line[pos_c] <= 'Z')
-				return true;
-			else if (line[pos_c] >= '0' && line[pos_c] <= '9')
-				return true;
-			else if (line[pos_c] == ' ')
-				--pos_c;
-			else
-				break;
-		}
-	}
-	return false;
-}
-
-/*******************************************************************\
-
-Function: cbmc_parse_optionst::optimize_code
-
-  Inputs:
-
- Outputs:
-
- Purpose:
-
-\*******************************************************************/
-bool check_remove_block(int line, int i, int &counter, bool &assignment, std::vector<std::string> &lines)
-{
-	if (lines.at(i)[0] == '}' &&
-			counter == 1)
-		counter--;
-	std::cout << i << ": " << lines[i] << std::endl;
-	if (counter == 0 && assignment == false)
-	{
-		for (int k = line; k <= i; ++k)
-		{
-			lines[k] = "";
-		}
-		return true;
-	}
-	return false;
-}
-/*******************************************************************\
-
 Function: cbmc_parse_optionst::optimize_code
 
   Inputs:
@@ -1135,19 +1014,13 @@ int cbmc_parse_optionst::handle_block(
 		{
 			int last_line = handle_block(i, lines);
 
-			// check block because of: } else... -> }
 			std::cout << "new block: " << i << " " << last_line << std::endl;
-			bool removed = check_remove_block(line, i, counter, assignment, lines);
-					if (removed)
-						return i;
-
 			assignment = assignment || last_line < 0;
 			if (abs(last_line) == i)
 				i++;
 			else
 				i = abs(last_line);
-
-				continue;
+			continue;
 		}
 
 		if (lines[i].size() > 0)
@@ -1157,9 +1030,7 @@ int cbmc_parse_optionst::handle_block(
 					has_token_parse_options("return", tokens) ||
 					has_token_parse_options("break", tokens) ||
 					has_token_parse_options("continue", tokens) ||
-					has_token_parse_options("exit", tokens) ||
-					has_token_parse_options("pthread_create", tokens)
-					)
+					has_token_parse_options("exit", tokens))
 			{
 				std::cout << "not remove: " << lines[i] << std::endl;
 				assignment = true;
@@ -1194,29 +1065,12 @@ int cbmc_parse_optionst::handle_block(
 						{
 							// remove all line
 							std::cout << line << " to " << i << std::endl;
-							// handle "} else"
-							bool keep_bracket = false;
-							std::size_t else_pos = lines[line].find("else");
-							if (else_pos != std::string::npos)
-							{
-								std::size_t bracket_pos = lines[line].find("}");
-								if (bracket_pos != std::string::npos)
-									if (bracket_pos < else_pos)
-										keep_bracket = true;
-							}
-							if (keep_bracket)
-								lines[line] = "}";
-							else
-								lines[line] = "";
-
-							// handle remaining
-							for (int k = line + 1; k <= i; ++k)
+							for (int k = line; k <= i; ++k)
 							{
 								std::cout << lines[k] << std::endl;
 								lines[k] = "";
 							}
 							std::cout << "out block [remove]: " << i << ":" << lines[i] << std::endl;
-
 							return i;
 						}
 						std::cout << "out block [not remove]: " << i << ":" << lines[i] << std::endl;
@@ -1256,8 +1110,7 @@ void cbmc_parse_optionst::optimize_while_if(
 	{
 		std::vector<std::string> tokens = parse_string_parse_options(lines[i]);
 		if (has_token_parse_options("if", tokens)
-		    || has_token_parse_options("while", tokens)
-		    || has_token_parse_options("else", tokens))
+		    || has_token_parse_options("while", tokens))
 		{
 			std::cout << "here111: " << i << " " << lines[i] << std::endl;
 			int last_line = handle_block(i, lines);
@@ -1333,30 +1186,6 @@ void cbmc_parse_optionst::optimize_atomic(
 		i++;
 	}
 }
-
-/*******************************************************************\
-
-Function: cbmc_parse_optionst::read_program
-
-  Inputs:
-
- Outputs:
-
- Purpose:
-
-\*******************************************************************/
-void cbmc_parse_optionst::read_program(std::string file_name, std::vector<std::string> &lines)
-{
-	std::ifstream t(file_name);
-	int length;
-
-	std::string str;
-	while (std::getline(t, str))
-	{
-		lines.push_back(str);
-	}
-	t.close();
-}
 /*******************************************************************\
 
 Function: cbmc_parse_optionst::parse_program
@@ -1370,12 +1199,23 @@ Function: cbmc_parse_optionst::parse_program
 \*******************************************************************/
 
 void cbmc_parse_optionst::slice_program(
+		std::string file_name,
 		std::vector<int> slicing_lines,
 		std::vector<variable_struct> variables,
 		std::vector<variable_struct> selected_variables,
 		std::vector<int> &lines_map,
 		std::vector<std::string> &lines)
 {
+	std::ifstream t(file_name);
+	int length;
+
+	std::string str;
+	while (std::getline(t, str))
+	{
+		lines.push_back(str);
+	}
+	t.close();
+
 	std::vector<std::string> bak_lines = lines;
 
 	std::vector<std::string> lines_to_proc = line_to_proc(lines);
@@ -1564,6 +1404,7 @@ void cbmc_parse_optionst::slice_program(
 								std::string s = lines[i].substr(0, equal_symbol);
 								if (v.type == 1)
 								{
+//									s = s + "= nondet_bool();"; //s = s + "= nondet_int();";
 									s = s + "= nondet_int();";
 									insert_nondet_int = true;
 								}
@@ -2020,13 +1861,12 @@ int cbmc_parse_optionst::do_bmc(
   std::vector<int> lines_map,
   std::vector<std::string> lines,
   std::vector<std::vector<int>> original_CFG,
-  std::vector<int> slicing_lines,
-  std::vector<variable_struct> alone_vars)
+  std::vector<int> slicing_lines)
 {
   bmc.set_ui(get_ui());
 
   // do actual BMC
-  bool result=bmc.run(goto_functions, variables, lines_map, lines, original_CFG, slicing_lines, alone_vars);
+  bool result=bmc.run(goto_functions, variables, lines_map, lines, original_CFG, slicing_lines);
 
   // let's log some more statistics
   debug() << "Memory consumption:" << messaget::endl;

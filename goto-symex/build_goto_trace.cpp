@@ -171,14 +171,14 @@ void get_exprt(std::vector<exprt> v, std::vector<exprt> &exprs, const namespacet
 	}
 }
 
-void add_element(exprt cond_expr, std::string expr_str, std::vector<std::pair<std::string, exprt>> &choices)
+void add_element(exprt expr, std::string expr_str, std::vector<std::pair<std::string, exprt>> &choices)
 {
 	for (std::vector<std::pair<std::string, exprt>>::iterator it = choices.begin(); it != choices.end(); ++it)
 	{
 		if (it->first.compare(expr_str) == 0)
 			return;
 	}
-	choices.push_back(std::make_pair(expr_str, cond_expr));
+	choices.push_back(std::make_pair(expr_str, expr));
 }
 /*******************************************************************\
 
@@ -586,7 +586,7 @@ void build_goto_trace_new(
   const prop_convt &prop_conv,
   const namespacet &ns,
   goto_tracet &goto_trace,
-  std::vector<exprt> &new_guards,
+  exprt &new_guard,
   exprt &old_guard)
 {
   // We need to re-sort the steps according to their clock.
@@ -608,6 +608,8 @@ void build_goto_trace_new(
   exprt last_operand = false_exprt();
   exprt current_time_expr;
   std::vector<std::pair<std::string, exprt>> choices;
+
+  std::vector<symex_target_equationt::SSA_stept> trace_guards;
 
 #if 0
   bool has_threads=target.has_threads();
@@ -672,9 +674,6 @@ void build_goto_trace_new(
   {
     const symex_target_equationt::SSA_stept &SSA_step=*it;
 
-//    if (SSA_step.hidden)
-//    	std::cout << "Why hidden: " << SSA_step.source.pc->source_location  << std::endl;
-
     std::string string_value;
 		languages.from_expr(it->cond_expr, string_value);
     if(prop_conv.l_get(SSA_step.guard_literal)!=tvt(true))
@@ -685,12 +684,6 @@ void build_goto_trace_new(
 		if (it->is_assert())
 		{
 			std::cout << "(" << icount << ") ASSERT(" << string_value << ") " << "\n";
-			 std::string assert_guard;
-			 languages.from_expr(it->guard, assert_guard);
-			 if (prop_conv.get(it->cond_expr).is_false())
-				 std::cout << "Guard: FALSE" << assert_guard << std::endl;
-			 else
-				 std::cout << "Guard: TRUE" << assert_guard << std::endl;
 			if(!it->guard.is_true())
 			{
 				old_guard = it->guard;
@@ -704,7 +697,7 @@ void build_goto_trace_new(
 		{
 			if (it->cond_expr.is_not_nil())
 			{
-//				std::cout << "{-" << icount << "} " << string_value << "\n";
+				std::cout << "{-" << icount << "} " << string_value << "\n";
 				if (!it->guard.is_true())
 				{
 					std::string string_value1;
@@ -727,7 +720,7 @@ void build_goto_trace_new(
 					exprt last_one = it->cond_expr.operands().at(it->cond_expr.operands().size() - 1);
 					std::string last_one_str;
 					languages.from_expr(last_one, last_one_str);
-					std::cout << "\t" << last_one_str << " " << last_one.operands().size() << "\n";
+//					std::cout << "\t" << last_one_str << " " << last_one.operands().size() << "\n";
 
 					if (last_one_str.find("choice_rf") != std::string::npos)
 					{
@@ -737,8 +730,20 @@ void build_goto_trace_new(
 							last_one = simplify_expr(last_one, ns);
 							languages.from_expr(last_one, last_one_str);
 						}
-						add_element(it->cond_expr, last_one_str, choices);
+						add_element(last_one, last_one_str, choices);
 					}
+
+					std::string ss;
+					languages.from_expr(it->ssa_full_lhs, ss);
+					std::cout << "\t ssa_full_lhs " << ss;
+					languages.from_expr(it->original_full_lhs, ss);
+					std::cout << "\t original_full_lhs " << ss;
+					languages.from_expr(it->ssa_lhs, ss);
+					std::cout << "\t ssa_lhs " << ss;
+					languages.from_expr(it->original_lhs_object, ss);
+					std::cout << "\t original_lhs_object " << ss;
+					languages.from_expr(it->ssa_rhs, ss);
+					std::cout << "\t ssa_rhs " << ss << "\n";
 
 				}
 			}
@@ -802,8 +807,13 @@ void build_goto_trace_new(
        (SSA_step.assignment_type==symex_target_equationt::PHI ||
         SSA_step.assignment_type==symex_target_equationt::GUARD))
     {
+//    	std::string expr_s; languages.from_expr(it->cond_expr, expr_s);
+    	if (SSA_step.assignment_type==symex_target_equationt::GUARD)
+    		trace_guards.push_back(*it);
       continue;
     }
+//    else  if(it->is_assignment())
+//    	std::cout << "OTHERS || : " << expr_1 << std::endl;
 
     goto_tracet::stepst &steps=time_map[current_time];
     steps.push_back(goto_trace_stept());
@@ -930,6 +940,11 @@ void build_goto_trace_new(
   			std::cout << "\t\t" << expr_s;
 
   			std::string step_l;
+//  			if (it->full_lhs_value.is_not_nil())
+//				{
+//					languages.from_expr(it->ssa_rhs, step_l);
+//					std::cout << "\t ssa_rhs " << step_l;
+//				}
 				if (it->full_lhs_value.is_not_nil())
 				{
 					languages.from_expr(it->ssa_full_lhs, step_l);
@@ -984,14 +999,14 @@ void build_goto_trace_new(
     goto_trace.steps.splice(goto_trace.steps.end(), t_it->second);
   }
 
-//  for (int i = 0; i < interleavings.size(); i++)
-//  {
-//  	std::string s1, s2;
-//  	languages.from_expr(interleavings[i].first, s1);
-//  	languages.from_expr(interleavings[i].second, s2);
-//
-//  	std::cout << "interleaving: " << s1 << " --->" << s2 << std::endl;
-//  }
+  for (int i = 0; i < interleavings.size(); i++)
+  {
+  	std::string s1, s2;
+  	languages.from_expr(interleavings[i].first, s1);
+  	languages.from_expr(interleavings[i].second, s2);
+
+  	std::cout << "interleaving: " << s1 << " --->" << s2 << std::endl;
+  }
 
   // produce the step numbers
   unsigned step_nr=0;
@@ -1000,40 +1015,33 @@ void build_goto_trace_new(
       s_it=goto_trace.steps.begin();
       s_it!=goto_trace.steps.end();
       s_it++)
-  {
     s_it->step_nr=++step_nr;
-    if(!s_it->pc->source_location.is_nil())
-              std::cout << "goto_trace  " << s_it->pc->source_location << "\n";
+
+  new_guard = true_exprt();
+  std::string guard;
+  for (std::vector<exprt>::const_iterator it = guard_list.begin(); it != guard_list.end(); ++it)
+  {
+		new_guard = and_exprt(new_guard, *it);
+
+		languages.from_expr(*it, guard);
+		std::cout << "guard xx : " << guard << "\n";
   }
-  for (int i = 0; i < choices.size(); ++i)
-  	new_guards.push_back(choices.at(i).second);
 
-//  new_guard = true_exprt();
-//  std::string guard;
-//  for (std::vector<exprt>::const_iterator it = guard_list.begin(); it != guard_list.end(); ++it)
-//  {
-//		new_guard = and_exprt(new_guard, *it);
-//
-//		languages.from_expr(*it, guard);
-//		std::cout << "guard xx : " << guard << "\n";
-//  }
-
-//  for (std::vector<std::pair<std::string, exprt>>::iterator it = choices.begin(); it != choices.end(); ++it)
-//	{
-//  	if (prop_conv.get(it->second).is_true())
-//  		new_guard = and_exprt(new_guard, it->second);
-//	}
+  for (std::vector<std::pair<std::string, exprt>>::iterator it = choices.begin(); it != choices.end(); ++it)
+	{
+  	if (prop_conv.get(it->second).is_true())
+  		new_guard = and_exprt(new_guard, it->second);
+	}
 
 //  for (int i = 0; i < interleavings.size(); ++i)
 //  {
 //  	exprt tmp_guard = binary_predicate_exprt(interleavings[i].first, ID_le, interleavings[i].second);
 //		new_guard = and_exprt(new_guard, tmp_guard);
 //  }
+	simplify(new_guard, ns);
 
-//	simplify(new_guard, ns);
-
-//	languages.from_expr(new_guard, guard);
-//	std::cout << "guard final : " << guard << "\n";
+	languages.from_expr(new_guard, guard);
+	std::cout << "guard final : " << guard << "\n";
 }
 /*******************************************************************\
 
