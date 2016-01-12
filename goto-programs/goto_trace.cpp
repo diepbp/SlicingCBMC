@@ -321,11 +321,8 @@ void show_goto_trace(
   {
     // hide the hidden ones
     if(it->hidden)
-    {
-    	if(!it->pc->source_location.is_nil())
-    	          out << "hidden  " << it->pc->source_location << "\n";
       continue;
-    }
+  
     switch(it->type)
     {
     case goto_trace_stept::ASSERT:
@@ -373,7 +370,7 @@ void show_goto_trace(
         if(is_index_member_symbol(it->full_lhs))
         {
           trace_value(out, ns, it->lhs_object, it->full_lhs, it->full_lhs_value);
-          std::cout << "assignment 1: " << from_expr(ns, identifier, it->full_lhs) << "-->" << from_expr(ns, identifier, it->full_lhs_value) << std::endl;
+          std::cout << "assignment 1: " << from_expr(ns, identifier, it->full_lhs) << " = " <<  from_expr(ns, identifier, it->full_lhs)  << "-->" << from_expr(ns, identifier, it->full_lhs_value) << std::endl;
         }
         else
         {

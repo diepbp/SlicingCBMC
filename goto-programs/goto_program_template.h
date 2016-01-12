@@ -51,8 +51,7 @@ enum Slice_Type { None = 0,
 									Decl = 4,
 									Return = 5,
 									Call = 6,
-									Remove_Atomic = 7,
-									CallnLeftAssign = 8
+									Remove_Atomic = 7
 };
 
 /*! \brief A generic container class for a control flow graph
@@ -356,8 +355,7 @@ public:
   virtual std::vector<std::vector<int>> get_program_dependencies(
   		const class namespacet &ns,
   		const irep_idt &identifier,
-  		std::vector<variable_struct> vars,
-  		const std::vector<std::string> lines ) const = 0;
+  		std::vector<variable_struct> vars) const = 0;
 
   std::vector<std::vector<int>> get_CFG(
   		const namespacet &ns,

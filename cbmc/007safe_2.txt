@@ -1,0 +1,71 @@
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_power.oepc_false-unreach-call.c line 195 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_power.oepc_false-unreach-call.c line 221 function P0: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 222 function P0: function `nondet_1' is not declared
+        3.65 real         3.58 user         0.06 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_power.opt_false-unreach-call.c line 184 function P0: function `__VERIFIER_atomic_begin' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_power.opt_false-unreach-call.c line 186 function P0: function `__VERIFIER_atomic_end' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_power.opt_false-unreach-call.c line 195 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_power.opt_false-unreach-call.c line 210 function P1: function `__VERIFIER_assert' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_power.opt_false-unreach-call.c line 235 function P2: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 196 function P0: function `nondet_0' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 211 function P1: function `__VERIFIER_nondet_int' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 211 function P1: function `__VERIFIER_assert' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 235 function P2: function `__VERIFIER_atomic_begin' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 253 function P2: function `__VERIFIER_atomic_end' is not declared
+**** WARNING: no body for function __VERIFIER_atomic_begin
+**** WARNING: no body for function __VERIFIER_atomic_end
+**** WARNING: no body for function __VERIFIER_assert
+        2.99 real         2.92 user         0.05 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_pso.oepc_false-unreach-call.c'
+main symbol `main' not in symbol table
+CONVERSION ERROR
+        0.25 real         0.23 user         0.01 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_pso.opt_false-unreach-call.c'
+main symbol `main' not in symbol table
+CONVERSION ERROR
+        0.26 real         0.24 user         0.01 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_rmo.oepc_false-unreach-call.c line 196 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_rmo.oepc_false-unreach-call.c line 221 function P0: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 222 function P0: function `nondet_1' is not declared
+        3.29 real         3.23 user         0.05 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_rmo.opt_false-unreach-call.c line 196 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_rmo.opt_false-unreach-call.c line 221 function P0: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 222 function P0: function `nondet_1' is not declared
+        3.60 real         3.53 user         0.05 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_tso.oepc_false-unreach-call.c'
+main symbol `main' not in symbol table
+CONVERSION ERROR
+        0.26 real         0.24 user         0.01 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_tso.opt_false-unreach-call.c'
+main symbol `main' not in symbol table
+CONVERSION ERROR
+        0.25 real         0.24 user         0.01 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_power.oepc_true-unreach-call.c'
+main symbol `main' not in symbol table
+CONVERSION ERROR
+        0.28 real         0.25 user         0.01 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_power.opt_true-unreach-call.c'
+main symbol `main' not in symbol table
+CONVERSION ERROR
+        0.28 real         0.26 user         0.01 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_pso.oepc_true-unreach-call.c line 100 function P0: function `nondet_0' is not declared
+main symbol `main' not in symbol table
+CONVERSION ERROR
+        0.92 real         0.87 user         0.04 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_pso.opt_true-unreach-call.c line 103 function P0: function `nondet_0' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 103 function P0: function `nondet_0' is not declared
+        1.68 real         1.56 user         0.06 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_rmo.oepc_true-unreach-call.c'
+main symbol `main' not in symbol table
+CONVERSION ERROR
+        0.29 real         0.27 user         0.01 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_rmo.opt_true-unreach-call.c'
+main symbol `main' not in symbol table
+CONVERSION ERROR
+        0.29 real         0.26 user         0.01 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_tso.oepc_true-unreach-call.c line 100 function P0: function `nondet_0' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 100 function P0: function `nondet_0' is not declared
+        1.47 real         1.38 user         0.05 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe007_tso.opt_true-unreach-call.c line 100 function P0: function `nondet_0' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 100 function P0: function `nondet_0' is not declared
+        1.46 real         1.38 user         0.05 sys

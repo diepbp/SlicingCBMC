@@ -638,6 +638,66 @@ Function: symex_target_equationt::convert_assignments
 void symex_target_equationt::convert_assignments(
   decision_proceduret &decision_procedure)
 {
+
+//	for (SSA_stepst::iterator it = SSA_steps.begin(); it != SSA_steps.end(); it++)
+//	{
+//		if (it->is_assignment() && !it->ignore)
+//		{
+//			if (it->assignment_type == PHI)
+//			{
+//				std::cout << "it->assignment_type == PHI "
+//				    << from_expr(it->ssa_full_lhs) << std::endl;
+//				std::cout << "it->assignment_type == PHI "
+//				    << from_expr(it->ssa_rhs) << std::endl;
+//				std::cout << "it->assignment_type == PHI "
+//								    << from_expr(it->ssa_lhs) << std::endl;
+//				std::cout << "it->assignment_type == PHI "
+//								    << from_expr(it->ssa_rhs.op1()) << std::endl;
+//				std::cout << "it->assignment_type == PHI "
+//								    << from_expr(it->ssa_rhs.op2()) << std::endl;
+//				std::cout << "it->assignment_type == PHI "
+//												    << from_expr(it->ssa_rhs.op0()) << std::endl;
+//				std::cout << std::endl;
+//
+//				SSA_stept itx = *it;
+//				itx.assignment_type = HIDDEN_ACTUAL_PARAMETER;
+//				itx.cond_expr = not_exprt(it->ssa_rhs.op0());
+//				itx.guard = not_exprt(it->ssa_rhs.op0());
+//				itx.ssa_rhs = it->ssa_rhs.op2();
+//
+//				it->assignment_type = HIDDEN_ACTUAL_PARAMETER;
+//				it->cond_expr = it->ssa_rhs.op0();
+//				it->guard = it->ssa_rhs.op0();
+//				it->ssa_rhs = it->ssa_rhs.op1();
+//
+//				SSA_steps.push_back(itx);
+//
+//				std::cout << "it->assignment_type == PHI "
+//				    << from_expr(it->ssa_full_lhs) << std::endl;
+//				std::cout << "it->assignment_type == PHI "
+//				    << from_expr(it->ssa_rhs) << std::endl;
+//
+////				decision_procedure.set_to_true(it->cond_expr);
+//			}
+//			else
+//				decision_procedure.set_to_true(it->cond_expr);
+//		}
+//	}
+//
+//	for (SSA_stepst::iterator it = SSA_steps.begin(); it != SSA_steps.end(); it++)
+//		{
+//			if (it->is_assignment() && !it->ignore)
+//			{
+//				if (it->assignment_type == STATE)
+//				{
+//					std::cout << "it->assignment_type == STATE "
+//					    << from_expr(it->ssa_full_lhs) << std::endl;
+//					std::cout << "it->assignment_type == STATE "
+//					    << from_expr(it->ssa_rhs) << std::endl;
+//					std::cout << std::endl;
+//				}
+//			}
+//		}
   for(SSA_stepst::const_iterator it=SSA_steps.begin();
       it!=SSA_steps.end(); it++)
   {

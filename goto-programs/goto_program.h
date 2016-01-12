@@ -37,8 +37,7 @@ public:
 	std::vector<std::vector<int>> get_program_dependencies(
 			const class namespacet &ns,
 			const irep_idt &identifier,
-			std::vector<variable_struct> vars,
-			const std::vector<std::string> lines) const;
+			std::vector<variable_struct> vars) const;
 
   goto_programt() { }
   

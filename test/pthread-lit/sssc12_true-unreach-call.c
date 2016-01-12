@@ -32,7 +32,7 @@ void* thr(void* arg) {
     }
     __VERIFIER_atomic_release();
     while (c < end) {
-	__VERIFIER_assert(0);
+	__VERIFIER_assert(0 <= c && c < len);
 	data[c] = 0;
 	c = c + 1;
     }
@@ -42,7 +42,7 @@ void main() {
     pthread_t t;
     next = 0;
     lock = 0;
-    len = 20;
+    len = __VERIFIER_nondet_int();
     __VERIFIER_assume(len > 0);
     data = malloc(sizeof(int) * len);
     while(1) {

@@ -194,8 +194,7 @@ bool bmct::decide_default(const goto_functionst &goto_functions,
 			    std::vector<int> lines_map,
 			    std::vector<std::string> lines,
 			    std::vector<std::vector<int>> CFG,
-			    const std::vector<int> slicing_lines,
-			    std::vector<variable_struct> alone_vars)
+			    const std::vector<int> slicing_lines)
 {
   bool result=true;
   
@@ -220,7 +219,7 @@ bool bmct::decide_default(const goto_functionst &goto_functions,
     bv_cbmc.unbounded_array=bv_cbmct::U_ALL;
 
   if(options.get_bool_option("all-properties"))
-    return all_properties(goto_functions, bv_cbmc, variables, lines_map, lines, CFG, slicing_lines, alone_vars);
+    return all_properties(goto_functions, bv_cbmc, variables, lines_map, lines, CFG, slicing_lines);
 
   switch(run_decision_procedure(bv_cbmc))
   {

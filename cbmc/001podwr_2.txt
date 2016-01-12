@@ -1,0 +1,41 @@
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_power.oepc_false-unreach-call.c line 166 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_power.oepc_false-unreach-call.c line 200 function P2: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 148 function P0: function `nondet_0' is not declared
+        2.57 real         2.48 user         0.07 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_power.opt_false-unreach-call.c line 167 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_power.opt_false-unreach-call.c line 201 function P2: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 168 function P0: function `nondet_0' is not declared
+        8.81 real         8.48 user         0.15 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_pso.oepc_false-unreach-call.c line 166 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_pso.oepc_false-unreach-call.c line 200 function P2: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 167 function P0: function `nondet_0' is not declared
+        8.23 real         7.98 user         0.15 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_pso.opt_false-unreach-call.c line 165 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_pso.opt_false-unreach-call.c line 199 function P2: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 166 function P0: function `nondet_0' is not declared
+        9.75 real         9.35 user         0.18 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_rmo.oepc_false-unreach-call.c line 166 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_rmo.oepc_false-unreach-call.c line 200 function P2: function `nondet_1' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_rmo.oepc_false-unreach-call.c line 272 function main: function `__VERIFIER_assert' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 273: //Users//diepbp//Desktop//test//slicing_init.c:273:29: error: too many arguments provided to function-like macro invocation
+file //Users//diepbp//Desktop//test//slicing_init.c line 273: assert(__unbuffered_p0_EAX, ==, 0, &&, __unbuffered_p1_EAX, ==, 0, &&, __unbuffered_p2_EAX);
+file //Users//diepbp//Desktop//test//slicing_init.c line 273:                             ^
+file /usr/include/assert.h line 92: /usr/include/assert.h:92:9: note: macro 'assert' defined here
+file /usr/include/assert.h line 92: #define assert(e) \
+file /usr/include/assert.h line 92:         ^
+file /usr/include/assert.h line 92: 1 error generated.
+file /usr/include/assert.h line 92: GCC preprocessing failed
+PARSING ERROR
+        0.82 real         0.71 user         0.06 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_rmo.opt_false-unreach-call.c line 164 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_rmo.opt_false-unreach-call.c line 198 function P2: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 165 function P0: function `nondet_0' is not declared
+        8.09 real         7.78 user         0.15 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_tso.oepc_false-unreach-call.c line 166 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_tso.oepc_false-unreach-call.c line 200 function P2: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 167 function P0: function `nondet_0' is not declared
+        8.74 real         8.34 user         0.17 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_tso.opt_false-unreach-call.c line 165 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/podwr001_tso.opt_false-unreach-call.c line 199 function P2: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 166 function P0: function `nondet_0' is not declared
+        8.66 real         8.29 user         0.16 sys

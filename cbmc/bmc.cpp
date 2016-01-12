@@ -426,11 +426,11 @@ std::vector<int> bmct::find_lines(int x, int y, std::vector<std::vector<int>> CF
 
 	if (reached == false)
 	{
-//		std::cout << checked[y] << std::endl;
-//		for (int i = 0 ; i < CFG[152].size(); ++i)
-//			std::cout << CFG[152][i] << " ";
-//		std::cout << std::endl;
-//		std::cout << "Cannot reach from " << x << " to " << y << std::endl;
+		std::cout << checked[y] << std::endl;
+		for (int i = 0 ; i < CFG[152].size(); ++i)
+			std::cout << CFG[152][i] << " ";
+		std::cout << std::endl;
+		std::cout << "Cannot reach from " << x << " to " << y << std::endl;
 		return tmp_result;
 	}
 
@@ -445,82 +445,15 @@ std::vector<int> bmct::find_lines(int x, int y, std::vector<std::vector<int>> CF
 	for (int i = tmp_result.size() - 1; i >=0; --i)
 		result.push_back(tmp_result.at(i));
 
-//	std::cout << x << ": ";
-//	for (int i = 0 ; i < result.size(); ++i)
-//		std::cout << result[i] << " ";
-//	std::cout << std::endl;
+	std::cout << x << ": ";
+	for (int i = 0 ; i < result.size(); ++i)
+		std::cout << result[i] << " ";
+	std::cout << std::endl;
 
 	return result;
 }
 
-/*******************************************************************\
 
-Function: find_lines
-
-  Inputs:
-
- Outputs:
-
- Purpose:
-
-\*******************************************************************/
-
-std::vector<int> bmct::find_lines(int x, int y, std::vector<std::vector<int>> CFG)
-{
-	bool checked[10000];
-		for (int i = 0; i < 10000; ++i)
-			checked[i] = false;
-
-	std::vector<int> queue;
-	queue.push_back(x);
-	checked[x] = true;
-
-	int pos = 0;
-	int track[10000];
-	memset(track, -1, sizeof track);
-	track[x] = 0;
-	bool reached = false;
-
-	while (pos < queue.size())
-	{
-		int current = queue[pos++];
-		for (int i = 0 ; i < CFG[current].size(); ++i)
-		{
-			if (checked[CFG[current][i]] == false || CFG[current][i] == y)
-			{
-				checked[CFG[current][i]] = true;
-				track[CFG[current][i]] = current;
-				queue.push_back(CFG[current][i]);
-
-				if (CFG[current][i] == y)
-				{
-					reached = true;
-					break;
-				}
-			}
-		}
-		if (reached == true)
-			break;
-	}
-
-	//find path
-	int last = y;
-	std::vector<int> tmp_result;
-
-
-	while (track[last] != x)
-	{
-		tmp_result.push_back(last);
-		last = track[last];
-	}
-	tmp_result.push_back(last);
-	//reverse
-	std::vector<int> result;
-	for (int i = tmp_result.size() - 1; i >=0; --i)
-		result.push_back(tmp_result.at(i));
-
-	return result;
-}
 /*******************************************************************\
 
 Function: parse_string_bmc
@@ -575,13 +508,6 @@ bool bmct::has_token_bmc(std::string s, std::vector<std::string> list)
 	return false;
 }
 
-bool bmct::has_token_bmc(std::string s, std::vector<TokenElement> list)
-{
-	for (std::vector<TokenElement>::iterator it = list.begin(); it != list.end(); ++it)
-		if ((*it).content.compare(s) == 0)
-			return true;
-	return false;
-}
 /*******************************************************************\
 
 Function: write_to_file
@@ -602,11 +528,9 @@ void bmct::find_brackets(int line, std::vector<std::string> lines, int &start, i
 	if (lines[line].find('{') != std::string::npos)
 	{
 		start = line;
-		std::cout << "get here\n";
 	}
 	else
 	{
-		std::cout << "get there\n";
 		// find open bracket
 		while (lines[++line].size() < 1);
 
@@ -617,8 +541,7 @@ void bmct::find_brackets(int line, std::vector<std::string> lines, int &start, i
 					lines[line][i] == '/')
 				 )
 			{
-				std::cout << "why error: " << line << ": " << lines[line] << std::endl;
-//				assert(false);
+				return;
 			}
 			else if (lines[line][i] == '{')
 			{
@@ -627,7 +550,6 @@ void bmct::find_brackets(int line, std::vector<std::string> lines, int &start, i
 			}
 	}
 
-	assert(start != -1);
 	// find close bracket
 	for (int i = start; i < lines.size(); ++i)
 	{
@@ -635,8 +557,8 @@ void bmct::find_brackets(int line, std::vector<std::string> lines, int &start, i
 		for (int j = 0 ; j < lines[i].size(); ++j)
 		{
 			if (lines[i][j] == '{')
-				counter++;
-			else if (lines[i][j] == '}' && counter > 0)
+				counter ++;
+			else if (lines[i][j] == '}')
 			{
 				counter --;
 				if (counter == 0)
@@ -688,61 +610,24 @@ void bmct::write_to_file(int counter, std::vector<std::vector<std::string>> text
 
 	// write header
 	// including variables definitions, procedure nondet
-
-	int start = 0, pos = 0;
-	while (pos < lines.size())
-	{
-		if (lines[pos].find("{") != std::string::npos)
+	int pos = 0;
+	for (int i = 0; i < lines.size(); ++i)
+		if (lines[i].find("{") != std::string::npos)
 		{
-			// find proc
-			int start_proc = -1, finish_proc = -1;
-			find_brackets(pos, lines, start_proc, finish_proc);
-			start_proc--; finish_proc --;
-
-			// find proc definition
-			if (lines[start_proc].find('(') == std::string::npos)
-			{
-				// go back
-				for (int i = start_proc - 1; i >= 0; i--)
-					if (lines[i].find('(') != std::string::npos &&
-							(lines[i].find("void") != std::string::npos ||
-									lines[i].find("int") != std::string::npos ||
-									lines[i].find("bool") != std::string::npos))
-					{
-						start_proc = i;
-						break;
-					}
-			}
-			assert(start_proc >= 0);
-			bool print = true;
-			std::size_t star = lines.at(start_proc).find('*');
-			if (star != std::string::npos) // proc
-			{
-				std::size_t open_bracket = lines.at(start_proc).find('(');
-				assert (open_bracket != std::string::npos);
-				print = star > open_bracket;
-			}
-
-			print = print && lines[start_proc].find("main") == std::string::npos;
-			std::cout << lines.at(start_proc) << " --> " << print << std::endl;
-			if (print == false)
-			// write from start to start_proc - 1
-				for (int i = start; i < start_proc; ++i)
-					writer << lines[i] << std::endl;
-
-			else
-				// write the proc
-				for (int i = start; i <= finish_proc; ++i)
-					writer << lines[i] << std::endl;
-			start = finish_proc + 1;
-			pos = finish_proc + 1;
+			for (int j = i; j >= 0; j--)
+				if (parse_string_bmc(lines[j]).size() > 1)
+				{
+					pos = j;
+					break;
+				}
+			break;
 		}
-		else
-			pos++;
-	}
+	// write header
+	for (int i = 0; i < pos; ++i)
+		writer << lines[i] << std::endl;
 
 	// for concurrent program
-//	writer << "pthread_mutex_t slicing_locker;" << std::endl;
+	writer << "pthread_mutex_t slicing_locker;" << std::endl;
 
 	for (std::vector<std::vector<std::string>>::iterator it = text_file.begin(); it != text_file.end(); ++it)
 	{
@@ -782,7 +667,7 @@ void bmct::insert_brackets(int line_number, std::vector<std::pair<int, int>> &br
 			break;
 	}
 
-//	std::cout << "bracket size: " << line_number << " " << brackets.size() << std::endl;
+	std::cout << "bracket size: " << line_number << " " << brackets.size() << std::endl;
 
 	// do insert
 	if (insert_counter > 0)
@@ -1028,11 +913,11 @@ void bmct::write_to_file(int counter, std::vector<procedure_data> new_file, std:
 					if (start - 1 != i)
 						procedure.push_back("{");
 
-//					if (it->name.compare("main") == 0 )
-//					{
-//						// insert init for mutex
-//						procedure.push_back("pthread_mutex_init(&slicing_locker, 0);");
-//					}
+					if (it->name.compare("main") == 0 )
+					{
+						// insert init for mutex
+						procedure.push_back("pthread_mutex_init(&slicing_locker, 0);");
+					}
 					brackets.push_back(std::make_pair(start, finish));
 				}
 
@@ -1065,6 +950,7 @@ void bmct::write_to_file(int counter, std::vector<procedure_data> new_file, std:
 			else
 			{
 				last_line_in_proc = line_number;
+				std::cout << line_number << std::endl;
 				bool call_procedure = false;
 				std::string this_line = lines[abs(line_number)];
 				if (line_number < 0)
@@ -1113,42 +999,37 @@ void bmct::write_to_file(int counter, std::vector<procedure_data> new_file, std:
 				// parse line
 				std::vector<std::string> tokens = parse_string_bmc(this_line);
 
+				if (tokens.size() == 1 && tokens[0][0] == '}')
+					std::cout << "Special line: " << line_number << std::endl;
+
+				if (has_token_bmc("}", tokens) &&
+						brackets.size() > 0)
+				{
+					brackets.pop_back();
+				}
+
 				insert_brackets(line_number, brackets, procedure);
 
 				// if bracket
 				if (has_token_bmc("if", tokens))
 				{
-					std::cout << "line at: " << abs(line_number) << std::endl;
 					if (i->condition.size() > 0)
 						procedure.push_back("__CPROVER_assume(" + i->condition + ");");
-//					else if (!has_token_bmc("else", tokens))
-//					{
-//						if (has_token_bmc("}", tokens) && brackets.size() > 0)
-//						{
-//							brackets.pop_back();
-//						}
+					procedure.push_back(this_line);
 
-//						// write everything
-//						int start = -1, finish = -1;
-//						find_brackets(abs(line_number), lines, start, finish);
-//						std::cout << "Write them all: " << start << " " << finish << std::endl;
-//						for (int t = abs(line_number); t < finish; ++t)
-//						{
-//							procedure.push_back(lines[t]);
-//							std::cout << lines[t] << std::endl;
-//						}
-//					}
-//					else {
-//						std::cout << "I dont know\n";
-//					}
+					int start, finish;
+					find_brackets(line_number, lines, start, finish);
+					std::cout << "If start vs finish" << line_number << ": " << start << " " << finish << std::endl;
+					if (start != -1)
+					{
+						if (start - 1 != line_number)
+							procedure.push_back("{");
+						brackets.push_back(std::make_pair(start, finish));
+					}
 				}
 
 				else if (has_token_bmc("while", tokens))
 				{
-					if (has_token_bmc("}", tokens) && brackets.size() > 0)
-					{
-						brackets.pop_back();
-					}
 					if (i->condition.size() > 0)
 						procedure.push_back("__CPROVER_assume(" + i->condition + ");");
 
@@ -1170,12 +1051,6 @@ void bmct::write_to_file(int counter, std::vector<procedure_data> new_file, std:
 				}
 
 				else {
-					if (has_token_bmc("}", tokens) && brackets.size() > 0)
-					{
-						std::cout << "bracket: " << abs(line_number) << " " << this_line << std::endl;
-						brackets.pop_back();
-					}
-
 					// do not add break;
 					if (!has_token_bmc("break", tokens))
 					{
@@ -1219,18 +1094,23 @@ void bmct::write_to_file(int counter, std::vector<procedure_data> new_file, std:
 			}
 		}
 
-//		if (in_atomic)
-//		{
-//			std::cout << "Insert end atomic: " << last_line_in_proc << " " << line_number << " " << lines[line_number] << std::endl;
-//			if (32760 != abs(line_number))
-//				if (lines[line_number].find("__VERIFIER_atomic") == std::string::npos)
-//				{
-//					std::cout << "Insert end atomic: " << last_line_in_proc << " " << line_number << std::endl;
-//					procedure.push_back("__VERIFIER_atomic_end();");
-//					in_atomic = false;
-//				}
-//		}
-		insert_brackets(32767, brackets, procedure);
+		if (in_atomic)
+		{
+			std::cout << "Insert end atomic: " << last_line_in_proc << " " << line_number << " " << lines[line_number] << std::endl;
+			if (32760 != abs(line_number))
+				if (lines[line_number].find("__VERIFIER_atomic") == std::string::npos)
+				{
+					std::cout << "Insert end atomic: " << last_line_in_proc << " " << line_number << std::endl;
+					procedure.push_back("__VERIFIER_atomic_end();");
+					in_atomic = false;
+				}
+		}
+		if (abs(line_number) != 32760)
+			insert_remaining_lines(abs(line_number), finish, lines, procedure, in_atomic);
+		else
+			insert_remaining_lines(abs(last_line_in_proc), finish, lines, procedure, in_atomic);
+
+//		insert_brackets(32767, brackets, procedure);
 
 		//reorder the last atomic command
 		reorder_atomic(procedure);
@@ -1238,40 +1118,13 @@ void bmct::write_to_file(int counter, std::vector<procedure_data> new_file, std:
 		text_file.insert(text_file.begin(), procedure);
 	}
 
-	write_to_file(counter, text_file, lines);
-}
-
-/*******************************************************************\
-
-Function: edit_line
-
-  Inputs:
-
- Outputs:
-
- Purpose:
-
-\*******************************************************************/
-std::string bmct::edit_line(command_data i, std::string s, std::vector<variable_struct> variables, CParser c_parser)
-{
-	std::vector<TokenElement> tokens = c_parser.tokenHandler(s, 0);
-
-	std::string new_line = "";
-
-	for (int token = 0; token < tokens.size(); ++token)
+	for (std::vector<std::vector<std::string>>::iterator it = text_file.begin(); it != text_file.end(); ++it)
 	{
-		if (!is_local_variable_bmc(tokens.at(token).content, i.proc_name,
-		    variables))
-		{
-			// edit
-			new_line = new_line + " " + tokens.at(token).content;
-		} else
-		{
-			new_line = new_line + " " + tokens.at(token).content + "_" + i.proc_name
-			    + std::to_string(i.thread_no);
-		}
+		for (std::vector<std::string>::iterator i = (*it).begin(); i != (*it).end(); ++i)
+			std::cout << *i << std::endl;
 	}
-	return new_line;
+
+	write_to_file(counter, text_file, lines);
 }
 
 /*******************************************************************\
@@ -1286,7 +1139,7 @@ Function: write_to_file_2
 
 \*******************************************************************/
 
-void bmct::write_to_file_2(int counter, std::vector<command_data> proc_lines, std::vector<std::string> lines, std::vector<variable_struct> variables)
+void bmct::write_to_file_2(int counter, std::vector<command_data> proc_lines, std::vector<std::string> lines)
 {
 	std::map<std::string, int> current_instance;
 	std::vector<std::vector<std::string>> text_file;
@@ -1294,6 +1147,7 @@ void bmct::write_to_file_2(int counter, std::vector<command_data> proc_lines, st
 	bool in_atomic = false;
 
 	// create procedure definition
+	std::cout << proc_lines.size() << " is size\n";
 	int first_line = get_first_line(proc_lines);
 	int start, finish;
 
@@ -1315,55 +1169,50 @@ void bmct::write_to_file_2(int counter, std::vector<command_data> proc_lines, st
 	}
 
 	int line_number;
-	CParser c_parser("c_token_automata.dat");
+
 	// create procedure body
-	for (std::vector<command_data>::iterator i = proc_lines.begin(); i != proc_lines.end(); ++i)
+	for (std::vector<command_data>::iterator i = proc_lines.begin();
+	    i != proc_lines.end(); ++i)
 	{
 		line_number = i->line_number;
 		//for concurrent program
 
+		std::cout << line_number << std::endl;
 		bool call_procedure = false;
 		std::string this_line = lines[abs(line_number)];
+
 		// parse line
-		std::vector<TokenElement> tokens =  c_parser.tokenHandler(this_line, 0);
+		std::vector<std::string> tokens = parse_string_bmc(this_line);
+
+		if (tokens.size() == 1 && tokens[0][0] == '}')
+			std::cout << "Special line: " << line_number << std::endl;
+
 		// if bracket
 		if (has_token_bmc("if", tokens))
 		{
-			std::cout << "if case 1: " << this_line << " " << i->condition.size() << std::endl;
 			if (i->condition.size() > 0)
+				procedure.push_back("__CPROVER_assume(" + i->condition + ");");
+			else
 			{
-//				if (i->condition.size() > 1)
-					procedure.push_back("__CPROVER_assume(" + edit_line(*i, i->condition, variables, c_parser) + ");");
-			}
-			else if (!has_token_bmc("else", tokens))
-			{
-				std::cout << "if case 2: " << this_line << " " << i->condition.size() << std::endl;
-				// write everything because we possibly removed the "if"
+				// write everything
 				int start = -1, finish = -1;
 				find_brackets(abs(line_number), lines, start, finish);
-				for (int t = abs(line_number); t < finish; ++t)
-				{
-					procedure.push_back(edit_line(*i, lines[t], variables, c_parser));
-					std::cout << lines[t] << std::endl;
-				}
+				for (int t = abs(line_number); t <= finish; ++t)
+					procedure.push_back(lines[t]);
 			}
 		}
 
 		else if (has_token_bmc("while", tokens))
 		{
 			if (i->condition.size() > 0)
-			{
-				if (i->condition.size() > 1)
-					procedure.push_back("__CPROVER_assume(" + edit_line(*i, i->condition, variables, c_parser)  + ");");
-			}
+				procedure.push_back("__CPROVER_assume(" + i->condition + ");");
 			else
 			{
-				std::cout << "while loop: " << lines[line_number] << " " << i->condition.size() << std::endl;
-				// write everything because we possibly removed the "while"
+				// write everything
 				int start = -1, finish = -1;
 				find_brackets(abs(line_number), lines, start, finish);
-				for (int t = abs(line_number); t < finish; ++t)
-					procedure.push_back(edit_line(*i, lines[t], variables, c_parser));
+				for (int t = abs(line_number); t <= finish; ++t)
+					procedure.push_back(lines[t]);
 			}
 		}
 
@@ -1384,8 +1233,7 @@ void bmct::write_to_file_2(int counter, std::vector<command_data> proc_lines, st
 					continue;
 				else
 				{
-					procedure.push_back(edit_line(*i, this_line, variables, c_parser));
-					std::cout << edit_line(*i, this_line, variables, c_parser) << std::endl;
+					procedure.push_back(this_line);
 //					if (i->nondet_assign == true)
 //					{
 //						// right assignment
@@ -1414,11 +1262,11 @@ void bmct::write_to_file_2(int counter, std::vector<command_data> proc_lines, st
 
 	text_file.insert(text_file.begin(), procedure);
 
-//	for (std::vector<std::vector<std::string>>::iterator it = text_file.begin(); it != text_file.end(); ++it)
-//	{
-//		for (std::vector<std::string>::iterator i = (*it).begin(); i != (*it).end(); ++i)
-//			std::cout << *i << std::endl;
-//	}
+	for (std::vector<std::vector<std::string>>::iterator it = text_file.begin(); it != text_file.end(); ++it)
+	{
+		for (std::vector<std::string>::iterator i = (*it).begin(); i != (*it).end(); ++i)
+			std::cout << *i << std::endl;
+	}
 
 	write_to_file(counter, text_file, lines);
 }
@@ -1511,203 +1359,93 @@ Function: bmct::get_condition_expr
  Purpose:
 
 \*******************************************************************/
-std::string bmct::get_condition_expr(
-		const std::vector<std::string> lines,
+std::string bmct::get_condition_expr(const std::vector<std::string> lines,
 		int line,
 		const std::list<goto_trace_stept>::iterator it,
-		int line2,
-		int slicing_type)
+		const int line2)
 {
 	std::string expr_condition;
 	std::string expr_value;
 	std::string expr_final = "";
 
-	std::cout << slicing_type << std::endl;
 	if (it->is_location())
 	{
-		std::cout << lines[abs(line)] << std::endl;
-		std::vector<std::string> tokens = parse_string_bmc(lines[abs(line)]);
+
+		std::string line_string = lines.at(abs(line));
+		std::vector<std::string> tokens = parse_string_bmc(line_string);
+
 		if ((has_token_bmc("if", tokens)) &&
-				slicing_type > 0)
+						line_string.find("nondet") == std::string::npos)
 		{
 			line = abs(line);
-
-			int start_b = -1, finish_b = -1;
-
-			for (start_b = 0; start_b < lines[line].size(); ++start_b)
-				if (lines[line][start_b] == '(')
-					break;
-
-			for (finish_b = lines[line].size() - 1; finish_b > 0; --finish_b)
-				if (lines[line][finish_b] == ')')
-					break;
-
-			expr_condition = lines[line].substr(start_b + 1, finish_b - 1 - start_b);
+			std::cout << "Next line: " << line << " " << line2 << std::endl;
+			for (int i = 0; i < line_string.size(); ++i)
+			{
+				if (line_string[i] == '(')
+				{
+					for (int j = i + 1; j < line_string.size() && line_string[j] != ')';
+					    ++j)
+						expr_condition = expr_condition + line_string[j];
+				}
+			}
 
 			int start_bracket = -1, finish_bracket = -1;
 			find_brackets(line, lines, start_bracket, finish_bracket);
 
+			std::cout << "start vs finish: " << start_bracket - 1 << " "
+			    << finish_bracket - 1 << std::endl;
 			if (start_bracket == -1
 			    || (start_bracket < line2 && finish_bracket > line2)
 			    || (start_bracket > line2 && line2 > 0))
 				expr_final = "(" + expr_condition + ") == " + "1";
 			else
-				if (!has_token_bmc("else", tokens))
 				expr_final = "(" + expr_condition + ") == " + "0";
-			else
-				expr_final = "";
+			std::cout << "Expr final: " << expr_final << std::endl;
 			return expr_final;
 		}
 
 		else if ((
 				has_token_bmc("while", tokens)) &&
-				slicing_type > 0)
+				line_string.find("nondet") == std::string::npos)
 		{
-			int start_b = -1, finish_b = -1;
+			for (int i = 0; i < line_string.size(); ++i)
+			{
+				if (line_string[i] == '(')
+				{
+					for (int j = i + 1; j < line_string.size() && line_string[j] != ')'; ++j)
+						expr_condition = expr_condition + line_string[j];
+				}
+			}
 
-			for (start_b = 0; start_b < lines[abs(line)].size(); ++start_b)
-				if (lines[abs(line)][start_b] == '(')
-					break;
-
-			for (finish_b = lines[abs(line)].size() - 1; finish_b > 0; --finish_b)
-				if (lines[abs(line)][finish_b] == ')')
-					break;
-
-			expr_condition = lines[abs(line)].substr(start_b + 1, finish_b - 1 - start_b);
-
-			if (abs(line) < 0)
+			if (line < 0)
 			{
 				//come from top
+				std::cout << "Next line: " << line << " " << line2 << std::endl;
+
 				expr_final = "(" + expr_condition + ") == " + "1";
 				return expr_final;
 			}
 
 			line = abs(line);
+			std::cout << "Next line: " << line << " " << line2 << std::endl;
 
 			int start_bracket = -1, finish_bracket = -1;
 			find_brackets(line, lines, start_bracket, finish_bracket);
 
+			std::cout << "start vs finish: " << start_bracket - 1 << " "
+			    << finish_bracket - 1 << std::endl;
 			if (start_bracket == -1
 			    || (start_bracket < line2 && finish_bracket > line2)
 			    || (start_bracket > line2 && line2 > 0))
 				expr_final = "(" + expr_condition + ") == " + "1";
 			else
 				expr_final = "(" + expr_condition + ") == " + "0";
+			std::cout << "Expr final: " << expr_final << std::endl;
 			return expr_final;
 		}
-		else if (has_token_bmc("while", tokens) ||
-						has_token_bmc("if", tokens))
-		{
-			std::cout << "condition not empty " << lines.at(abs(line)) << std::endl;
-			return " ";
-		}
+
 	}
 	return expr_final;
-}
-/*******************************************************************\
-
-Function: bmct::classify_atomic
-
-  Inputs:
-
- Outputs:
-
- Purpose:
-
-\*******************************************************************/
-std::vector<std::vector<std::string>> bmct::classify_atomic(
-		std::vector<std::string> lines,
-		std::vector<std::vector<int>> CFG)
-{
-	std::vector<std::vector<std::string>> atomic_control(lines.size());
-	int i = 1;
-
-	std::map<std::string, int> start_atomic;
-	while (i < lines.size())
-	{
-		std::vector<std::string> tokens = parse_string_bmc(lines[i]);
-		if (tokens.size() == 0)
-		{
-			i++;
-			continue;
-		}
-		{
-			// not in atomic procedure
-			if ((has_token_bmc("__VERIFIER_atomic_begin", tokens) ||
-					has_token_bmc("__VERIFIER_atomic_acquire", tokens))
-					&& !has_token_bmc("void", tokens))
-			{
-				// get var
-				std::string atomic_var = "";
-				for (int t = 0; t < tokens.size(); ++t)
-					if (tokens.at(t).compare("__VERIFIER_atomic_begin") == 0 ||
-							tokens.at(t).compare("__VERIFIER_atomic_acquire") == 0)
-					{
-						if (t + 1 < tokens.size())
-							atomic_var = tokens.at(t + 1);
-						break;
-					}
-
-				// record
-				start_atomic[atomic_var] = i;
-			} else if ((has_token_bmc("__VERIFIER_atomic_end", tokens) ||
-					has_token_bmc("__VERIFIER_atomic_release", tokens))
-					&& !has_token_bmc("void", tokens))
-			{
-				// get var
-				std::string atomic_var = "";
-				for (int t = 0; t < tokens.size(); ++t)
-					if (tokens.at(t).compare("__VERIFIER_atomic_end") == 0
-					    || tokens.at(t).compare("__VERIFIER_atomic_release") == 0)
-					{
-						if (t + 1 < tokens.size())
-							atomic_var = tokens.at(t + 1);
-						break;
-					}
-
-				std::cout << "start_atomic[atomic_var]: " << start_atomic[atomic_var] << "  to " << i << std::endl;
-				// find path
-				std::vector<int> path = find_lines(start_atomic[atomic_var], i, CFG);
-
-				// handle result
-				for (int t = 0; t < path.size(); ++t)
-				{
-					atomic_control.at(path[t]).push_back(atomic_var);
-					std::cout << "classify_atomic: " << path[t] << ": " << atomic_var << std::endl;
-				}
-			}
-		}
-		i++;
-	}
-
-	for (int i = 0; i < atomic_control.size(); ++i)
-		std::cout << "Atomic control: " <<  i << ": " << atomic_control.at(i).size() << std::endl;
-	return atomic_control;
-}
-
-/*******************************************************************\
-
-Function: bmct::read_program
-
-  Inputs:
-
- Outputs:
-
- Purpose:
-
-\*******************************************************************/
-void bmct::read_program(std::string file_name, std::vector<std::string> &lines)
-{
-	std::ifstream t(file_name);
-	int length;
-
-	lines.push_back("");
-	std::string str;
-	while (std::getline(t, str))
-	{
-		lines.push_back(str);
-	}
-	t.close();
 }
 /*******************************************************************\
 
@@ -1726,8 +1464,7 @@ bool bmct::run(const goto_functionst &goto_functions,
 		std::vector<int> lines_map,
 		std::vector<std::string> lines,
 		std::vector<std::vector<int>> CFG,
-		const std::vector<int> slicing_lines,
-		std::vector<variable_struct> alone_vars)
+		const std::vector<int> slicing_lines)
 {
 	int counter = 0;
 	// convert slicing line to array
@@ -1772,16 +1509,8 @@ bool bmct::run(const goto_functionst &goto_functions,
     // add a partial ordering, if required    
     if(equation.has_threads())
     {
-    	// read slicint_init
-    	std::vector<std::string> lines_init;
-    	read_program("//Users//diepbp//Desktop//test//slicing_init.c", lines_init);
-    	std::vector<std::vector<std::string>> atomic_control = classify_atomic(
-    			lines_init,
-    			CFG);
       memory_model->set_message_handler(get_message_handler());
-      (*memory_model)(equation, atomic_control);
-
-//      return true;
+      (*memory_model)(equation);
     }
   }
 
@@ -1942,287 +1671,287 @@ bool bmct::run(const goto_functionst &goto_functions,
 
 				std::cout << "before testing\n";
       	int size_error = error_conditions.size();
-				bool run_result = decide_default(goto_functions, variables, lines_map, lines, CFG, slicing_lines, alone_vars);
+				bool run_result = decide_default(goto_functions, variables, lines_map, lines, CFG, slicing_lines);
 				return run_result;
 
 
-//				if (run_result == true)
-//				{
-//					if (size_error == error_conditions.size())
-//					{
-//						std::cout << "after testing\n";
-//						return false;
-//					}
-//					else
-//					{
-//						std::cout << "Size is: " << error_conditions.size() << std::endl;
-//						for (int error = 0; error < error_conditions.size(); ++ error)
-//							std::cout << "Error is: " << error_conditions[error] << std::endl;
-//					}
-//					// possibly a false, check it
-//					// if the last step is assert -> false
-//					std::vector<procedure_data> new_file;
-//					std::map<std::string, int> prev_line;
-//					int pre_thread = 0;
-//					std::string pre_thread_name = "";
-//					int prev_instance = -1;
-//					std::vector<int> lines_tmp;
-//
-//					// store the current instance of procedure
-//					std::map<std::string, int> current_instance;
-//
-//					// add "main"
-//					std::vector<command_data> line_proc_main;
-//					procedure_data m("main", 1);
-//					m.set_commands(line_proc_main);
-//					new_file.push_back(m);
-//					prev_line["main"] = 0;
-//
-//					int remain_begin_atomic[1000]; memset(remain_begin_atomic, 0, sizeof remain_begin_atomic);
-//
-//					// get start from thread 0
-//					for (std::list<goto_trace_stept>::iterator it = goto_trace.steps.begin(); it != goto_trace.steps.end();)
-//					{
-//						if (it->hidden || it->pc->source_location.is_nil())
-//						{
-//							it++;
-//							continue;
-//						}
-//						if (it->thread_nr == 0)
-//							break;
-//						else
-//							it = goto_trace.steps.erase(it);
-//					}
-//
-//					// handle instructions
-//					for (std::list<goto_trace_stept>::iterator it = goto_trace.steps.begin(); it != goto_trace.steps.end(); ++it)
-//					{
-//						if (it->hidden || it->pc->source_location.is_nil())
-//							continue;
-//
-//						unsigned int line1 = std::stoi(as_string((*it).pc->source_location.get_line()), nullptr);
-//						line1 = lines_map[line1];
-//						std::string proc = as_string((*it).pc->source_location.get_function());
-//
-//						if (proc.size() == 0)
-//							continue;
-//
-//						if (proc.compare("__actual_thread_spawn") == 0 ||
-//								proc.compare("pthread_create") == 0)
-//							continue;
-//
-//						std::cout << line1 << " -in- " << proc << std::endl;
-//
-//						// get the current name of proc
-//						std::string current_instance_proc;
-//						if (proc.compare("main") == 0)
-//							current_instance_proc = proc;
-//						else
-//							current_instance_proc = proc + "_call_" + std::to_string(current_instance[proc]);
-//
-//						if (prev_line.find(current_instance_proc) == prev_line.end())
-//						{
-//							std::cout << current_instance_proc << " Error in if (prev_line.find(current_instance_proc) == prev_line.end())\n";
-//						}
-//
-//						if (prev_line[current_instance_proc] == line1)
-//							// same line
-//							continue;
-//
-//						lines_tmp = find_lines(prev_line[current_instance_proc], line1, CFG, checked);
-//
-//						if (lines_tmp.size() == 0)
-//						// reach the end of procedure, start again
-//						{
-//							std::cout << prev_line[current_instance_proc] << " vssssss " << line1 << " Error in if (lines_tmp.size() == 0)\n";
-//							continue;
-//						}
-//
-//						// find index proc
-//						int index = find_procedure_index(proc, current_instance[proc], new_file);
-//
-//						std::vector<command_data> proc_lines;
-//
-//						// procedure is defined
-//						assert(index != -1);
-//
-//						proc_lines = new_file[index].commands;
-//
-//						// for concurrent program
-//						if (pre_thread != it->thread_nr)
-//						{
-//							// add atomic begin
-//							if (proc.find("atomic") == std::string::npos)
-//							{
-//								if (proc.compare("main") != 0)
-//									proc_lines.push_back(command_data(32760));
-//							}
-//							else
-//								remain_begin_atomic[it->thread_nr] = 1;
-//
-//							// add atomic end for prev thread
-//							int prev_index = find_procedure_index(pre_thread_name, prev_instance, new_file);
-//
-//							if (prev_index != -1 && pre_thread_name.compare("main") != 0)
-//							{
-//								std::vector<command_data> prev_lines = new_file.at(prev_index).commands;
-//
-//								// find position to add "end atomic"
-//								// --> if not call, add at the end; otherwise add before the call
-//								std::string last_line = lines.at(abs(prev_lines.at(prev_lines.size() - 1).line_number));
-//								std::cout << "Last line: " << last_line  << std::endl;
-//								if (!is_procedure_call(last_line))
-//								{
-//									prev_lines.push_back(command_data(-32760));
-//								}
-//								else
-//								{
-//									command_data temp = prev_lines.at(prev_lines.size() - 1);
-//									prev_lines.pop_back();
-//									prev_lines.push_back(command_data(-32760));
-//									prev_lines.push_back(temp);
-//									std::cout << "Change atomic order because of call\n";
-//								}
-//
-//
-//								procedure_data tmp_proc(pre_thread_name, prev_instance, prev_lines);
-//								new_file.at(prev_index) = tmp_proc;
-//								std::cout << "End atomic: " << pre_thread_name << " " << prev_instance << std::endl;
-//							}
-//
-//							pre_thread_name = proc;
-//							pre_thread = it->thread_nr;
-//							prev_instance = current_instance[proc];
-//							std::cout << "Pre thread: " << pre_thread_name << " " << prev_instance << std::endl;
-//						}
-//
-//						else if (pre_thread_name.compare(proc) != 0)
-//						{
-//							if (remain_begin_atomic[it->thread_nr] == 1 &&
-//									proc.find("atomic") == std::string::npos)
-//							{
-//								proc_lines.push_back(command_data(32760));
-//								remain_begin_atomic[it->thread_nr] = 0;
-//							}
-//							pre_thread_name = proc;
-//
-//						}
-//
-//
-//
-//						for (int k = 0; k < lines_tmp.size() - 1; ++k)
-//						{
-//							proc_lines.push_back(command_data(lines_tmp[k] - 1));
-//						}
-//
-//						int line2 = -1;
-//						if (it->is_location())
-//						{
-//							std::list<goto_trace_stept>::iterator itx = std::next(it);
-//							std::cout << "we here\n";
-//							while (true)
-//							{
-//								if (itx == goto_trace.steps.end())
-//									break;
-//								if (itx->hidden || itx->pc->source_location.is_nil())
-//								{
-//									itx = std::next(itx);
-//									continue;
-//								}
-//
-//								std::cout << std::stoi(as_string((*itx).pc->source_location.get_line()), nullptr) << std::endl;
-//								if (as_string((*itx).pc->source_location.get_function()).compare(proc) == 0 &&
-//										lines_map[std::stoi(as_string((*itx).pc->source_location.get_line()), nullptr)] != line1)
-//								{
-//									line2 = std::stoi(as_string((*itx).pc->source_location.get_line()), nullptr);
-//									break;
-//								}
-//								else
-//									itx = std::next(itx);
-//							}
-//
-//						}
-//						if (line2 > 0 )
-//							line2 = lines_map[line2];
-//
-//						std::string expr_condition;
-//						if (prev_line[current_instance_proc] > line1)
-//							expr_condition = get_condition_expr(lines, (line1 - 1), it, line2);
-//						else
-//							expr_condition = get_condition_expr(lines, -(line1 - 1), it, line2);
-//						proc_lines.push_back(command_data(lines_tmp[lines_tmp.size() - 1] - 1, expr_condition));
-//
-//						prev_line[current_instance_proc] = line1;
-//						if (it->pc->is_function_call())
-//						{
-//							// reverse call function
-//							proc_lines.at(proc_lines.size() - 1) = command_data(-proc_lines.at(proc_lines.size() - 1).line_number, proc_lines.at(proc_lines.size() - 1).condition);
-//
-//							std::string code = from_expr(ns, (*it).pc->source_location.get_function(), (*it).pc->code);
-//							std::cout << code << std::endl;
-//
-//							std::string new_proc_name = get_proc_name(code);
-//
-//							std::cout << "New proc name: " << new_proc_name << std::endl;
-//
-//							// create new instance of procedure
-//							std::map<std::string,int>::iterator it_proc = current_instance.find(new_proc_name);
-//							std::vector<command_data> line_proc;
-//							if (it_proc != current_instance.end())
-//							{
-//								int t_proc = current_instance[new_proc_name];
-//								current_instance[new_proc_name] = t_proc + 1;
-//								procedure_data tmp_proc(new_proc_name, t_proc + 1);
-//								new_file.push_back(tmp_proc);
-//								prev_line[generate_new_name(new_proc_name, t_proc + 1)] = 0;
-//							}
-//							else
-//							{
-//								current_instance[new_proc_name] = 1;
-//								procedure_data tmp_proc(new_proc_name, 1);
-//								new_file.push_back(tmp_proc);
-//								prev_line[generate_new_name(new_proc_name, 1)] = 0;
-//							}
-//						}
-//
-//						if (index == -1)
-//							std::cerr << "if (index == -1) beng beng\n";
-//						else
-//						{
-//							new_file.at(index) = procedure_data(proc, current_instance[proc], proc_lines);
-//						}
-//					}
-//
-//					// add the last slicing_unlock
-//					for (int itt = 0; itt != new_file.size(); itt++)
-//					{
-//						int counterx = 0;
-//						std::vector<command_data> tmp = new_file[itt].commands;
-//						for (std::vector<command_data>::iterator itx = tmp.begin(); itx != tmp.end(); ++itx)
-//						{
-//							if ((*itx).line_number == 32760)
-//								counterx++;
-//							else if ((*itx).line_number == -32760)
-//								counterx--;
-//						}
-//						if (counterx == 1)
-//						{
-//							command_data tmp_command(-32760);
-//							tmp.push_back(tmp_command);
-//							procedure_data tmp_proc(new_file[itt].name, new_file[itt].instance, tmp);
-//							new_file.at(itt) = tmp_proc;
-//						}
-//					}
-//
-//					write_to_file(++counter, new_file, lines);
-//					return run_result;
-//				}
-//				else
-//					break;
+				if (run_result == true)
+				{
+					if (size_error == error_conditions.size())
+					{
+						std::cout << "after testing\n";
+						return false;
+					}
+					else
+					{
+						std::cout << "Size is: " << error_conditions.size() << std::endl;
+						for (int error = 0; error < error_conditions.size(); ++ error)
+							std::cout << "Error is: " << error_conditions[error] << std::endl;
+					}
+					// possibly a false, check it
+					// if the last step is assert -> false
+					std::vector<procedure_data> new_file;
+					std::map<std::string, int> prev_line;
+					int pre_thread = 0;
+					std::string pre_thread_name = "";
+					int prev_instance = -1;
+					std::vector<int> lines_tmp;
+
+					// store the current instance of procedure
+					std::map<std::string, int> current_instance;
+
+					// add "main"
+					std::vector<command_data> line_proc_main;
+					procedure_data m("main", 1);
+					m.set_commands(line_proc_main);
+					new_file.push_back(m);
+					prev_line["main"] = 0;
+
+					int remain_begin_atomic[1000]; memset(remain_begin_atomic, 0, sizeof remain_begin_atomic);
+
+					// get start from thread 0
+					for (std::list<goto_trace_stept>::iterator it = goto_trace.steps.begin(); it != goto_trace.steps.end();)
+					{
+						if (it->hidden || it->pc->source_location.is_nil())
+						{
+							it++;
+							continue;
+						}
+						if (it->thread_nr == 0)
+							break;
+						else
+							it = goto_trace.steps.erase(it);
+					}
+
+					// handle instructions
+					for (std::list<goto_trace_stept>::iterator it = goto_trace.steps.begin(); it != goto_trace.steps.end(); ++it)
+					{
+						if (it->hidden || it->pc->source_location.is_nil())
+							continue;
+
+						unsigned int line1 = std::stoi(as_string((*it).pc->source_location.get_line()), nullptr);
+						line1 = lines_map[line1];
+						std::string proc = as_string((*it).pc->source_location.get_function());
+
+						if (proc.size() == 0)
+							continue;
+
+						if (proc.compare("__actual_thread_spawn") == 0 ||
+								proc.compare("pthread_create") == 0)
+							continue;
+
+						std::cout << line1 << " -in- " << proc << std::endl;
+
+						// get the current name of proc
+						std::string current_instance_proc;
+						if (proc.compare("main") == 0)
+							current_instance_proc = proc;
+						else
+							current_instance_proc = proc + "_call_" + std::to_string(current_instance[proc]);
+
+						if (prev_line.find(current_instance_proc) == prev_line.end())
+						{
+							std::cout << current_instance_proc << " Error in if (prev_line.find(current_instance_proc) == prev_line.end())\n";
+						}
+
+						if (prev_line[current_instance_proc] == line1)
+							// same line
+							continue;
+
+						lines_tmp = find_lines(prev_line[current_instance_proc], line1, CFG, checked);
+
+						if (lines_tmp.size() == 0)
+						// reach the end of procedure, start again
+						{
+							std::cout << prev_line[current_instance_proc] << " vssssss " << line1 << " Error in if (lines_tmp.size() == 0)\n";
+							continue;
+						}
+
+						// find index proc
+						int index = find_procedure_index(proc, current_instance[proc], new_file);
+
+						std::vector<command_data> proc_lines;
+
+						// procedure is defined
+						assert(index != -1);
+
+						proc_lines = new_file[index].commands;
+
+						// for concurrent program
+						if (pre_thread != it->thread_nr)
+						{
+							// add atomic begin
+							if (proc.find("atomic") == std::string::npos)
+							{
+								if (proc.compare("main") != 0)
+									proc_lines.push_back(command_data(32760));
+							}
+							else
+								remain_begin_atomic[it->thread_nr] = 1;
+
+							// add atomic end for prev thread
+							int prev_index = find_procedure_index(pre_thread_name, prev_instance, new_file);
+
+							if (prev_index != -1 && pre_thread_name.compare("main") != 0)
+							{
+								std::vector<command_data> prev_lines = new_file.at(prev_index).commands;
+
+								// find position to add "end atomic"
+								// --> if not call, add at the end; otherwise add before the call
+								std::string last_line = lines.at(abs(prev_lines.at(prev_lines.size() - 1).line_number));
+								std::cout << "Last line: " << last_line  << std::endl;
+								if (!is_procedure_call(last_line))
+								{
+									prev_lines.push_back(command_data(-32760));
+								}
+								else
+								{
+									command_data temp = prev_lines.at(prev_lines.size() - 1);
+									prev_lines.pop_back();
+									prev_lines.push_back(command_data(-32760));
+									prev_lines.push_back(temp);
+									std::cout << "Change atomic order because of call\n";
+								}
+
+
+								procedure_data tmp_proc(pre_thread_name, prev_instance, prev_lines);
+								new_file.at(prev_index) = tmp_proc;
+								std::cout << "End atomic: " << pre_thread_name << " " << prev_instance << std::endl;
+							}
+
+							pre_thread_name = proc;
+							pre_thread = it->thread_nr;
+							prev_instance = current_instance[proc];
+							std::cout << "Pre thread: " << pre_thread_name << " " << prev_instance << std::endl;
+						}
+
+						else if (pre_thread_name.compare(proc) != 0)
+						{
+							if (remain_begin_atomic[it->thread_nr] == 1 &&
+									proc.find("atomic") == std::string::npos)
+							{
+								proc_lines.push_back(command_data(32760));
+								remain_begin_atomic[it->thread_nr] = 0;
+							}
+							pre_thread_name = proc;
+
+						}
+
+
+
+						for (int k = 0; k < lines_tmp.size() - 1; ++k)
+						{
+							proc_lines.push_back(command_data(lines_tmp[k] - 1));
+						}
+
+						int line2 = -1;
+						if (it->is_location())
+						{
+							std::list<goto_trace_stept>::iterator itx = std::next(it);
+							std::cout << "we here\n";
+							while (true)
+							{
+								if (itx == goto_trace.steps.end())
+									break;
+								if (itx->hidden || itx->pc->source_location.is_nil())
+								{
+									itx = std::next(itx);
+									continue;
+								}
+
+								std::cout << std::stoi(as_string((*itx).pc->source_location.get_line()), nullptr) << std::endl;
+								if (as_string((*itx).pc->source_location.get_function()).compare(proc) == 0 &&
+										lines_map[std::stoi(as_string((*itx).pc->source_location.get_line()), nullptr)] != line1)
+								{
+									line2 = std::stoi(as_string((*itx).pc->source_location.get_line()), nullptr);
+									break;
+								}
+								else
+									itx = std::next(itx);
+							}
+
+						}
+						if (line2 > 0 )
+							line2 = lines_map[line2];
+
+						std::string expr_condition;
+						if (prev_line[current_instance_proc] > line1)
+							expr_condition = get_condition_expr(lines, (line1 - 1), it, line2);
+						else
+							expr_condition = get_condition_expr(lines, -(line1 - 1), it, line2);
+						proc_lines.push_back(command_data(lines_tmp[lines_tmp.size() - 1] - 1, expr_condition));
+
+						prev_line[current_instance_proc] = line1;
+						if (it->pc->is_function_call())
+						{
+							// reverse call function
+							proc_lines.at(proc_lines.size() - 1) = command_data(-proc_lines.at(proc_lines.size() - 1).line_number, proc_lines.at(proc_lines.size() - 1).condition);
+
+							std::string code = from_expr(ns, (*it).pc->source_location.get_function(), (*it).pc->code);
+							std::cout << code << std::endl;
+
+							std::string new_proc_name = get_proc_name(code);
+
+							std::cout << "New proc name: " << new_proc_name << std::endl;
+
+							// create new instance of procedure
+							std::map<std::string,int>::iterator it_proc = current_instance.find(new_proc_name);
+							std::vector<command_data> line_proc;
+							if (it_proc != current_instance.end())
+							{
+								int t_proc = current_instance[new_proc_name];
+								current_instance[new_proc_name] = t_proc + 1;
+								procedure_data tmp_proc(new_proc_name, t_proc + 1);
+								new_file.push_back(tmp_proc);
+								prev_line[generate_new_name(new_proc_name, t_proc + 1)] = 0;
+							}
+							else
+							{
+								current_instance[new_proc_name] = 1;
+								procedure_data tmp_proc(new_proc_name, 1);
+								new_file.push_back(tmp_proc);
+								prev_line[generate_new_name(new_proc_name, 1)] = 0;
+							}
+						}
+
+						if (index == -1)
+							std::cerr << "if (index == -1) beng beng\n";
+						else
+						{
+							new_file.at(index) = procedure_data(proc, current_instance[proc], proc_lines);
+						}
+					}
+
+					// add the last slicing_unlock
+					for (int itt = 0; itt != new_file.size(); itt++)
+					{
+						int counterx = 0;
+						std::vector<command_data> tmp = new_file[itt].commands;
+						for (std::vector<command_data>::iterator itx = tmp.begin(); itx != tmp.end(); ++itx)
+						{
+							if ((*itx).line_number == 32760)
+								counterx++;
+							else if ((*itx).line_number == -32760)
+								counterx--;
+						}
+						if (counterx == 1)
+						{
+							command_data tmp_command(-32760);
+							tmp.push_back(tmp_command);
+							procedure_data tmp_proc(new_file[itt].name, new_file[itt].instance, tmp);
+							new_file.at(itt) = tmp_proc;
+						}
+					}
+
+					write_to_file(++counter, new_file, lines);
+					return run_result;
+				}
+				else
+					break;
 				//return run_result;
       }
 
-      return decide_default(goto_functions, variables, lines_map, lines, CFG, slicing_lines, alone_vars);
+      return decide_default(goto_functions, variables, lines_map, lines, CFG, slicing_lines);
     }
   }
 
@@ -2264,13 +1993,12 @@ bool bmct::decide(
   		std::vector<int> lines_map,
   		std::vector<std::string> lines,
   		std::vector<std::vector<int>> CFG,
-  		const std::vector<int> slicing_lines,
-  		std::vector<variable_struct> alone_vars)
+  		const std::vector<int> slicing_lines)
 {
   prop_conv.set_message_handler(get_message_handler());
   
   if(options.get_bool_option("all-properties"))
-    return all_properties(goto_functions, prop_conv, variables, lines_map, lines, CFG, slicing_lines, alone_vars);
+    return all_properties(goto_functions, prop_conv, variables, lines_map, lines, CFG, slicing_lines);
 
   bool result=true;
 
@@ -2374,274 +2102,5 @@ void bmct::setup_unwind()
 
   if(options.get_option("unwind")!="")
     symex.set_unwind_limit(options.get_unsigned_int_option("unwind"));
-}
 
-/*******************************************************************\
-
-Function: CParser::init
-
-  Inputs:
-
- Outputs:
-
- Purpose:
-
-\*******************************************************************/
-void CParser::init(){
-    keywords.insert(std::pair<std::string, std::string>("bool", "bool_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("byte", "byte_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("int", "int_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("char", "char_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("byte", "byte_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("break", "break_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("return", "return_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("const", "const_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("define", "define_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("printf", "printf_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("do", "do_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("if", "if_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("else", "else_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("goto", "goto_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("for", "for_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("assert", "assert_keyword"));
-    keywords.insert(std::pair<std::string, std::string>("inline", "inline_keyword"));
-
-    keywords.insert(std::pair<std::string, std::string>("true", "boolean_literal"));
-    keywords.insert(std::pair<std::string, std::string>("false", "boolean_literal"));
-}
-
-std::vector<char*> CParser::stringTokens(char* line){
-	std::vector<char*> result;
-    char * pch;
-    pch = strtok (line," \t\r\n\b\f");
-    while (pch != NULL)
-    {
-        result.push_back(pch);
-        pch = strtok (NULL, " \t\r\n\b\f");
-    }
-    return result;
-}
-
-/*
- * Read data file and put them to transition table
- */
-bool CParser::readAutomata(std::string fileName){
-    FILE* fp;
-    fp = fopen(fileName.c_str(), "r");
-
-    const int SIZEBUF = 2048;
-    char buf [SIZEBUF];
-    std::vector<char*> tmp;
-
-    int countFinalStates = 0;
-    for (int i = 0; i < NMAX; ++i) {
-        finalStates[i] = 0;
-        putbackStates[i] = 0;
-    }
-
-    fgets(buf, sizeof (buf), fp); // <start-state>
-    fgets(buf, sizeof (buf), fp); // 0
-    fgets(buf, sizeof (buf), fp); // <final-states>
-
-    fgets(buf, sizeof (buf), fp);
-    tmp = stringTokens(buf);
-    for (std::vector<char*>::iterator i = tmp.begin(); i != tmp.end(); ++i) {
-        finalStates[atoi((char*)*i)] = true;
-        countFinalStates++;
-    }
-
-    fgets(buf, sizeof (buf), fp); // <row-labels>
-    fgets(buf, sizeof (buf), fp);
-    tmp = stringTokens(buf);
-    for (std::vector<char*>::iterator i = tmp.begin(); i != tmp.end(); ++i) {
-        rowLabels.insert(std::pair<int, int>(atoi((char*)*i), rowLabels.size()));
-    }
-
-    fgets(buf, sizeof (buf), fp); // <column-labels>
-    fgets(buf, sizeof (buf), fp);
-    tmp = stringTokens(buf);
-
-    for (std::vector<char*>::iterator i = tmp.begin(); i != tmp.end(); ++i) {
-        std::string ss(*i);
-        colLabels.insert(std::pair<std::string, int>(ss, colLabels.size()));
-    }
-
-    fgets(buf, sizeof (buf), fp);
-    for (int i = 0; i < rowLabels.size(); ++i) {
-        for (int j = 0; j < colLabels.size(); ++j) {
-            fscanf(fp, "%i", &transitionTable[i][j]);
-        }
-    }
-
-    fgets(buf, sizeof (buf), fp);
-    fgets(buf, sizeof (buf), fp); // <finalstate-token-map>
-
-    for (int i = 0; i < countFinalStates; ++i) {
-        fgets(buf, sizeof (buf), fp);
-        tmp = stringTokens(buf);
-        std::string s(tmp[1]);
-        tokenMap[atoi(tmp[0])] = s;
-    }
-
-    fgets(buf, sizeof (buf), fp);
-    fgets(buf, sizeof (buf), fp); // <put-back-state>
-    tmp = stringTokens(buf);
-
-    for (std::vector<char*>::iterator i = tmp.begin(); i != tmp.end(); ++i) {
-        putbackStates[atoi((char*)*i)] = true;
-    }
-    pclose(fp);
-    return true;
-}
-
-std::string CParser::findType(char ch){ //-------------------------CHANGE-----------------
-	std::string tmp = "";
-    tmp.insert(tmp.end(), ch);
-    //    map<char*, int>::iterator it = colLabels.find(temp.c_str());
-    //    if (it != map::end)
-    //        return temp;
-    //    else
-    if (ch == 'E' || ch == 'e')
-        return "E|e";
-    else if (ch == 'b' || ch == 'f' ||ch == 'n' ||ch == 'r' || ch == 't')
-        return "b|f|n|r|t";
-    else if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || ch == '_')
-        return "char";
-    else if (ch >= '0' && ch <= '9')
-        return "num";
-    else if (ch == ' ' || ch == '\t')
-        return "space";
-    return tmp;
-}
-
-/*
- * xu ly khi gap cac loi~
- * 		neu gap loi la string : tim den dau " tiep theo
- * 		neu gap loi con lai, tim den ky tu phan cach, hoac dau ngoac tiep theo
- *
- * 		start : vi tri loi hien tai
- * 		error : string dang loi hien tai
- * 		line : string dang xet
- *
- * 		ket qua tra ve la vi tri xuat phat ma` o do' khong gap loi~
- */
-int CParser::processError(int start, std::string error, std::string line){
-    int i = start;
-    if (error[0] == '"' && error[error.length() - 2] != '"'){
-        while (i < line.length() && line[i] != '"')
-            ++i;
-        if (i < line.length())
-            ++i;
-        error = error + line.substr(start, i);
-        tokenList.push_back(TokenElement(-1, error, "error"));
-        start = i;
-    }
-    else {
-        for (i = start; i < line.length(); ++i){
-        	std::string temp = findType(line[i]);
-            if (temp.compare("char") == 0 ||
-                temp.compare("num") == 0 ||
-                temp.compare("b|f|n|r|t") == 0 ||
-                temp.compare("E|e") == 0 ||
-                temp.compare("other") == 0 ||
-                temp.compare(".") == 0 ||
-                temp.compare("'") == 0 ||
-                temp[0] == 34 ||
-                temp[0] == 92)
-                error = error + line[i];
-            else break;
-        }
-        tokenList.push_back(TokenElement(-1, error, "error"));
-
-    }
-    return i - 1;
-}
-
-std::vector<TokenElement> CParser::tokenHandler(std::string s, int lineNo){
-    std::vector<TokenElement> tmpResult;
-    if (s.length() == 0)
-        return tmpResult;
-    int start = 0;
-    if (s[s.length() - 1] == '\n')
-        s = s.substr(0, s.length() - 1);
-    s = s + " ";
-    while(start < s.length()){
-        temp = temp + s[start];
-        if ((temp[0] == ' ' || temp[0] == '\t' || temp[0] == '\n' || temp[0] == '\r') && temp.length() == 1){
-            temp = "";
-        }
-        state = transitionTable[rowLabels[state]][(int)colLabels[findType(s[start])]];
-
-        // state 49 : skip if "//"
-        if (state == 49){
-            state = 0;
-            temp = "";
-            break;
-        }
-
-        if (state != -1){
-            // xu ly string khong loi~
-            if (finalStates[state] == true){
-                if (putbackStates[state] == true){
-                    temp = temp.substr(0, temp.length()- 1);
-                    --start;
-                }
-                // state 48 : comment
-                if (state != 48)
-                    tmpResult.push_back(TokenElement(lineNo, temp, tokenMap[state]));
-                temp = "";
-
-                state = 0;
-            }
-        }
-        else {
-            if (s[start] != ' ' && s[start] != '\t')
-                ++ start;
-            start = processError(start, temp, s);
-            state = 0;
-            temp = "";
-        }
-        ++start;
-    }
-
-    //xu ly loi~ khi het dong : luu y state 46: trang thai /*
-    if (state != 0 && state != 46)
-        tmpResult.push_back(TokenElement(-1, temp, "error"));
-    return tmpResult;
-}
-
-void CParser::findKeyword(){
-    for (int i = 0; i < tokenList.size(); ++i){
-        if (tokenList[i].type.compare("identifier") == 0)
-            if (keywords.find(tokenList[i].content) != keywords.end())
-                tokenList[i].type = keywords[tokenList[i].content];
-        if (tokenList[i].type.compare("string_literal") == 0)
-            tokenList[i].content = tokenList[i].content.substr(1, tokenList[i].content.length() - 1);
-    }
-}
-
-void CParser::readCFile(std::string fileName){
-    FILE* fp;
-    const int SIZEBUF = 2048;
-    char buf [SIZEBUF];
-
-    fp = fopen(fileName.c_str(), "r");
-    int lineNo = 0;
-    while (fgets(buf, sizeof (buf), fp)) {
-    	std::string s(buf);
-      std::vector<TokenElement> t = tokenHandler(s, ++lineNo);
-      std::cout << s << std::endl;
-      for (int i = 0; i < t.size(); ++i)
-      	std::cout << t[i].content << "\t";
-      std::cout << std::endl;
-    }
-
-    findKeyword();
-
-    std::cout << tokenList.size();
-    for (int i = 0; i < tokenList.size(); ++i) {
-        std::cout << tokenList[i].lineNo << " " << tokenList[i].content << " " << tokenList[i].type << std::endl;
-    }
-
-    fclose(fp);
 }

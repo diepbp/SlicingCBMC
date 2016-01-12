@@ -1,0 +1,136 @@
+Test dependency in general
+Start DFS_dependence: 0
+Slice variables: 
+Total line: -1
+0: -1
+1: -1
+2: -1
+3: -1
+4: -1
+5: -1
+6: -1
+7: -1
+8: -1
+CBMC version 5.1 64-bit x86_64 macos
+Parsing //Users//diepbp//Desktop//test//slicing_init.c
+Converting
+Type-checking slicing_init
+Test dependency in general
+Start DFS_dependence: 0
+Slice variables: 
+Total line: -1
+0: -1
+1: -1
+2: -1
+3: -1
+4: -1
+5: -1
+6: -1
+7: -1
+8: -1
+CBMC version 5.1 64-bit x86_64 macos
+Parsing //Users//diepbp//Desktop//test//slicing_init.c
+Converting
+Type-checking slicing_init
+Test dependency in general
+Start DFS_dependence: 0
+Slice variables: 
+Total line: -1
+0: -1
+1: -1
+2: -1
+3: -1
+4: -1
+5: -1
+6: -1
+7: -1
+8: -1
+CBMC version 5.1 64-bit x86_64 macos
+Parsing //Users//diepbp//Desktop//test//slicing_init.c
+Converting
+Type-checking slicing_init
+Test dependency in general
+Start DFS_dependence: 0
+Slice variables: 
+Total line: -1
+0: -1
+1: -1
+2: -1
+3: -1
+4: -1
+5: -1
+6: -1
+7: -1
+8: -1
+CBMC version 5.1 64-bit x86_64 macos
+Parsing //Users//diepbp//Desktop//test//slicing_init.c
+Converting
+Type-checking slicing_init
+Test dependency in general
+Start DFS_dependence: 0
+Slice variables: 
+Total line: -1
+0: -1
+1: -1
+2: -1
+3: -1
+4: -1
+5: -1
+6: -1
+7: -1
+8: -1
+CBMC version 5.1 64-bit x86_64 macos
+Parsing //Users//diepbp//Desktop//test//slicing_init.c
+Converting
+Type-checking slicing_init
+Test dependency in general
+Start DFS_dependence: 0
+Slice variables: 
+Total line: -1
+0: -1
+1: -1
+2: -1
+3: -1
+4: -1
+5: -1
+6: -1
+7: -1
+8: -1
+CBMC version 5.1 64-bit x86_64 macos
+Parsing //Users//diepbp//Desktop//test//slicing_init.c
+Converting
+Type-checking slicing_init
+Test dependency in general
+Start DFS_dependence: 0
+Slice variables: 
+Total line: -1
+0: -1
+1: -1
+2: -1
+3: -1
+4: -1
+5: -1
+6: -1
+7: -1
+8: -1
+CBMC version 5.1 64-bit x86_64 macos
+Parsing //Users//diepbp//Desktop//test//slicing_init.c
+Converting
+Type-checking slicing_init
+Test dependency in general
+Start DFS_dependence: 0
+Slice variables: 
+Total line: -1
+0: -1
+1: -1
+2: -1
+3: -1
+4: -1
+5: -1
+6: -1
+7: -1
+8: -1
+CBMC version 5.1 64-bit x86_64 macos
+Parsing //Users//diepbp//Desktop//test//slicing_init.c
+Converting
+Type-checking slicing_init

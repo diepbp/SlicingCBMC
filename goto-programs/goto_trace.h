@@ -89,11 +89,10 @@ public:
   
   // the full, original lhs expression
   exprt full_lhs;
-  exprt ssa_full_lhs, original_full_lhs;
-  exprt ssa_rhs;
 
   // A constant with the new value
   exprt lhs_object_value, full_lhs_value;
+  std::string rhs ="";
   
   // for INPUT/OUTPUT
   irep_idt format_string, io_id;
@@ -124,6 +123,7 @@ public:
     full_lhs.make_nil();
     full_lhs_value.make_nil();
     cond_expr.make_nil();
+    rhs = "";
   }
 };
 

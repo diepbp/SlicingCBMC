@@ -5,7 +5,7 @@ Module: Add constraints to equation encoding partial orders on events
 Author: Michael Tautschnig, michael.tautschnig@cs.ox.ac.uk
 
 \*******************************************************************/
-#include <iostream>
+
 #include <limits>
 
 #include <util/i2string.h>

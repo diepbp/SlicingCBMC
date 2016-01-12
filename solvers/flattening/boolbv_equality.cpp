@@ -35,7 +35,7 @@ literalt boolbvt::convert_equality(const equal_exprt &expr)
   {
     std::cout << "######### lhs: " << expr.lhs().pretty() << std::endl;
     std::cout << "######### rhs: " << expr.rhs().pretty() << std::endl;
-    throw "equality without matching typesxx";
+    throw "equality without matching types";
   }
 
   // see if it is an unbounded array

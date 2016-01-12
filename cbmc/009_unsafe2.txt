@@ -1,0 +1,20 @@
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe009_power.oepc_false-unreach-call.c line 195 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe009_power.oepc_false-unreach-call.c line 221 function P0: function `nondet_1' is not declared
+       19.73 real        19.48 user         0.19 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe009_power.opt_false-unreach-call.c line 219 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe009_power.opt_false-unreach-call.c line 227 function P1: function `nondet_1' is not declared
+       16.57 real        16.32 user         0.20 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe009_pso.oepc_false-unreach-call.c'
+        0.00 real         0.00 user         0.00 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe009_pso.opt_false-unreach-call.c'
+        0.00 real         0.00 user         0.00 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe009_rmo.oepc_false-unreach-call.c line 195 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe009_rmo.oepc_false-unreach-call.c line 220 function P0: function `nondet_1' is not declared
+       23.76 real        23.52 user         0.19 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe009_rmo.opt_false-unreach-call.c line 210 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe009_rmo.opt_false-unreach-call.c line 218 function P1: function `nondet_1' is not declared
+        8.89 real         8.77 user         0.10 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe009_tso.oepc_false-unreach-call.c'
+        0.00 real         0.00 user         0.00 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe009_tso.opt_false-unreach-call.c'
+        0.00 real         0.00 user         0.00 sys

@@ -19,9 +19,7 @@ public:
   {
   }
 
-  virtual void operator()(
-  		symex_target_equationt &equation,
-  		std::vector<std::vector<std::string>> atomic_control);
+  virtual void operator()(symex_target_equationt &equation);
   
 protected:
   virtual exprt before(event_it e1, event_it e2);
@@ -37,22 +35,7 @@ protected:
     const per_thread_mapt &per_thread_map);
   void program_order(symex_target_equationt &equation);
   void from_read(symex_target_equationt &equation);
-  void write_serialization_external(
-  		symex_target_equationt &equation,
-  		std::vector<std::vector<std::string>> atomic_control);
-  void write_serialization_external(
-   		symex_target_equationt &equation);
-
-  void classify_loop(
-    symex_target_equationt &equation,
-    std::vector<std::vector<std::string>> atomic_control,
-    std::map<std::string, std::pair<int, std::string>> &var_loop);
-  void update_block(std::vector<std::pair<event_it, int>> &atomic_block);
-  void add_to_var_loop(
-  		int loop_index,
-  		std::string atomic_var,
-  		std::vector<std::pair<event_it, int>> &atomic_block,
-  		std::map<std::string, std::pair<int, std::string>> &var_loop);
+  void write_serialization_external(symex_target_equationt &equation);
 };
 
 #endif

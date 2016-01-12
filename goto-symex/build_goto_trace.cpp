@@ -37,6 +37,72 @@ Author: Daniel Kroening
 
 /*******************************************************************\
 
+Function: parse_string_build_goto_trace
+
+  Inputs:
+
+ Outputs:
+
+ Purpose:
+
+\*******************************************************************/
+std::vector<std::string> parse_string_build_goto_trace(std::string s)
+{
+	std::vector<std::string> result;
+	char *str=new char[s.size()+1];
+	str[s.size()]=0;
+	memcpy(str, s.c_str(), s.size());
+
+	char* pch;
+	pch = strtok(str, " \t");
+
+	while (pch != NULL)
+	{
+		result.push_back(pch);
+		pch = strtok(NULL, " \t");
+	}
+
+	return result;
+}
+
+/*******************************************************************\
+
+Function: build_rhs
+
+  Inputs:
+
+ Outputs:
+
+ Purpose: get the original rhs
+
+\*******************************************************************/
+std::string build_rhs(
+		const prop_convt &prop_conv,
+		const symex_target_equationt::SSA_stept &SSA_step,
+		const namespacet &ns
+		)      // renamed identifiers)
+{
+	const irep_idt &identifier = SSA_step.original_lhs_object.get_identifier();
+	std::string ret = "";
+	if (SSA_step.ssa_rhs.is_not_nil())
+	{
+		std::vector<std::string> tokens = parse_string_build_goto_trace(
+		    from_expr(ns, identifier, SSA_step.ssa_rhs));
+		for (int i = 0; i < tokens.size(); ++i)
+		{
+			std::size_t pos = tokens[i].find("#");
+			if (pos != std::string::npos)
+			{
+				tokens[i] = tokens[i].substr(0, pos);
+			}
+			ret = ret + tokens[i] + " ";
+		}
+		ret = ret.substr(0, ret.size() - 1);
+	}
+	return ret;
+}
+/*******************************************************************\
+
 Function: build_full_lhs_rec
 
   Inputs:
@@ -171,403 +237,410 @@ void get_exprt(std::vector<exprt> v, std::vector<exprt> &exprs, const namespacet
 	}
 }
 
-void add_element(exprt cond_expr, std::string expr_str, std::vector<std::pair<std::string, exprt>> &choices)
+void add_element(exprt expr, std::string expr_str, std::vector<std::pair<std::string, exprt>> &choices)
 {
 	for (std::vector<std::pair<std::string, exprt>>::iterator it = choices.begin(); it != choices.end(); ++it)
 	{
 		if (it->first.compare(expr_str) == 0)
 			return;
 	}
-	choices.push_back(std::make_pair(expr_str, cond_expr));
+	choices.push_back(std::make_pair(expr_str, expr));
 }
+
 /*******************************************************************\
 
-Function: build_goto_trace
+Function: check_right_side
 
   Inputs:
 
  Outputs:
 
- Purpose:
+ Purpose: we do not check nondet, return and CPROVER variables in "right_side"
 
 \*******************************************************************/
-
-void build_goto_trace_new_2(
-  symex_target_equationt &target,
-  symex_target_equationt::SSA_stepst::const_iterator end_step,
-  const prop_convt &prop_conv,
-  const namespacet &ns,
-  goto_tracet &goto_trace,
-  exprt &new_guard,
-  exprt &old_guard,
-  std::vector<symex_target_equationt::SSA_stept> &trace_guards)
+bool check_right_side(std::string s)
 {
-  // We need to re-sort the steps according to their clock.
-  // Furthermore, read-events need to occur before write
-  // events with the same clock.
-
-  typedef std::map<mp_integer, goto_tracet::stepst> time_mapt;
-  time_mapt time_map;
-
-  mp_integer current_time=0;
-  unsigned icount=1;
-
-  languagest languages(ns, new_ansi_c_language());
-
-  std::map<std::string, int> guard_map;
-  std::map<mp_integer, std::vector<exprt>> time_to_expr;
-  std::vector<exprt> guard_list;
-  std::vector<exprt> another_guard_list;
-  exprt last_operand = false_exprt();
-  exprt current_time_expr;
-  std::vector<std::pair<std::string, exprt>> choices;
-
-
-  for(symex_target_equationt::SSA_stepst::const_iterator
-      it=target.SSA_steps.begin();
-      it!=end_step;
-      it++)
-  {
-    const symex_target_equationt::SSA_stept &SSA_step=*it;
-
-    std::string string_value;
-		languages.from_expr(it->cond_expr, string_value);
-    if(prop_conv.l_get(SSA_step.guard_literal)!=tvt(true))
-    {
-      continue;
-    }
-
-		if (it->is_assert())
-		{
-			std::cout << "(" << icount << ") ASSERT(" << string_value << ") " << "\n";
-			if(!it->guard.is_true())
-			{
-				old_guard = it->guard;
-			}
-			else
-			{
-				old_guard = true_exprt();
-			}
-		}
-		else
-		{
-			if (it->cond_expr.is_not_nil())
-			{
-//				std::cout << "{-" << icount << "} " << string_value << "\n";
-				if (!it->guard.is_true())
-				{
-					std::string string_value1;
-					languages.from_expr(it->guard, string_value1);
-					if (guard_map.find(string_value1) == guard_map.end()
-					    && string_value1.find("__CPROVER_threads") == std::string::npos)
-					{
-						guard_map[string_value1] = 1;
-						guard_list.push_back(it->guard);
-					}
-//					std::cout << "guard: " << string_value1 << "\n";
-				}
-
-				// collect all choice_rf
-				if (it->cond_expr.operands().size() > 1 &&
-						string_value.find("__CPROVER_") == std::string::npos &&
-						string_value.find("=") != std::string::npos)
-				{
-					// get the last one
-					exprt last_one = it->cond_expr.operands().at(it->cond_expr.operands().size() - 1);
-					std::string last_one_str;
-					languages.from_expr(last_one, last_one_str);
-//					std::cout << "\t" << last_one_str << " " << last_one.operands().size() << "\n";
-
-					if (last_one_str.find("choice_rf") != std::string::npos)
-					{
-						if (last_one_str[0] == '!')
-						{
-							last_one = not_exprt(last_one);
-							last_one = simplify_expr(last_one, ns);
-							languages.from_expr(last_one, last_one_str);
-						}
-						add_element(last_one, last_one_str, choices);
-					}
-
-//					std::string ss;
-//					languages.from_expr(it->ssa_full_lhs, ss);
-//					std::cout << "\t ssa_full_lhs " << ss;
-//					languages.from_expr(it->original_full_lhs, ss);
-//					std::cout << "\t original_full_lhs " << ss;
-//					languages.from_expr(it->ssa_lhs, ss);
-//					std::cout << "\t ssa_lhs " << ss;
-//					languages.from_expr(it->original_lhs_object, ss);
-//					std::cout << "\t original_lhs_object " << ss;
-//					languages.from_expr(it->ssa_rhs, ss);
-//					std::cout << "\t ssa_rhs " << ss << "\n";
-
-				}
-			}
-		}
-		icount++;
-
-    if(it->is_constraint() ||
-       it->is_spawn())
-      continue;
-    else if(it->is_atomic_begin())
-    {
-      // for atomic sections the timing can only be determined once we see
-      // a shared read or write (if there is none, the time will be
-      // reverted to the time before entering the atomic section); we thus
-      // use a temporary negative time slot to gather all events
-      current_time*=-1;
-      continue;
-    }
-    else if(it->is_shared_read() || it->is_shared_write() ||
-            it->is_atomic_end())
-    {
-      mp_integer time_before=current_time;
-
-      if(it->is_shared_read() || it->is_shared_write())
-      {
-        // these are just used to get the time stamp
-        exprt clock_value=prop_conv.get(
-          symbol_exprt(partial_order_concurrencyt::rw_clock_id(it)));
-
-        std::string tmp;
-        languages.from_expr(clock_value, tmp);
-
-        to_integer(clock_value, current_time);
-
-        // add to map
-				current_time_expr = symbol_exprt(partial_order_concurrencyt::rw_clock_id(it), bitvector_typet(ID_unsignedbv, 6));
-				time_to_expr[current_time].push_back(current_time_expr);
-      }
-      else if(it->is_atomic_end() && current_time<0)
-        current_time*=-1;
-
-      assert(current_time>=0);
-      // move any steps gathered in an atomic section
-
-      if(time_before<0)
-      {
-        time_mapt::iterator entry=
-          time_map.insert(std::make_pair(
-              current_time,
-              goto_tracet::stepst())).first;
-        entry->second.splice(entry->second.end(), time_map[time_before]);
-        time_map.erase(time_before);
-      }
-
-      continue;
-    }
-
-    // drop PHI and GUARD assignments altogether
-    if(it->is_assignment() &&
-       (SSA_step.assignment_type==symex_target_equationt::PHI ||
-        SSA_step.assignment_type==symex_target_equationt::GUARD))
-    {
-//    	std::string expr_s; languages.from_expr(it->cond_expr, expr_s);
-//    	std::cout << "PHI and GUARD: " << it->source.pc->source_location << " " << expr_s << std::endl;
-    	if (SSA_step.assignment_type==symex_target_equationt::GUARD)
-    		trace_guards.push_back(*it);
-      continue;
-    }
-
-    goto_tracet::stepst &steps=time_map[current_time];
-    steps.push_back(goto_trace_stept());
-    goto_trace_stept &goto_trace_step=steps.back();
-
-//    std::string expr_s; languages.from_expr(SSA_step.cond_expr, expr_s);
-//    if (expr_s.find("return_value_nondet") != std::string::npos &&
-//    		expr_s.find("nondet_symbol") != std::string::npos)
-//    	trace_guards.push_back(SSA_step);
-
-    goto_trace_step.time_expr = current_time_expr;
-    goto_trace_step.thread_nr=SSA_step.source.thread_nr;
-    goto_trace_step.pc=SSA_step.source.pc;
-    goto_trace_step.comment=SSA_step.comment;
-    goto_trace_step.lhs_object=SSA_step.original_lhs_object;
-    goto_trace_step.type=SSA_step.type;
-    goto_trace_step.hidden=SSA_step.hidden;
-    goto_trace_step.format_string=SSA_step.format_string;
-    goto_trace_step.io_id=SSA_step.io_id;
-    goto_trace_step.formatted=SSA_step.formatted;
-    goto_trace_step.identifier=SSA_step.identifier;
-
-    goto_trace_step.assignment_type=
-      (SSA_step.assignment_type==symex_targett::VISIBLE_ACTUAL_PARAMETER ||
-       SSA_step.assignment_type==symex_targett::HIDDEN_ACTUAL_PARAMETER)?
-      goto_trace_stept::ACTUAL_PARAMETER:
-      goto_trace_stept::STATE;
-
-    if(SSA_step.original_full_lhs.is_not_nil())
-      goto_trace_step.full_lhs=
-        build_full_lhs_rec(
-          prop_conv, ns, SSA_step.original_full_lhs, SSA_step.ssa_full_lhs);
-
-    if(SSA_step.ssa_lhs.is_not_nil())
-      goto_trace_step.lhs_object_value=prop_conv.get(SSA_step.ssa_lhs);
-
-    if(SSA_step.ssa_full_lhs.is_not_nil())
-    {
-    	goto_trace_step.ssa_full_lhs = SSA_step.ssa_full_lhs;
-      goto_trace_step.full_lhs_value=prop_conv.get(SSA_step.ssa_full_lhs);
-      simplify(goto_trace_step.full_lhs_value, ns);
-    }
-
-    if(SSA_step.ssa_rhs.is_not_nil())
-		{
-			goto_trace_step.ssa_rhs = SSA_step.ssa_rhs;
-		}
-
-    for(std::list<exprt>::const_iterator
-        j=SSA_step.converted_io_args.begin();
-        j!=SSA_step.converted_io_args.end();
-        j++)
-    {
-      const exprt &arg=*j;
-      if(arg.is_constant() ||
-         arg.id()==ID_string_constant)
-        goto_trace_step.io_args.push_back(arg);
-      else
-      {
-        exprt tmp=prop_conv.get(arg);
-        goto_trace_step.io_args.push_back(tmp);
-      }
-    }
-
-    if(SSA_step.is_assert() ||
-       SSA_step.is_assume())
-    {
-      goto_trace_step.cond_expr=SSA_step.cond_expr;
-
-      goto_trace_step.cond_value=
-        prop_conv.l_get(SSA_step.cond_literal).is_true();
-    }
-    else if(SSA_step.is_location() &&
-            SSA_step.source.pc->is_goto())
-    {
-      goto_trace_step.cond_expr=SSA_step.source.pc->guard;
-
-      const bool backwards=SSA_step.source.pc->is_backwards_goto();
-
-      symex_target_equationt::SSA_stepst::const_iterator next=it;
-      ++next;
-      assert(next!=target.SSA_steps.end());
-
-      // goto was taken if backwards and next is enabled or forward
-      // and next is not active;
-      // there is an ambiguity here if a forward goto is to the next
-      // instruction, which we simply ignore for now
-      goto_trace_step.goto_taken=
-        backwards==
-        (prop_conv.l_get(next->guard_literal)==tvt(true));
-    }
-  }
-
-  std::cout << "counting total switches\n";
-  int total_switches = 0;
-  // test choices
-  for (std::vector<std::pair<std::string, exprt>>::iterator it = choices.begin(); it != choices.end(); ++it)
-  {
-  	int value = prop_conv.get(it->second).is_true() ? 1 : 0;
-  	total_switches += value;
-  }
-
-  std::cout << "total switches: " << total_switches << std::endl;
-
-  std::vector<std::pair<exprt, exprt>> interleavings;
-  goto_trace_stept prev_step;
-  prev_step.thread_nr = -1;
-
-  // Now assemble into a single goto_trace.
-  // This expoits sorted-ness of the map.
-
-  for(time_mapt::iterator t_it=time_map.begin();
-      t_it!=time_map.end(); t_it++)
-  {
-  	std::cout << t_it->first << " at \n";
-
-  	int expr_pos = 0;
-  	for (goto_tracet::stepst::iterator it = t_it->second.begin(); it != t_it->second.end(); ++it)
-  	{
-//  		std::cout << "\t" << it->pc->source_location.get_line() << std::endl;
-  		if (as_string(it->pc->source_location.get_file()).find("<built") == std::string::npos)
-  		{
-  			std::string function = as_string(it->pc->source_location.get_function());
-  			std::string expr_s; languages.from_expr(it->time_expr, expr_s);
-//  			std::cout << "\t\t" << expr_s;
-
-//  			std::string step_l;
-
-//				if (it->full_lhs_value.is_not_nil())
-//				{
-//					languages.from_expr(it->ssa_full_lhs, step_l);
-//					std::cout << "\t ssa_full_lhs " << step_l;
-//				}
-//				std::cout << std::endl;
-
-  			if (expr_s.find("__CPROVER") == std::string::npos &&
-  					expr_s.find("va_arg") == std::string::npos &&
-  					function.find("__VERIFIER_atomic") == std::string::npos)
-  			{
-  				if (prev_step.thread_nr == -1)
-  				{
-  					// find the first assignment
-  					 if (function.size() > 0)
-  						 prev_step = *it;
-  				}
-  				else if (function.compare(as_string(prev_step.pc->source_location.get_function())) == 0)
-  				{
-  					prev_step = *it;
-  				}
-  				else if (function.size() > 0)
-  				{
-  					interleavings.push_back(std::make_pair(prev_step.time_expr, it->time_expr));
-  					prev_step = *it;
-  				}
-  			}
-  		}
-  	}
-    goto_trace.steps.splice(goto_trace.steps.end(), t_it->second);
-  }
-
-  for (int i = 0; i < interleavings.size(); i++)
-  {
-  	std::string s1, s2;
-  	languages.from_expr(interleavings[i].first, s1);
-  	languages.from_expr(interleavings[i].second, s2);
-
-  	std::cout << "interleaving: " << s1 << " --->" << s2 << std::endl;
-  }
-
-  // produce the step numbers
-  unsigned step_nr=0;
-
-  for(goto_tracet::stepst::iterator
-      s_it=goto_trace.steps.begin();
-      s_it!=goto_trace.steps.end();
-      s_it++)
-    s_it->step_nr=++step_nr;
-
-  new_guard = true_exprt();
-  std::string guard;
-  for (std::vector<exprt>::const_iterator it = guard_list.begin(); it != guard_list.end(); ++it)
-  {
-		new_guard = and_exprt(new_guard, *it);
-
-//		languages.from_expr(*it, guard);
-//		std::cout << "guard xx : " << guard << "\n";
-  }
-
-  for (std::vector<std::pair<std::string, exprt>>::iterator it = choices.begin(); it != choices.end(); ++it)
-	{
-  	if (prop_conv.get(it->second).is_true())
-  		new_guard = and_exprt(new_guard, it->second);
-	}
-
-	simplify(new_guard, ns);
-
-	languages.from_expr(new_guard, guard);
-	std::cout << "guard final : " << guard << "\n";
+	if (s.find("return") != std::string::npos)
+		return false;
+	if (s.find("nondet") != std::string::npos)
+			return false;
+	if (s.find("__CPROVER_") != std::string::npos)
+			return false;
+	if (s.find("_thread_") != std::string::npos)
+				return false;
+	return true;
 }
 
+/*******************************************************************\
+
+Function: check_left_side
+
+  Inputs:
+
+ Outputs:
+
+ Purpose: we do not check nondet, return and CPROVER variables in "right_side"
+
+\*******************************************************************/
+bool check_left_side(std::string s)
+{
+	if (s.find("__CPROVER_") != std::string::npos)
+			return false;
+	if (s.find("start_routine") != std::string::npos)
+				return false;
+	return true;
+}
+
+/*******************************************************************\
+
+Function: convert_value
+
+  Inputs:
+
+ Outputs:
+
+ Purpose: convert string value to int value.
+
+\*******************************************************************/
+int convert_value(std::string s)
+{
+	if (s.compare("FALSE") == 0)
+		return 0;
+	if (s.compare("TRUE") == 0)
+			return 1;
+	if (s.find("*") != std::string::npos)
+		return -1;
+	if (s.find("NULL") != std::string::npos)
+		return -1;
+	return std::stoi(s);
+}
+
+/*******************************************************************\
+
+Function: convert_value
+
+  Inputs:
+
+ Outputs:
+
+ Purpose: convert string value to int value. BUT WE DO NOT CONVERT EXPRESSION TO INT
+
+\*******************************************************************/
+int convert_value_expression(std::string s, std::map<std::string, int> variablesValue)
+{
+	if (s.find("+") != std::string::npos)
+		return -1;
+	if (s.find("-") != std::string::npos)
+			return -1;
+	if (s.find("*") != std::string::npos)
+			return -1;
+	if (s.find("/") != std::string::npos)
+			return -1;
+	if (s.find("==") != std::string::npos)
+				return -1;
+
+	if (variablesValue.find(s) != variablesValue.end())
+		return variablesValue[s];
+	else
+		if (s.compare("FALSE") == 0)
+		return 0;
+	if (s.compare("TRUE") == 0)
+		return 1;
+	return std::stoi(s);
+}
+
+/*******************************************************************\
+
+Function: change_current_time_backward
+
+  Inputs:
+
+ Outputs:
+
+ Purpose: correct the current_time of an assignment. E.g x = 1 before y = x = 0
+
+ We track value of the given variable. We also find the lastest update (prev_pos) where
+ we have the value we need. So the new current time is before the-time-after-"prev_pos" assigning
+ value to the given variable.
+
+\*******************************************************************/
+mp_integer change_current_time_backward(std::map<mp_integer, goto_tracet::stepst> time_map,
+    int value, std::string right_side,
+    const namespacet &ns)
+{
+	mp_integer ret = 0;
+	mp_integer prev_pos = 0;
+	for (std::map<mp_integer, goto_tracet::stepst>::iterator t_it =
+	    time_map.begin(); t_it != time_map.end(); t_it++)
+	{
+		int expr_pos = 0;
+		for (goto_tracet::stepst::iterator it = t_it->second.begin();
+		    it != t_it->second.end(); ++it)
+		{
+//			if(it->hidden)
+//				continue;
+			if (it->type == goto_trace_stept::ASSIGNMENT)
+			if (it->pc->is_assign() || it->pc->is_return()
+			    || // returns have a lhs!
+			    it->pc->is_function_call()
+			    || (it->pc->is_other() && it->lhs_object.is_not_nil()))
+			{
+				// see if the full lhs is something clean
+				const irep_idt &identifier = it->lhs_object.get_identifier();
+				std::string left_side;
+				int l_value;
+				left_side = from_expr(ns, identifier, it->full_lhs);
+				std::cout << it->pc->source_location << std::endl;
+				if (left_side.compare(right_side) == 0)
+				{
+					std::cout << "change_current_time: " << left_side << " " << from_expr(ns, identifier, it->full_lhs_value) << std::endl;
+
+					l_value = convert_value(
+						    from_expr(ns, identifier, it->full_lhs_value));
+					if (l_value == value)
+					{
+						// got him
+						std::cout << "got him\n";
+						prev_pos = t_it->first;
+					}
+					else
+					{
+						if (prev_pos != 0)
+						{
+							ret = t_it->first - 1;
+							prev_pos = 0;
+						}
+					}
+				}
+			}
+		}
+	}
+	return ret;
+}
+
+/*******************************************************************\
+
+Function: change_current_time_backward
+
+  Inputs:
+
+ Outputs:
+
+ Purpose: correct the current_time of an assignment. E.g x = 1 after y = x = 0
+ NOTE THAT WE STILL NOT CALCULATE EXPRESSION
+
+ From the current time, we find the read of given variable that doesnt fit the value
+ until the next write of given variable
+ We need to update time of y = x is current time - 1.
+ The current_time is the same.
+
+\*******************************************************************/
+mp_integer change_current_time_forward(std::map<mp_integer, goto_tracet::stepst> &time_map,
+    int value, std::string left_side,
+    mp_integer current_time,
+    const namespacet &ns)
+{
+	mp_integer ret = 0;
+	mp_integer prev_pos = 0;
+	for (std::map<mp_integer, goto_tracet::stepst>::iterator t_it =
+	    time_map.begin(); t_it != time_map.end(); t_it++)
+	{
+		if (t_it->first <= current_time)
+			continue;
+		int expr_pos = 0;
+		for (goto_tracet::stepst::iterator it = t_it->second.begin();
+		    it != t_it->second.end(); ++it)
+		{
+			if (it->type == goto_trace_stept::ASSIGNMENT)
+			if (it->pc->is_assign() || it->pc->is_return()
+			    || // returns have a lhs!
+			    it->pc->is_function_call()
+			    || (it->pc->is_other() && it->lhs_object.is_not_nil()))
+			{
+					// next write
+					const irep_idt &identifier = it->lhs_object.get_identifier();
+					std::string new_left_side;
+					int l_value;
+					new_left_side = from_expr(ns, identifier, it->full_lhs);
+					std::cout << it->pc->source_location << std::endl;
+					if (new_left_side.compare(left_side) == 0)
+					{
+						return current_time;
+					}
+
+				if (it->rhs.size() > 0)
+				{
+					std::string right_side = it->rhs;
+					if (right_side.compare(left_side) == 0)
+					{
+						const irep_idt &identifier = it->lhs_object.get_identifier();
+						int r_value = convert_value(
+												    from_expr(ns, identifier, it->full_lhs_value));
+						if (r_value != value)
+						{
+							std::cout << current_time << " " << t_it->first << " change the right side\n";
+							// we have to move this statement to current_time - 1
+
+							goto_tracet::stepst &steps=time_map[current_time - 1];
+							    steps.push_back(*it);
+//							time_map[current_time - 1].emplace_back(*it);
+							t_it->second.erase(it);
+//							return t_it->first + 1;
+						}
+					}
+				}
+			}
+		}
+	}
+	return current_time;
+}
+/*******************************************************************\
+
+Function: check_current_time
+
+  Inputs:
+
+ Outputs:
+
+ Purpose: sometimes the current time is not correct. We have to check it.
+
+\*******************************************************************/
+mp_integer check_current_time(std::map<mp_integer, goto_tracet::stepst> &time_map,
+		const prop_convt &prop_conv,
+		symex_target_equationt::SSA_stept SSA_step,
+		std::map<std::string, int> &variablesValue,
+		mp_integer current_time,
+    const namespacet &ns)
+{
+	bool edited = false;
+	mp_integer ret = current_time;
+
+	if (SSA_step.type == goto_trace_stept::ASSIGNMENT)
+	{
+		if (SSA_step.source.pc->is_assign() || SSA_step.source.pc->is_return()
+		    || // returns have a lhs!
+		    SSA_step.source.pc->is_function_call()
+		    || (SSA_step.source.pc->is_other()
+		        && SSA_step.original_lhs_object.is_not_nil()))
+		{
+			std::string left_side, right_side;
+			int value = 0;
+			const irep_idt &identifier =
+			    SSA_step.original_lhs_object.get_identifier();
+			std::cout << "Checking assignment: ";
+			if (SSA_step.original_full_lhs.is_not_nil())
+			{
+				left_side = from_expr(ns, identifier,
+				    build_full_lhs_rec(prop_conv, ns, SSA_step.original_full_lhs,
+				        SSA_step.ssa_full_lhs));
+				right_side = build_rhs(prop_conv, SSA_step, ns);
+			}
+
+			if (SSA_step.ssa_full_lhs.is_not_nil() && check_left_side(left_side))
+			{
+				std::string s_value = from_expr(ns, identifier,
+				    prop_conv.get(SSA_step.ssa_full_lhs));
+				std::cout << "left value of the assignment: " << s_value << std::endl;
+				value = convert_value(s_value);
+				if (value == -1)
+					return current_time;
+				std::cout << "left value of the assignment: " << s_value << std::endl;
+			} else
+				return current_time;
+
+			// edit backward
+			// --> e.g x = 1 before y = x = 0
+
+			// we do not check nondet, return and CPROVER variables in "right_side"
+			if (check_right_side(right_side))
+			{
+
+				int rightValue = convert_value_expression(right_side, variablesValue);
+				std::cout << "right value of the assignment: " << right_side << " "
+				    << rightValue << std::endl;
+				if (rightValue != value && rightValue != -1)
+				{
+					std::cout << "Need to update: " << left_side << " " << right_side
+					    << " " << rightValue << " " << value << std::endl;
+					// there is something wrong in the goto counterexample here
+					// --> we need to change the current_time, before the assignment
+					ret = change_current_time_backward(time_map, value, right_side, ns);
+					std::cout << "update the current time: " << ret << std::endl;
+				}
+			}
+
+			current_time = ret;
+
+			// edit forward
+			// --> e.g x = 1 then y = x = 0
+			std::cout << "source: " << SSA_step.source.pc->source_location << std::endl;
+//			ret = change_current_time_forward(time_map, value, left_side, current_time, ns);
+
+
+
+			bool found = false;
+			for (std::map<mp_integer, goto_tracet::stepst>::iterator t_it =
+			    time_map.begin(); t_it != time_map.end(); t_it++)
+			{
+				if (t_it->first <= current_time || found == true)
+					continue;
+				int expr_pos = 0;
+				for (goto_tracet::stepst::iterator it = t_it->second.begin();
+				    it != t_it->second.end(); ++it)
+				{
+					if (it->type == goto_trace_stept::ASSIGNMENT)
+					if (it->pc->is_assign() || it->pc->is_return()
+					    || // returns have a lhs!
+					    it->pc->is_function_call()
+					    || (it->pc->is_other() && it->lhs_object.is_not_nil()))
+					{
+							// next write
+							const irep_idt &identifier = it->lhs_object.get_identifier();
+							std::string new_left_side;
+							int l_value;
+							new_left_side = from_expr(ns, identifier, it->full_lhs);
+
+							if (new_left_side.compare(left_side) == 0)
+							{
+								std::cout << "got assign at: " << it->pc->source_location << std::endl;
+								found = true;
+								break;
+							}
+
+						if (it->rhs.size() > 0)
+						{
+							std::string right_side = it->rhs;
+							if (right_side.compare(left_side) == 0)
+							{
+								const irep_idt &identifier = it->lhs_object.get_identifier();
+								int r_value = convert_value(
+														    from_expr(ns, identifier, it->full_lhs_value));
+								if (r_value != value)
+								{
+									std::cout << current_time << " " << t_it->first << " change the right side\n";
+									// we have to move this statement to current_time - 1
+
+//									time_map[current_time - 1].emplace_back(*it);
+//									t_it->second.erase(it);
+		//							return t_it->first + 1;
+								}
+							}
+						}
+					}
+				}
+			}
+
+
+
+
+
+			variablesValue[left_side] = value;
+		}
+	}
+
+
+	return ret;
+}
 /*******************************************************************\
 
 Function: build_goto_trace
@@ -586,7 +659,7 @@ void build_goto_trace_new(
   const prop_convt &prop_conv,
   const namespacet &ns,
   goto_tracet &goto_trace,
-  std::vector<exprt> &new_guards,
+  exprt &new_guard,
   exprt &old_guard)
 {
   // We need to re-sort the steps according to their clock.
@@ -608,6 +681,7 @@ void build_goto_trace_new(
   exprt last_operand = false_exprt();
   exprt current_time_expr;
   std::vector<std::pair<std::string, exprt>> choices;
+  std::map<std::string, int> variablesValue;
 
 #if 0
   bool has_threads=target.has_threads();
@@ -672,9 +746,6 @@ void build_goto_trace_new(
   {
     const symex_target_equationt::SSA_stept &SSA_step=*it;
 
-    if (SSA_step.hidden)
-    	std::cout << "Why hidden: " << SSA_step.source.pc->source_location  << std::endl;
-
     std::string string_value;
 		languages.from_expr(it->cond_expr, string_value);
     if(prop_conv.l_get(SSA_step.guard_literal)!=tvt(true))
@@ -685,12 +756,6 @@ void build_goto_trace_new(
 		if (it->is_assert())
 		{
 			std::cout << "(" << icount << ") ASSERT(" << string_value << ") " << "\n";
-			 std::string assert_guard;
-			 languages.from_expr(it->guard, assert_guard);
-			 if (prop_conv.get(it->cond_expr).is_false())
-				 std::cout << "Guard: FALSE" << assert_guard << std::endl;
-			 else
-				 std::cout << "Guard: TRUE" << assert_guard << std::endl;
 			if(!it->guard.is_true())
 			{
 				old_guard = it->guard;
@@ -704,7 +769,7 @@ void build_goto_trace_new(
 		{
 			if (it->cond_expr.is_not_nil())
 			{
-//				std::cout << "{-" << icount << "} " << string_value << "\n";
+				std::cout << "{-" << icount << "} " << string_value << "\n";
 				if (!it->guard.is_true())
 				{
 					std::string string_value1;
@@ -736,15 +801,22 @@ void build_goto_trace_new(
 							last_one = not_exprt(last_one);
 							last_one = simplify_expr(last_one, ns);
 							languages.from_expr(last_one, last_one_str);
+							std::cout << "\t --> " << last_one_str << " " << last_one.operands().size() << " at line ";
+							if (it->is_assignment())
+															std::cout << " IS assignment ";
+														else
+															std::cout << " NOT assignment " << it->type << " ";
+							std::cout << SSA_step.source.pc->source_location.get_line() << std::endl;
+							add_element(last_one, last_one_str, choices);
 						}
-						add_element(it->cond_expr, last_one_str, choices);
-					}
 
+					}
 				}
 			}
 		}
 		icount++;
 
+		std::cout << current_time << " time at pass\n";
     if(it->is_constraint() ||
        it->is_spawn())
       continue;
@@ -754,6 +826,7 @@ void build_goto_trace_new(
       // a shared read or write (if there is none, the time will be
       // reverted to the time before entering the atomic section); we thus
       // use a temporary negative time slot to gather all events
+    	std::cout << current_time << " time negative\n";
       current_time*=-1;
       continue;
     }
@@ -764,6 +837,8 @@ void build_goto_trace_new(
 
       if(it->is_shared_read() || it->is_shared_write())
       {
+
+      	std::string anExpr; languages.from_expr(symbol_exprt(partial_order_concurrencyt::rw_clock_id(it)), anExpr);
         // these are just used to get the time stamp
         exprt clock_value=prop_conv.get(
           symbol_exprt(partial_order_concurrencyt::rw_clock_id(it)));
@@ -772,14 +847,14 @@ void build_goto_trace_new(
         languages.from_expr(clock_value, tmp);
 
         to_integer(clock_value, current_time);
-
+        std::cout << current_time << " " << anExpr << " new time at now\n";
         // add to map
 				current_time_expr = symbol_exprt(partial_order_concurrencyt::rw_clock_id(it), bitvector_typet(ID_unsignedbv, 6));
 				time_to_expr[current_time].push_back(current_time_expr);
       }
       else if(it->is_atomic_end() && current_time<0)
         current_time*=-1;
-
+      std::cout << current_time << " time at now\n0";
       assert(current_time>=0);
       // move any steps gathered in an atomic section
 
@@ -796,14 +871,14 @@ void build_goto_trace_new(
       continue;
     }
 
+    //sometimes the current time is not correct. We have to check it.
+		current_time = check_current_time(time_map, prop_conv, SSA_step, variablesValue, current_time, ns);
+
     // drop PHI and GUARD assignments altogether
-    std::string expr_1; languages.from_expr(it->cond_expr, expr_1);
     if(it->is_assignment() &&
        (SSA_step.assignment_type==symex_target_equationt::PHI ||
         SSA_step.assignment_type==symex_target_equationt::GUARD))
-    {
       continue;
-    }
 
     goto_tracet::stepst &steps=time_map[current_time];
     steps.push_back(goto_trace_stept());
@@ -821,6 +896,21 @@ void build_goto_trace_new(
     goto_trace_step.formatted=SSA_step.formatted;
     goto_trace_step.identifier=SSA_step.identifier;
 
+		if (SSA_step.type == goto_trace_stept::ASSIGNMENT)
+		{
+			if (SSA_step.source.pc->is_assign() || SSA_step.source.pc->is_return()
+			    || // returns have a lhs!
+			    SSA_step.source.pc->is_function_call()
+			    || (SSA_step.source.pc->is_other()
+			        && SSA_step.original_lhs_object.is_not_nil()))
+			{
+				if (SSA_step.original_full_lhs.is_not_nil())
+				{
+					goto_trace_step.rhs = build_rhs(prop_conv, SSA_step, ns);
+				}
+			}
+		}
+
     goto_trace_step.assignment_type=
       (SSA_step.assignment_type==symex_targett::VISIBLE_ACTUAL_PARAMETER ||
        SSA_step.assignment_type==symex_targett::HIDDEN_ACTUAL_PARAMETER)?
@@ -837,15 +927,9 @@ void build_goto_trace_new(
 
     if(SSA_step.ssa_full_lhs.is_not_nil())
     {
-    	goto_trace_step.ssa_full_lhs = SSA_step.ssa_full_lhs;
       goto_trace_step.full_lhs_value=prop_conv.get(SSA_step.ssa_full_lhs);
       simplify(goto_trace_step.full_lhs_value, ns);
     }
-
-    if(SSA_step.ssa_rhs.is_not_nil())
-		{
-			goto_trace_step.ssa_rhs = SSA_step.ssa_rhs;
-		}
 
     for(std::list<exprt>::const_iterator
         j=SSA_step.converted_io_args.begin();
@@ -911,9 +995,6 @@ void build_goto_trace_new(
   // Now assemble into a single goto_trace.
   // This expoits sorted-ness of the map.
 
-  std::map<std::string, exprt> current_instances;
-  symex_target_equationt::SSA_stepst::const_iterator ssa=target.SSA_steps.begin();
-
   for(time_mapt::iterator t_it=time_map.begin();
       t_it!=time_map.end(); t_it++)
   {
@@ -922,42 +1003,13 @@ void build_goto_trace_new(
   	int expr_pos = 0;
   	for (goto_tracet::stepst::iterator it = t_it->second.begin(); it != t_it->second.end(); ++it)
   	{
-  		std::cout << "\t" << it->pc->source_location << std::endl;
+  		std::cout << "\t" << it->pc->source_location << " " << it->type << std::endl;
   		if (as_string(it->pc->source_location.get_file()).find("<built") == std::string::npos)
   		{
   			std::string function = as_string(it->pc->source_location.get_function());
   			std::string expr_s; languages.from_expr(it->time_expr, expr_s);
-  			std::cout << "\t\t" << expr_s;
 
-  			std::string step_l;
-				if (it->full_lhs_value.is_not_nil())
-				{
-					languages.from_expr(it->ssa_full_lhs, step_l);
-					std::cout << "\t ssa_full_lhs " << step_l;
-				}
-				std::cout << std::endl;
-				if (false)
-				while (ssa != target.SSA_steps.end())
-				{
-					// go to the equation
-					if (ssa->ssa_full_lhs.is_not_nil())
-					{
-						// convert
-						std::string ssa_l; languages.from_expr(ssa->ssa_full_lhs, ssa_l);
-						if (ssa_l.compare(step_l) == 0)
-						{
-							// we got it
-
-						}
-						else
-						{
-							// update the current state
-							std::string original_lhs_object; languages.from_expr(ssa->original_lhs_object, original_lhs_object);
-							current_instances[original_lhs_object] = ssa->ssa_full_lhs;
-						}
-					}
-					ssa++;
-				}
+  			std::cout << "\t\t" << expr_s << std::endl;
 
   			if (expr_s.find("__CPROVER") == std::string::npos &&
   					expr_s.find("va_arg") == std::string::npos &&
@@ -984,14 +1036,14 @@ void build_goto_trace_new(
     goto_trace.steps.splice(goto_trace.steps.end(), t_it->second);
   }
 
-//  for (int i = 0; i < interleavings.size(); i++)
-//  {
-//  	std::string s1, s2;
-//  	languages.from_expr(interleavings[i].first, s1);
-//  	languages.from_expr(interleavings[i].second, s2);
-//
-//  	std::cout << "interleaving: " << s1 << " --->" << s2 << std::endl;
-//  }
+  for (int i = 0; i < interleavings.size(); i++)
+  {
+  	std::string s1, s2;
+  	languages.from_expr(interleavings[i].first, s1);
+  	languages.from_expr(interleavings[i].second, s2);
+
+  	std::cout << "interleaving: " << s1 << " --->" << s2 << std::endl;
+  }
 
   // produce the step numbers
   unsigned step_nr=0;
@@ -1000,40 +1052,33 @@ void build_goto_trace_new(
       s_it=goto_trace.steps.begin();
       s_it!=goto_trace.steps.end();
       s_it++)
-  {
     s_it->step_nr=++step_nr;
-    if(!s_it->pc->source_location.is_nil())
-              std::cout << "goto_trace  " << s_it->pc->source_location << "\n";
+
+  new_guard = true_exprt();
+  std::string guard;
+  for (std::vector<exprt>::const_iterator it = guard_list.begin(); it != guard_list.end(); ++it)
+  {
+		new_guard = and_exprt(new_guard, *it);
+
+		languages.from_expr(*it, guard);
+		std::cout << "guard xx : " << guard << "\n";
   }
-  for (int i = 0; i < choices.size(); ++i)
-  	new_guards.push_back(choices.at(i).second);
 
-//  new_guard = true_exprt();
-//  std::string guard;
-//  for (std::vector<exprt>::const_iterator it = guard_list.begin(); it != guard_list.end(); ++it)
-//  {
-//		new_guard = and_exprt(new_guard, *it);
-//
-//		languages.from_expr(*it, guard);
-//		std::cout << "guard xx : " << guard << "\n";
-//  }
-
-//  for (std::vector<std::pair<std::string, exprt>>::iterator it = choices.begin(); it != choices.end(); ++it)
-//	{
-//  	if (prop_conv.get(it->second).is_true())
-//  		new_guard = and_exprt(new_guard, it->second);
-//	}
+  for (std::vector<std::pair<std::string, exprt>>::iterator it = choices.begin(); it != choices.end(); ++it)
+	{
+  	if (prop_conv.get(it->second).is_true())
+  		new_guard = and_exprt(new_guard, it->second);
+	}
 
 //  for (int i = 0; i < interleavings.size(); ++i)
 //  {
 //  	exprt tmp_guard = binary_predicate_exprt(interleavings[i].first, ID_le, interleavings[i].second);
 //		new_guard = and_exprt(new_guard, tmp_guard);
 //  }
+	simplify(new_guard, ns);
 
-//	simplify(new_guard, ns);
-
-//	languages.from_expr(new_guard, guard);
-//	std::cout << "guard final : " << guard << "\n";
+	languages.from_expr(new_guard, guard);
+	std::cout << "guard final : " << guard << "\n";
 }
 /*******************************************************************\
 

@@ -50,6 +50,7 @@ command6 = ['time', './cbmc', '--no-unwinding-assertions', '--all-properties', f
 command7 = ['time', './cbmc', '--no-unwinding-assertions', '--all-properties', fileName7]
 command8 = ['time', './cbmc', '--no-unwinding-assertions', '--all-properties', fileName8]
 
+print fileName1
 with open(i1file, "a") as outfile, open(i2file, "a") as errfile:
 	p = subprocess.call(command1, stdout=outfile, stderr=errfile)
 with open(i1file, "a") as outfile, open(i2file, "a") as errfile:

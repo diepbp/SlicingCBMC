@@ -433,17 +433,14 @@ std::vector<variable_struct> language_uit::get_variables()
 			}
 			else
 			{
-				if (type_str.compare("struct _opaque_pthread_t") == 0)
+				if (type_str.compare("struct _opaque_pthread_t *") == 0)
 				{
 					result.push_back(variable_struct(-1, as_string(symbol.base_name), proc_name, symbol.is_parameter));
 					std::cout << "we have a thread" << std::endl;
 				}
-				else if (	type_str.find('[') != std::string::npos &&
-									type_str.find(']') != std::string::npos)
-					result.push_back(variable_struct(2, as_string(symbol.base_name), proc_name, symbol.is_parameter));
 				else
 					result.push_back(variable_struct(0, as_string(symbol.base_name), proc_name, symbol.is_parameter));
-				std::cout << "Base name.......: bool" <<" " << symbol.base_name << " - " << type_str << " - " << proc_name << std::endl;
+				std::cout << "Base name.......: bool" <<" " << symbol.base_name << " - " << proc_name << std::endl;
 			}
 		}
 	}

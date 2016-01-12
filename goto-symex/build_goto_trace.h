@@ -35,18 +35,8 @@ void build_goto_trace_new(
   const prop_convt &prop_conv,
   const namespacet &ns,
   goto_tracet &goto_trace,
-  std::vector<exprt> &new_guards,
-  exprt &old_guard);
-
-void build_goto_trace_new_2(
-  symex_target_equationt &target,
-  symex_target_equationt::SSA_stepst::const_iterator end_step,
-  const prop_convt &prop_conv,
-  const namespacet &ns,
-  goto_tracet &goto_trace,
   exprt &old_guard,
-  exprt &new_guard,
-  std::vector<symex_target_equationt::SSA_stept> &trace_guards);
+  exprt &new_guard);
 
 void printTrace(
   const namespacet &ns,

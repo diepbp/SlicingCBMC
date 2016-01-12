@@ -1,0 +1,22 @@
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_power.oepc_false-unreach-call.c line 162 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_power.oepc_false-unreach-call.c line 253 function main: function `nondet_1' is not declared
+       75.16 real        65.15 user         0.98 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_power.opt_false-unreach-call.c line 148 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_power.opt_false-unreach-call.c line 248 function main: function `nondet_1' is not declared
+       16.51 real        15.03 user         0.33 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_pso.oepc_false-unreach-call.c line 162 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_pso.oepc_false-unreach-call.c line 253 function main: function `nondet_1' is not declared
+       42.88 real        39.51 user         0.69 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_pso.opt_false-unreach-call.c line 148 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_pso.opt_false-unreach-call.c line 248 function main: function `nondet_1' is not declared
+       24.23 real        22.44 user         0.44 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_rmo.oepc_false-unreach-call.c line 162 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_rmo.oepc_false-unreach-call.c line 253 function main: function `nondet_1' is not declared
+       47.34 real        43.78 user         0.72 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_rmo.opt_false-unreach-call.c line 148 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_rmo.opt_false-unreach-call.c line 248 function main: function `nondet_1' is not declared
+       22.05 real        20.19 user         0.42 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_tso.oepc_false-unreach-call.c'
+        0.00 real         0.00 user         0.00 sys
+failed to open input file `/Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/safe030_tso.opt_false-unreach-call.c'
+        0.00 real         0.00 user         0.00 sys

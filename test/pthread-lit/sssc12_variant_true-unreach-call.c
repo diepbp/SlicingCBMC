@@ -44,7 +44,7 @@ void main(int argc, char* argv[]) {
     next = 0;
     len = __VERIFIER_nondet_int();
     __VERIFIER_assume(len > 0);
-    malloc(sizeof(int) * len, 0, data);
+    data = malloc(sizeof(int) * len);
     while(1) {
 	pthread_create(&t, 0, thr, 0);
     }

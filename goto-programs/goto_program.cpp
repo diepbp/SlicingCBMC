@@ -276,7 +276,7 @@ bool has_token_goto_program(std::string s, std::vector<std::string> list)
 
 void add_line(int line, Slice_Type type, std::vector<std::pair<int, Slice_Type>> &result, std::vector<std::pair<int, Slice_Type>> &atomic_block)
 {
-	result.push_back(std::make_pair(line, type));
+		result.push_back(std::make_pair(line, type));
 }
 
 std::vector<std::pair<int, Slice_Type>> goto_programt::slice_variable_instruction(
@@ -441,7 +441,6 @@ std::vector<std::pair<int, Slice_Type>> goto_programt::slice_variable_instructio
 			{
 				if (!is_selected_variable_goto_program((*itt), as_string(identifier), selected_variables))
 				{
-					std::cout << "Call statement: " << line << " " << from_expr(ns, identifier, it->code) << std::endl;
 					add_line(line, Call, result, atomic_block);
 					added = true;
 					break;
@@ -483,7 +482,6 @@ std::vector<std::pair<int, Slice_Type>> goto_programt::slice_variable_instructio
 				{
 					if (left == true)
 					{
-						// TODO wrong because of exit(0)
 						add_line(line, LeftAssign, result, atomic_block);
 						added = true;
 						break;
@@ -557,14 +555,6 @@ std::vector<std::pair<int, Slice_Type>> goto_programt::slice_variable_instructio
 	return result;
 }
 
-std::string get_proc_name_goto_program(const std::vector<std::string> v, const std::vector<variable_struct> vars)
-{
-	std::string proc_name;
-	for (int name = 0; name < v.size(); ++name)
-		if (!is_variable_goto_program(v.at(name), vars))
-			return v.at(name);
-	return "";
-}
 
 /*******************************************************************\
 
@@ -581,8 +571,8 @@ Function: goto_programt::get_decl_identifiers
 std::vector<std::vector<int>> goto_programt::get_program_dependencies(
 		const class namespacet &ns,
 		const irep_idt &identifier,
-		std::vector<variable_struct> vars,
-		const std::vector<std::string> lines) const
+		std::vector<variable_struct> vars
+		) const
 {
 	std::vector<std::map<int, int>> result;
 
@@ -629,8 +619,6 @@ std::vector<std::vector<int>> goto_programt::get_program_dependencies(
 			break;
 
 			case FUNCTION_CALL:
-				code = from_expr(ns, identifier, it->code);
-				std::cout << code << "FUNCTION_CALL: " << std::endl;
 			prev_it = it;
 			break;
 
@@ -678,82 +666,19 @@ std::vector<std::vector<int>> goto_programt::get_program_dependencies(
 					std::cout << code << ": " << tmp_variables.size() << std::endl;
 					for (int i = 1; i < tmp_variables.size(); ++i)
 						if (tmp_variables[i] != tmp_variables[0])
-							result[tmp_variables[0]][tmp_variables[i]] = 1;
-				}
-
-				else if (it->type == FUNCTION_CALL)
-				{
-					std::cout << code << "FUNCTION_CALL: " << tmp_variables.size() << std::endl;
-					if (!has_token_goto_program("pthread_create", v))
-						// get the definition of procedure
-					{
-						// get procedure name
-						std::string proc_name = get_proc_name_goto_program(v, vars);
-						int lineNo = std::stoi(as_string(it->source_location.get_line()));
-						while (lineNo > 0)
-						{
-							std::size_t pos01 = lines[lineNo - 1].find(proc_name);
-							if (pos01 != std::string::npos)
-							{
-								// find void, int, bool
-								if (lines[lineNo - 1].find("void") < pos01 ||
-										lines[lineNo - 1].find("int") < pos01 ||
-										lines[lineNo - 1].find("bool") < pos01)
-									break;
-							}
-							lineNo--;
-						}
-						assert(lineNo != 0);
-						lineNo --;
-
-						// get the line
-						std::string proc_line;
-						while (lineNo < lines.size() && lines.at(lineNo).find("{") == std::string::npos)
-						{
-							proc_line = proc_line + lines.at(lineNo++);
-						}
-						if (lines.at(lineNo).find("{") != std::string::npos)
-							proc_line = proc_line + lines.at(lineNo++);
-
-						assert(lineNo < lines.size());
-
-						std::cout << "line connection: " << lineNo << " " << proc_line << std::endl;
-						// parse this line
-						std::vector<std::string> line_tokens = parse_string_goto_program(proc_line);
-						std::vector<int> line_variables;
-						for (int k = 0; k < line_tokens.size(); ++k)
-						{
-							for(int i = 0; i < vars.size(); ++i)
-							if (line_tokens[k].compare(vars[i].name) == 0 &&
-									( vars[i].proc.size() == 0 ||
-											vars[i].proc.compare(as_string(proc_name)) == 0)
-							)
-							{
-								std::cout << "var: " << line_tokens[k] << std::endl;
-								line_variables.push_back(i);
-								break;
-							}
-						}
-						if (tmp_variables.size() == 0)
-							continue;
-						for (int var = line_variables.size() - 1; var >= 0; --var)
-						{
-							result[line_variables[var]][tmp_variables[var + tmp_variables.size() - line_variables.size()]] = 1;
-							result[tmp_variables[var + tmp_variables.size() - line_variables.size()]][line_variables[var]] = 1;
-						}
-					}
+						result[tmp_variables[0]][tmp_variables[i]] = 1;
 				}
 
 				else
 				{
 					std::cout << it->type << ": " << code << std::endl;
-					for (int i = 0; i < tmp_variables.size(); ++i)
-						for (int j = i + 1; j < tmp_variables.size(); ++j)
-							if (tmp_variables[i] != tmp_variables[j])
-							{
-								result[tmp_variables[i]][tmp_variables[j]] = 1;
-								result[tmp_variables[j]][tmp_variables[i]] = 1;
-							}
+				for (int i = 0; i < tmp_variables.size(); ++i)
+					for (int j = i + 1; j < tmp_variables.size(); ++j)
+						if (tmp_variables[i] != tmp_variables[j])
+						{
+							result[tmp_variables[i]][tmp_variables[j]] = 1;
+							result[tmp_variables[j]][tmp_variables[i]] = 1;
+						}
 				}
 			}
 		}

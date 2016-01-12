@@ -78,6 +78,9 @@ void bmct::show_vcc(std::ostream &out)
           languages.from_expr(p_it->cond_expr, string_value);
           out << "{-" << count << "} " << string_value << "\n";
 
+          languages.from_expr(literal_exprt(p_it->cond_literal), string_value);
+                    out << "GUARD: " << string_value << "\n";
+                    out << "\n";
           #if 0
           languages.from_expr(p_it->guard_expr, string_value);
           out << "GUARD: " << string_value << "\n";

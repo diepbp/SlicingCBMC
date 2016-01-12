@@ -1,0 +1,1898 @@
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c
+Converting
+Type-checking rfi003_power.oepc_false-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 20626 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+99498 variables, 471192 clauses
+SAT checker: negated claim is SATISFIABLE, i.e., does not hold
+Runtime decision procedure: 5.777s
+Building error trace
+
+Counterexample:
+
+State 108 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 111 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 174 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1=0 (00000000000000000000000000000000)
+
+State 112 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 175 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0=1 (00000000000000000000000000000001)
+
+State 113 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 176 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 114 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 177 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0_used=TRUE (00000001)
+
+State 117 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 178 function P1 thread 2
+----------------------------------------------------
+  expression=1 (00000000000000000000000000000001)
+
+State 121 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 179 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd0=FALSE (00000000)
+
+State 122 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 180 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd1=FALSE (00000000)
+
+State 123 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 181 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd2=FALSE (00000000)
+
+State 124 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 182 function P1 thread 2
+----------------------------------------------------
+  x$r_buff0_thd2=TRUE (00000001)
+
+State 127 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 132 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 135 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 185 function P1 thread 2
+----------------------------------------------------
+  y=1 (00000000000000000000000000000001)
+
+State 138 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 143 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 146 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 188 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EAX=1 (00000000000000000000000000000001)
+
+State 149 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 154 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 157 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 191 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EBX=1 (00000000000000000000000000000001)
+
+State 160 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 165 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 168 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 141 function P0 thread 1
+----------------------------------------------------
+  y=2 (00000000000000000000000000000010)
+
+State 171 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 176 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 181 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 186 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 191 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 146 function P0 thread 1
+----------------------------------------------------
+  weak$$choice0=TRUE (00000001)
+
+State 194 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 147 function P0 thread 1
+----------------------------------------------------
+  weak$$choice2=FALSE (00000000)
+
+State 195 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 148 function P0 thread 1
+----------------------------------------------------
+  x$flush_delayed=FALSE (00000000)
+
+State 196 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 149 function P0 thread 1
+----------------------------------------------------
+  x$mem_tmp=0 (00000000000000000000000000000000)
+
+State 197 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 150 function P0 thread 1
+----------------------------------------------------
+  x=0 (00000000000000000000000000000000)
+
+State 198 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 151 function P0 thread 1
+----------------------------------------------------
+  x$w_buff0=1 (00000000000000000000000000000001)
+
+State 199 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 152 function P0 thread 1
+----------------------------------------------------
+  x$w_buff1=0 (00000000000000000000000000000000)
+
+State 200 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 153 function P0 thread 1
+----------------------------------------------------
+  x$w_buff0_used=TRUE (00000001)
+
+State 201 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 154 function P0 thread 1
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 202 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 155 function P0 thread 1
+----------------------------------------------------
+  x$r_buff0_thd1=FALSE (00000000)
+
+State 203 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 156 function P0 thread 1
+----------------------------------------------------
+  x$r_buff1_thd1=FALSE (00000000)
+
+State 204 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 157 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_p0_EAX=0 (00000000000000000000000000000000)
+
+State 205 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 158 function P0 thread 1
+----------------------------------------------------
+  x=0 (00000000000000000000000000000000)
+
+State 206 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 159 function P0 thread 1
+----------------------------------------------------
+  x$flush_delayed=FALSE (00000000)
+
+State 209 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 214 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 219 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 224 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 227 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 164 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_cnt=1 (00000000000000000000000000000001)
+
+State 230 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 240 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 243 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 194 function P1 thread 2
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 244 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 195 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0_used=FALSE (00000000)
+
+State 245 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 196 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 246 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 197 function P1 thread 2
+----------------------------------------------------
+  x$r_buff0_thd2=TRUE (00000001)
+
+State 247 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 198 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd2=FALSE (00000000)
+
+State 250 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 255 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 258 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 201 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_cnt=2 (00000000000000000000000000000010)
+
+State 261 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 270 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 273 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 234 function main thread 0
+----------------------------------------------------
+  main$tmp_guard0=TRUE (00000001)
+
+State 276 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 281 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 284 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 238 function main thread 0
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 285 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 239 function main thread 0
+----------------------------------------------------
+  x$w_buff0_used=FALSE (00000000)
+
+State 286 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 240 function main thread 0
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 287 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 241 function main thread 0
+----------------------------------------------------
+  x$r_buff0_thd0=FALSE (00000000)
+
+State 293 file <builtin-library>-pthread_create line 20 function __actual_thread_spawn thread 2
+----------------------------------------------------
+  arg=NULL (0000000000000000000000000000000000000000000000000000000000000000)
+
+State 296 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 242 function main thread 0
+----------------------------------------------------
+  x$r_buff1_thd0=FALSE (00000000)
+
+State 299 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 304 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 307 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 246 function main thread 0
+----------------------------------------------------
+  main$tmp_guard1=FALSE (00000000)
+
+State 310 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 315 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 249 function main thread 0
+----------------------------------------------------
+  expression=0 (00000000000000000000000000000000)
+
+Violated property:
+  file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.oepc_false-unreach-call.c line 2 function __VERIFIER_assert
+  assertion
+  FALSE
+
+VERIFICATION FAILED
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c
+Converting
+Type-checking rfi003_power.opt_false-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 20626 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+99498 variables, 471192 clauses
+SAT checker: negated claim is SATISFIABLE, i.e., does not hold
+Runtime decision procedure: 7.563s
+Building error trace
+
+Counterexample:
+
+State 108 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 111 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 174 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1=0 (00000000000000000000000000000000)
+
+State 112 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 175 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0=1 (00000000000000000000000000000001)
+
+State 113 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 176 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 114 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 177 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0_used=TRUE (00000001)
+
+State 117 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 178 function P1 thread 2
+----------------------------------------------------
+  expression=1 (00000000000000000000000000000001)
+
+State 121 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 179 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd0=FALSE (00000000)
+
+State 122 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 180 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd1=FALSE (00000000)
+
+State 123 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 181 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd2=FALSE (00000000)
+
+State 124 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 182 function P1 thread 2
+----------------------------------------------------
+  x$r_buff0_thd2=TRUE (00000001)
+
+State 127 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 132 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 135 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 185 function P1 thread 2
+----------------------------------------------------
+  y=1 (00000000000000000000000000000001)
+
+State 138 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 143 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 146 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 188 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EAX=1 (00000000000000000000000000000001)
+
+State 149 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 154 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 157 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 191 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EBX=1 (00000000000000000000000000000001)
+
+State 160 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 165 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 168 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 141 function P0 thread 1
+----------------------------------------------------
+  y=2 (00000000000000000000000000000010)
+
+State 171 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 176 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 181 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 186 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 191 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 146 function P0 thread 1
+----------------------------------------------------
+  weak$$choice0=TRUE (00000001)
+
+State 194 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 147 function P0 thread 1
+----------------------------------------------------
+  weak$$choice2=TRUE (00000001)
+
+State 195 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 148 function P0 thread 1
+----------------------------------------------------
+  x$flush_delayed=TRUE (00000001)
+
+State 196 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 149 function P0 thread 1
+----------------------------------------------------
+  x$mem_tmp=0 (00000000000000000000000000000000)
+
+State 197 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 150 function P0 thread 1
+----------------------------------------------------
+  x=0 (00000000000000000000000000000000)
+
+State 198 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 151 function P0 thread 1
+----------------------------------------------------
+  x$w_buff0=1 (00000000000000000000000000000001)
+
+State 199 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 152 function P0 thread 1
+----------------------------------------------------
+  x$w_buff1=0 (00000000000000000000000000000000)
+
+State 200 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 153 function P0 thread 1
+----------------------------------------------------
+  x$w_buff0_used=TRUE (00000001)
+
+State 201 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 154 function P0 thread 1
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 202 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 155 function P0 thread 1
+----------------------------------------------------
+  x$r_buff0_thd1=FALSE (00000000)
+
+State 203 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 156 function P0 thread 1
+----------------------------------------------------
+  x$r_buff1_thd1=FALSE (00000000)
+
+State 204 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 157 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_p0_EAX=0 (00000000000000000000000000000000)
+
+State 205 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 158 function P0 thread 1
+----------------------------------------------------
+  x=0 (00000000000000000000000000000000)
+
+State 206 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 159 function P0 thread 1
+----------------------------------------------------
+  x$flush_delayed=FALSE (00000000)
+
+State 209 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 214 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 217 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 194 function P1 thread 2
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 218 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 195 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0_used=FALSE (00000000)
+
+State 219 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 196 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 220 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 197 function P1 thread 2
+----------------------------------------------------
+  x$r_buff0_thd2=TRUE (00000001)
+
+State 221 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 198 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd2=FALSE (00000000)
+
+State 224 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 229 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 234 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 239 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 242 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 164 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_cnt=1 (00000000000000000000000000000001)
+
+State 245 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 255 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 258 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 201 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_cnt=2 (00000000000000000000000000000010)
+
+State 261 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 275 file <builtin-library>-pthread_create line 20 function __actual_thread_spawn thread 2
+----------------------------------------------------
+  arg=NULL (0000000000000000000000000000000000000000000000000000000000000000)
+
+State 278 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 281 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 234 function main thread 0
+----------------------------------------------------
+  main$tmp_guard0=TRUE (00000001)
+
+State 284 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 289 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 292 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 238 function main thread 0
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 293 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 239 function main thread 0
+----------------------------------------------------
+  x$w_buff0_used=FALSE (00000000)
+
+State 294 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 240 function main thread 0
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 295 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 241 function main thread 0
+----------------------------------------------------
+  x$r_buff0_thd0=FALSE (00000000)
+
+State 296 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 242 function main thread 0
+----------------------------------------------------
+  x$r_buff1_thd0=FALSE (00000000)
+
+State 299 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 304 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 307 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 246 function main thread 0
+----------------------------------------------------
+  main$tmp_guard1=FALSE (00000000)
+
+State 310 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 315 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 249 function main thread 0
+----------------------------------------------------
+  expression=0 (00000000000000000000000000000000)
+
+Violated property:
+  file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_power.opt_false-unreach-call.c line 2 function __VERIFIER_assert
+  assertion
+  FALSE
+
+VERIFICATION FAILED
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c
+Converting
+Type-checking rfi003_pso.oepc_false-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 20626 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+99498 variables, 471192 clauses
+SAT checker: negated claim is SATISFIABLE, i.e., does not hold
+Runtime decision procedure: 5.885s
+Building error trace
+
+Counterexample:
+
+State 108 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 111 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 174 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1=0 (00000000000000000000000000000000)
+
+State 112 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 175 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0=1 (00000000000000000000000000000001)
+
+State 113 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 176 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 114 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 177 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0_used=TRUE (00000001)
+
+State 117 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 178 function P1 thread 2
+----------------------------------------------------
+  expression=1 (00000000000000000000000000000001)
+
+State 121 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 179 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd0=FALSE (00000000)
+
+State 122 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 180 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd1=FALSE (00000000)
+
+State 123 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 181 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd2=FALSE (00000000)
+
+State 124 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 182 function P1 thread 2
+----------------------------------------------------
+  x$r_buff0_thd2=TRUE (00000001)
+
+State 127 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 132 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 135 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 185 function P1 thread 2
+----------------------------------------------------
+  y=1 (00000000000000000000000000000001)
+
+State 138 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 143 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 146 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 188 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EAX=1 (00000000000000000000000000000001)
+
+State 149 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 154 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 157 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 191 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EBX=1 (00000000000000000000000000000001)
+
+State 160 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 165 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 168 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 141 function P0 thread 1
+----------------------------------------------------
+  y=2 (00000000000000000000000000000010)
+
+State 171 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 176 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 181 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 186 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 191 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 146 function P0 thread 1
+----------------------------------------------------
+  weak$$choice0=TRUE (00000001)
+
+State 194 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 147 function P0 thread 1
+----------------------------------------------------
+  weak$$choice2=FALSE (00000000)
+
+State 195 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 148 function P0 thread 1
+----------------------------------------------------
+  x$flush_delayed=FALSE (00000000)
+
+State 196 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 149 function P0 thread 1
+----------------------------------------------------
+  x$mem_tmp=0 (00000000000000000000000000000000)
+
+State 197 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 150 function P0 thread 1
+----------------------------------------------------
+  x=0 (00000000000000000000000000000000)
+
+State 198 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 151 function P0 thread 1
+----------------------------------------------------
+  x$w_buff0=1 (00000000000000000000000000000001)
+
+State 199 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 152 function P0 thread 1
+----------------------------------------------------
+  x$w_buff1=0 (00000000000000000000000000000000)
+
+State 200 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 153 function P0 thread 1
+----------------------------------------------------
+  x$w_buff0_used=TRUE (00000001)
+
+State 201 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 154 function P0 thread 1
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 202 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 155 function P0 thread 1
+----------------------------------------------------
+  x$r_buff0_thd1=FALSE (00000000)
+
+State 203 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 156 function P0 thread 1
+----------------------------------------------------
+  x$r_buff1_thd1=FALSE (00000000)
+
+State 204 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 157 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_p0_EAX=0 (00000000000000000000000000000000)
+
+State 205 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 158 function P0 thread 1
+----------------------------------------------------
+  x=0 (00000000000000000000000000000000)
+
+State 206 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 159 function P0 thread 1
+----------------------------------------------------
+  x$flush_delayed=FALSE (00000000)
+
+State 209 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 214 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 217 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 194 function P1 thread 2
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 218 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 195 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0_used=FALSE (00000000)
+
+State 219 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 196 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 220 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 197 function P1 thread 2
+----------------------------------------------------
+  x$r_buff0_thd2=TRUE (00000001)
+
+State 221 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 198 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd2=FALSE (00000000)
+
+State 224 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 229 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 234 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 239 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 242 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 201 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_cnt=1 (00000000000000000000000000000001)
+
+State 245 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 254 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 257 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 164 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_cnt=2 (00000000000000000000000000000010)
+
+State 260 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 270 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 273 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 234 function main thread 0
+----------------------------------------------------
+  main$tmp_guard0=TRUE (00000001)
+
+State 276 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 281 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 284 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 238 function main thread 0
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 285 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 239 function main thread 0
+----------------------------------------------------
+  x$w_buff0_used=FALSE (00000000)
+
+State 286 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 240 function main thread 0
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 287 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 241 function main thread 0
+----------------------------------------------------
+  x$r_buff0_thd0=FALSE (00000000)
+
+State 288 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 242 function main thread 0
+----------------------------------------------------
+  x$r_buff1_thd0=FALSE (00000000)
+
+State 291 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 296 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 304 file <builtin-library>-pthread_create line 20 function __actual_thread_spawn thread 2
+----------------------------------------------------
+  arg=NULL (0000000000000000000000000000000000000000000000000000000000000000)
+
+State 308 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 246 function main thread 0
+----------------------------------------------------
+  main$tmp_guard1=FALSE (00000000)
+
+State 311 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 316 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 249 function main thread 0
+----------------------------------------------------
+  expression=0 (00000000000000000000000000000000)
+
+Violated property:
+  file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.oepc_false-unreach-call.c line 2 function __VERIFIER_assert
+  assertion
+  FALSE
+
+VERIFICATION FAILED
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c
+Converting
+Type-checking rfi003_pso.opt_false-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 20626 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+99498 variables, 471192 clauses
+SAT checker: negated claim is SATISFIABLE, i.e., does not hold
+Runtime decision procedure: 15.448s
+Building error trace
+
+Counterexample:
+
+State 108 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 111 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 174 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1=0 (00000000000000000000000000000000)
+
+State 112 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 175 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0=1 (00000000000000000000000000000001)
+
+State 113 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 176 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 114 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 177 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0_used=TRUE (00000001)
+
+State 117 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 178 function P1 thread 2
+----------------------------------------------------
+  expression=1 (00000000000000000000000000000001)
+
+State 121 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 179 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd0=FALSE (00000000)
+
+State 122 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 180 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd1=FALSE (00000000)
+
+State 123 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 181 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd2=FALSE (00000000)
+
+State 124 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 182 function P1 thread 2
+----------------------------------------------------
+  x$r_buff0_thd2=TRUE (00000001)
+
+State 127 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 132 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 135 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 185 function P1 thread 2
+----------------------------------------------------
+  y=1 (00000000000000000000000000000001)
+
+State 138 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 143 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 146 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 188 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EAX=1 (00000000000000000000000000000001)
+
+State 149 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 154 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 157 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 191 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EBX=1 (00000000000000000000000000000001)
+
+State 160 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 165 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 168 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 141 function P0 thread 1
+----------------------------------------------------
+  y=2 (00000000000000000000000000000010)
+
+State 171 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 176 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 181 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 186 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 191 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 146 function P0 thread 1
+----------------------------------------------------
+  weak$$choice0=TRUE (00000001)
+
+State 194 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 147 function P0 thread 1
+----------------------------------------------------
+  weak$$choice2=TRUE (00000001)
+
+State 195 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 148 function P0 thread 1
+----------------------------------------------------
+  x$flush_delayed=TRUE (00000001)
+
+State 196 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 149 function P0 thread 1
+----------------------------------------------------
+  x$mem_tmp=0 (00000000000000000000000000000000)
+
+State 197 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 150 function P0 thread 1
+----------------------------------------------------
+  x=0 (00000000000000000000000000000000)
+
+State 198 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 151 function P0 thread 1
+----------------------------------------------------
+  x$w_buff0=1 (00000000000000000000000000000001)
+
+State 199 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 152 function P0 thread 1
+----------------------------------------------------
+  x$w_buff1=0 (00000000000000000000000000000000)
+
+State 200 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 153 function P0 thread 1
+----------------------------------------------------
+  x$w_buff0_used=TRUE (00000001)
+
+State 201 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 154 function P0 thread 1
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 202 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 155 function P0 thread 1
+----------------------------------------------------
+  x$r_buff0_thd1=FALSE (00000000)
+
+State 203 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 156 function P0 thread 1
+----------------------------------------------------
+  x$r_buff1_thd1=FALSE (00000000)
+
+State 204 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 157 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_p0_EAX=0 (00000000000000000000000000000000)
+
+State 205 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 158 function P0 thread 1
+----------------------------------------------------
+  x=0 (00000000000000000000000000000000)
+
+State 206 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 159 function P0 thread 1
+----------------------------------------------------
+  x$flush_delayed=FALSE (00000000)
+
+State 209 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 214 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 219 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 224 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 227 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 194 function P1 thread 2
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 228 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 195 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0_used=FALSE (00000000)
+
+State 229 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 196 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 230 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 197 function P1 thread 2
+----------------------------------------------------
+  x$r_buff0_thd2=TRUE (00000001)
+
+State 231 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 198 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd2=FALSE (00000000)
+
+State 234 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 239 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 242 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 201 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_cnt=1 (00000000000000000000000000000001)
+
+State 245 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 254 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 257 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 164 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_cnt=2 (00000000000000000000000000000010)
+
+State 260 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 270 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 273 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 234 function main thread 0
+----------------------------------------------------
+  main$tmp_guard0=TRUE (00000001)
+
+State 276 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 281 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 284 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 238 function main thread 0
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 285 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 239 function main thread 0
+----------------------------------------------------
+  x$w_buff0_used=FALSE (00000000)
+
+State 286 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 240 function main thread 0
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 288 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 241 function main thread 0
+----------------------------------------------------
+  x$r_buff0_thd0=FALSE (00000000)
+
+State 289 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 242 function main thread 0
+----------------------------------------------------
+  x$r_buff1_thd0=FALSE (00000000)
+
+State 292 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 297 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 300 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 246 function main thread 0
+----------------------------------------------------
+  main$tmp_guard1=FALSE (00000000)
+
+State 303 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 313 file <builtin-library>-pthread_create line 20 function __actual_thread_spawn thread 2
+----------------------------------------------------
+  arg=NULL (0000000000000000000000000000000000000000000000000000000000000000)
+
+State 316 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 249 function main thread 0
+----------------------------------------------------
+  expression=0 (00000000000000000000000000000000)
+
+Violated property:
+  file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_pso.opt_false-unreach-call.c line 2 function __VERIFIER_assert
+  assertion
+  FALSE
+
+VERIFICATION FAILED
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c
+Converting
+Type-checking rfi003_rmo.oepc_false-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 20626 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+99498 variables, 471192 clauses
+SAT checker: negated claim is SATISFIABLE, i.e., does not hold
+Runtime decision procedure: 9.24s
+Building error trace
+
+Counterexample:
+
+State 108 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 111 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 174 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1=0 (00000000000000000000000000000000)
+
+State 112 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 175 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0=1 (00000000000000000000000000000001)
+
+State 113 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 176 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 114 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 177 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0_used=TRUE (00000001)
+
+State 117 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 178 function P1 thread 2
+----------------------------------------------------
+  expression=1 (00000000000000000000000000000001)
+
+State 121 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 179 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd0=FALSE (00000000)
+
+State 122 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 180 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd1=FALSE (00000000)
+
+State 123 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 181 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd2=FALSE (00000000)
+
+State 124 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 182 function P1 thread 2
+----------------------------------------------------
+  x$r_buff0_thd2=TRUE (00000001)
+
+State 127 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 132 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 135 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 185 function P1 thread 2
+----------------------------------------------------
+  y=1 (00000000000000000000000000000001)
+
+State 138 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 143 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 146 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 188 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EAX=1 (00000000000000000000000000000001)
+
+State 149 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 154 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 157 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 191 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EBX=1 (00000000000000000000000000000001)
+
+State 160 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 165 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 168 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 141 function P0 thread 1
+----------------------------------------------------
+  y=2 (00000000000000000000000000000010)
+
+State 171 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 176 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 181 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 186 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 191 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 146 function P0 thread 1
+----------------------------------------------------
+  weak$$choice0=TRUE (00000001)
+
+State 194 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 147 function P0 thread 1
+----------------------------------------------------
+  weak$$choice2=FALSE (00000000)
+
+State 195 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 148 function P0 thread 1
+----------------------------------------------------
+  x$flush_delayed=FALSE (00000000)
+
+State 196 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 149 function P0 thread 1
+----------------------------------------------------
+  x$mem_tmp=0 (00000000000000000000000000000000)
+
+State 197 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 150 function P0 thread 1
+----------------------------------------------------
+  x=0 (00000000000000000000000000000000)
+
+State 198 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 151 function P0 thread 1
+----------------------------------------------------
+  x$w_buff0=1 (00000000000000000000000000000001)
+
+State 199 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 152 function P0 thread 1
+----------------------------------------------------
+  x$w_buff1=0 (00000000000000000000000000000000)
+
+State 200 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 153 function P0 thread 1
+----------------------------------------------------
+  x$w_buff0_used=TRUE (00000001)
+
+State 201 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 154 function P0 thread 1
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 202 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 155 function P0 thread 1
+----------------------------------------------------
+  x$r_buff0_thd1=FALSE (00000000)
+
+State 203 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 156 function P0 thread 1
+----------------------------------------------------
+  x$r_buff1_thd1=FALSE (00000000)
+
+State 204 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 157 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_p0_EAX=0 (00000000000000000000000000000000)
+
+State 205 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 158 function P0 thread 1
+----------------------------------------------------
+  x=0 (00000000000000000000000000000000)
+
+State 206 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 159 function P0 thread 1
+----------------------------------------------------
+  x$flush_delayed=FALSE (00000000)
+
+State 209 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 214 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 217 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 194 function P1 thread 2
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 218 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 195 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0_used=FALSE (00000000)
+
+State 219 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 196 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 220 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 197 function P1 thread 2
+----------------------------------------------------
+  x$r_buff0_thd2=TRUE (00000001)
+
+State 221 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 198 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd2=FALSE (00000000)
+
+State 224 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 229 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 232 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 201 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_cnt=1 (00000000000000000000000000000001)
+
+State 235 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 244 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 249 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 254 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 257 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 164 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_cnt=2 (00000000000000000000000000000010)
+
+State 260 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 270 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 273 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 234 function main thread 0
+----------------------------------------------------
+  main$tmp_guard0=TRUE (00000001)
+
+State 276 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 281 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 289 file <builtin-library>-pthread_create line 20 function __actual_thread_spawn thread 2
+----------------------------------------------------
+  arg=NULL (0000000000000000000000000000000000000000000000000000000000000000)
+
+State 292 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 238 function main thread 0
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 293 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 239 function main thread 0
+----------------------------------------------------
+  x$w_buff0_used=FALSE (00000000)
+
+State 294 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 240 function main thread 0
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 295 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 241 function main thread 0
+----------------------------------------------------
+  x$r_buff0_thd0=FALSE (00000000)
+
+State 296 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 242 function main thread 0
+----------------------------------------------------
+  x$r_buff1_thd0=FALSE (00000000)
+
+State 299 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 304 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 307 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 246 function main thread 0
+----------------------------------------------------
+  main$tmp_guard1=FALSE (00000000)
+
+State 310 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 316 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 249 function main thread 0
+----------------------------------------------------
+  expression=0 (00000000000000000000000000000000)
+
+Violated property:
+  file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.oepc_false-unreach-call.c line 2 function __VERIFIER_assert
+  assertion
+  FALSE
+
+VERIFICATION FAILED
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c
+Converting
+Type-checking rfi003_rmo.opt_false-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 20626 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+99498 variables, 471192 clauses
+SAT checker: negated claim is SATISFIABLE, i.e., does not hold
+Runtime decision procedure: 12.557s
+Building error trace
+
+Counterexample:
+
+State 108 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 111 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 174 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1=0 (00000000000000000000000000000000)
+
+State 112 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 175 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0=1 (00000000000000000000000000000001)
+
+State 113 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 176 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 114 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 177 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0_used=TRUE (00000001)
+
+State 117 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 178 function P1 thread 2
+----------------------------------------------------
+  expression=1 (00000000000000000000000000000001)
+
+State 121 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 179 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd0=FALSE (00000000)
+
+State 122 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 180 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd1=FALSE (00000000)
+
+State 123 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 181 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd2=FALSE (00000000)
+
+State 124 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 182 function P1 thread 2
+----------------------------------------------------
+  x$r_buff0_thd2=TRUE (00000001)
+
+State 127 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 132 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 135 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 185 function P1 thread 2
+----------------------------------------------------
+  y=1 (00000000000000000000000000000001)
+
+State 138 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 143 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 146 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 188 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EAX=1 (00000000000000000000000000000001)
+
+State 149 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 154 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 157 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 191 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EBX=1 (00000000000000000000000000000001)
+
+State 160 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 165 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 168 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 141 function P0 thread 1
+----------------------------------------------------
+  y=2 (00000000000000000000000000000010)
+
+State 171 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 176 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 181 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 186 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 191 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 146 function P0 thread 1
+----------------------------------------------------
+  weak$$choice0=TRUE (00000001)
+
+State 194 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 147 function P0 thread 1
+----------------------------------------------------
+  weak$$choice2=TRUE (00000001)
+
+State 195 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 148 function P0 thread 1
+----------------------------------------------------
+  x$flush_delayed=TRUE (00000001)
+
+State 196 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 149 function P0 thread 1
+----------------------------------------------------
+  x$mem_tmp=0 (00000000000000000000000000000000)
+
+State 197 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 150 function P0 thread 1
+----------------------------------------------------
+  x=0 (00000000000000000000000000000000)
+
+State 198 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 151 function P0 thread 1
+----------------------------------------------------
+  x$w_buff0=1 (00000000000000000000000000000001)
+
+State 199 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 152 function P0 thread 1
+----------------------------------------------------
+  x$w_buff1=0 (00000000000000000000000000000000)
+
+State 200 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 153 function P0 thread 1
+----------------------------------------------------
+  x$w_buff0_used=TRUE (00000001)
+
+State 201 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 154 function P0 thread 1
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 202 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 155 function P0 thread 1
+----------------------------------------------------
+  x$r_buff0_thd1=FALSE (00000000)
+
+State 203 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 156 function P0 thread 1
+----------------------------------------------------
+  x$r_buff1_thd1=FALSE (00000000)
+
+State 204 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 157 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_p0_EAX=0 (00000000000000000000000000000000)
+
+State 205 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 158 function P0 thread 1
+----------------------------------------------------
+  x=0 (00000000000000000000000000000000)
+
+State 206 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 159 function P0 thread 1
+----------------------------------------------------
+  x$flush_delayed=FALSE (00000000)
+
+State 209 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 214 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 219 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 224 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 227 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 164 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_cnt=1 (00000000000000000000000000000001)
+
+State 230 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 240 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 243 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 194 function P1 thread 2
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 244 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 195 function P1 thread 2
+----------------------------------------------------
+  x$w_buff0_used=FALSE (00000000)
+
+State 245 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 196 function P1 thread 2
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 246 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 197 function P1 thread 2
+----------------------------------------------------
+  x$r_buff0_thd2=TRUE (00000001)
+
+State 247 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 198 function P1 thread 2
+----------------------------------------------------
+  x$r_buff1_thd2=FALSE (00000000)
+
+State 250 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 255 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 258 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 201 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_cnt=2 (00000000000000000000000000000010)
+
+State 261 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 270 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 273 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 234 function main thread 0
+----------------------------------------------------
+  main$tmp_guard0=TRUE (00000001)
+
+State 276 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 281 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 284 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 238 function main thread 0
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 285 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 239 function main thread 0
+----------------------------------------------------
+  x$w_buff0_used=FALSE (00000000)
+
+State 286 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 240 function main thread 0
+----------------------------------------------------
+  x$w_buff1_used=FALSE (00000000)
+
+State 287 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 241 function main thread 0
+----------------------------------------------------
+  x$r_buff0_thd0=FALSE (00000000)
+
+State 288 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 242 function main thread 0
+----------------------------------------------------
+  x$r_buff1_thd0=FALSE (00000000)
+
+State 291 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 296 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 300 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 246 function main thread 0
+----------------------------------------------------
+  main$tmp_guard1=FALSE (00000000)
+
+State 308 file <builtin-library>-pthread_create line 20 function __actual_thread_spawn thread 2
+----------------------------------------------------
+  arg=NULL (0000000000000000000000000000000000000000000000000000000000000000)
+
+State 311 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 316 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 249 function main thread 0
+----------------------------------------------------
+  expression=0 (00000000000000000000000000000000)
+
+Violated property:
+  file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi003_rmo.opt_false-unreach-call.c line 2 function __VERIFIER_assert
+  assertion
+  FALSE
+
+VERIFICATION FAILED
+CBMC version 5.1 64-bit x86_64 macos
+CBMC version 5.1 64-bit x86_64 macos

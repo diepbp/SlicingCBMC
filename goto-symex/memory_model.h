@@ -17,7 +17,7 @@ public:
   explicit memory_model_baset(const namespacet &_ns);
   virtual ~memory_model_baset();
 
-  virtual void operator()(symex_target_equationt &, std::vector<std::vector<std::string>> atomic_control)=0;
+  virtual void operator()(symex_target_equationt &)=0;
   
 protected:
   // program order
@@ -33,19 +33,10 @@ protected:
     std::pair<event_it, event_it>, symbol_exprt> choice_symbolst;
   choice_symbolst choice_symbols;
 
-  void read_from(symex_target_equationt &equation,
-  		std::vector<std::vector<std::string>> atomic_control,
-  		std::map<std::string, std::pair<int, std::string>> var_loop);
-
   void read_from(symex_target_equationt &equation);
+  
   // maps thread numbers to an event list
   typedef std::map<unsigned, event_listt> per_thread_mapt;
-
-  symbol_exprt select_choice(
-  		const event_it r,
-  		const event_it w,
-  		std::map<std::pair<event_it, event_it>, symbol_exprt> &choice_map,
-  		std::map<std::string, std::pair<int, std::string>> var_loop);
 };
 
 #endif

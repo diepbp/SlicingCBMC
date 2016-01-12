@@ -23,6 +23,29 @@ extern void __VERIFIER_error() __attribute__ ((__noreturn__));
 
 
 
+void * P0(void *arg);
+
+
+void * P1(void *arg);
+
+
+void * P2(void *arg);
+
+
+void * P3(void *arg);
+
+
+void fence();
+
+
+void isync();
+
+
+void lwfence();
+
+
+
+
 int __unbuffered_cnt;
 
 

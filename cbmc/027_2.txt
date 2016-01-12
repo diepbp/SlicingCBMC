@@ -1,0 +1,32 @@
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_power.oepc_false-unreach-call.c line 178 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_power.oepc_false-unreach-call.c line 238 function P3: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 179 function P0: function `nondet_0' is not declared
+       59.52 real        58.06 user         0.65 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_power.opt_false-unreach-call.c line 165 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_power.opt_false-unreach-call.c line 176 function P1: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 166 function P0: function `nondet_0' is not declared
+       43.38 real        42.36 user         0.47 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_pso.oepc_false-unreach-call.c line 180 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_pso.oepc_false-unreach-call.c line 240 function P3: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 181 function P0: function `nondet_0' is not declared
+       65.25 real        63.69 user         0.68 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_pso.opt_false-unreach-call.c line 167 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_pso.opt_false-unreach-call.c line 178 function P1: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 168 function P0: function `nondet_0' is not declared
+       45.65 real        44.20 user         0.55 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_rmo.oepc_false-unreach-call.c line 180 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_rmo.oepc_false-unreach-call.c line 240 function P3: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 181 function P0: function `nondet_0' is not declared
+       58.64 real        57.21 user         0.63 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_rmo.opt_false-unreach-call.c line 166 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_rmo.opt_false-unreach-call.c line 177 function P1: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 167 function P0: function `nondet_0' is not declared
+       46.63 real        43.99 user         0.66 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_tso.oepc_false-unreach-call.c line 168 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_tso.oepc_false-unreach-call.c line 294 function main: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 169 function P0: function `nondet_0' is not declared
+       13.51 real        12.99 user         0.21 sys
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_tso.opt_false-unreach-call.c line 168 function P0: function `nondet_0' is not declared
+file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/mix027_tso.opt_false-unreach-call.c line 294 function main: function `nondet_1' is not declared
+file //Users//diepbp//Desktop//test//slicing_init.c line 169 function P0: function `nondet_0' is not declared
+       14.29 real        13.65 user         0.24 sys

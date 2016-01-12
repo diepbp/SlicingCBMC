@@ -47,14 +47,13 @@ class bmc_all_propertiest:
   public messaget
 {
 public:
-
   bmc_all_propertiest(
-      const goto_functionst &_goto_functions,
-      prop_convt &_solver,
-      bmct &_bmc):
-      goto_functions(_goto_functions), solver(_solver), bmc(_bmc)
-	{
-	}
+    const goto_functionst &_goto_functions,
+    prop_convt &_solver,
+    bmct &_bmc):
+    goto_functions(_goto_functions), solver(_solver), bmc(_bmc)
+  {
+  }
 
   bool operator()();
 
@@ -63,22 +62,21 @@ public:
   struct updating_assertiont
   {
   	exprt guard;
-  	std::vector<exprt> new_guards;
+  	exprt new_guard;
 
   	updating_assertiont(exprt _cond)
   	{
   		guard = _cond;
   	}
 
-		updating_assertiont(exprt _old, std::vector<exprt> _new_guards)
+		updating_assertiont(exprt _cond, exprt _guard)
 		{
-			guard = _old;
-			new_guards = _new_guards;
+			guard = _cond;
+			new_guard = _guard;
 		}
   };
 
   std::vector<updating_assertiont> updating_exprt;
-  std::vector<symex_target_equationt::SSA_stept> trace_guards;
 
   struct goalt
   {
@@ -160,12 +158,15 @@ void bmc_all_propertiest::goal_covered(const cover_goalst::goalt &)
         symex_target_equationt::SSA_stepst::iterator next=*c_it;
         next++; // include the assertion
 
-        exprt old_guard; trace_guards.clear();
-        std::vector<exprt> new_guards;
-        build_goto_trace_new(bmc.equation, bmc.equation.SSA_steps.end(), solver, bmc.ns, g.goto_trace, new_guards, old_guard);
-//        build_goto_trace_new_2(bmc.equation, next, solver, bmc.ns, g.goto_trace, new_guard, old_guard, trace_guards);
-        updating_exprt.push_back(updating_assertiont(old_guard, new_guards));
+        exprt new_guard, old_guard;
+        build_goto_trace_new(bmc.equation, bmc.equation.SSA_steps.end(), solver, bmc.ns, g.goto_trace, new_guard, old_guard);
+        updating_exprt.push_back(updating_assertiont(old_guard, new_guard));
 
+//        bmc.update_conversion(solver, new_guard, old_guard);
+//        std::unique_ptr<propt> new_solver;
+//        bv_cbmct bv_cbmc(bmc.ns, *new_solver);
+//        prop_convt& new_prop =  bv_cbmc;
+//        bmc.do_conversion(new_prop);
         break;
       }
     }
@@ -257,12 +258,12 @@ bool bmc_all_propertiest::operator()()
   }
 
 
-
   status() << "Running " << solver.decision_procedure_text() << eom;
 
-  cover_goals();
+  cover_goals();  
 
   // output runtime
+
   {
     absolute_timet sat_stop=current_time();
     status() << "Runtime decision procedure: "
@@ -419,7 +420,7 @@ void construct_atomic_array(std::vector<int> &atomic_sign, std::vector<std::stri
 }
 /*******************************************************************\
 
-Function: simulate_trace for sequential programs
+Function: simulate_trace
 
   Inputs:
 
@@ -428,7 +429,7 @@ Function: simulate_trace for sequential programs
  Purpose:
 
 \*******************************************************************/
-void bmct::simulate_trace_3(goto_tracet goto_trace,
+void bmct::simulate_trace_2(goto_tracet goto_trace,
     std::vector<variable_struct> variables,
     std::vector<int> lines_map,
     std::vector<std::string> lines,
@@ -455,270 +456,8 @@ void bmct::simulate_trace_3(goto_tracet goto_trace,
 	int prev_instance = -1;
 	std::vector<int> lines_tmp;
 
-	// add "main"
-	std::vector<command_data> line_proc_main;
-	procedure_data m("main", 1);
-	m.set_commands(line_proc_main);
-	new_file.push_back(m);
-	prev_line["main"] = 0;
-
-	// get start from thread 0
-	for (std::list<goto_trace_stept>::iterator it = goto_trace.steps.begin();
-	    it != goto_trace.steps.end();)
-	{
-		if (it->hidden || it->pc->source_location.is_nil())
-		{
-			it++;
-			continue;
-		}
-		if (it->thread_nr == 0)
-			break;
-		else
-			it = goto_trace.steps.erase(it);
-	}
-
-
-
-	// handle instructions
-	for (std::list<goto_trace_stept>::iterator it = goto_trace.steps.begin();
-	    it != goto_trace.steps.end(); ++it)
-	{
-		if (it->hidden || it->pc->source_location.is_nil())
-			continue;
-
-		unsigned int line1 = std::stoi(as_string((*it).pc->source_location.get_line()), nullptr);
-
-		unsigned int bak_line = line1;
-		line1 = lines_map[line1];
-
-
-		// get procedure name
-		std::string proc = as_string((*it).pc->source_location.get_function());
-
-		// do not handle atomic because there are no atomic blocks
-		if (proc.size() == 0 ||
-				proc.find("__VERIFIER_atomic_") != std::string::npos)
-			continue;
-
-		std::cout << "Proc name: " <<  proc << std::endl;
-		// do not handle procedure of C-thread
-		if (proc.compare("__actual_thread_spawn") == 0
-		    || proc.compare("pthread_create") == 0)
-			continue;
-
-		std::string abstracted_line = from_expr(ns, "", it->pc->code);
-
-		// get the current name of proc
-		std::string current_instance_proc;
-		if (proc.compare("main") == 0 || proc.find("__VERIFIER_atomic_") != std::string::npos)
-			current_instance_proc = proc;
-		else
-			current_instance_proc = proc + "_call_" + std::to_string(it->thread_nr);
-
-		// find index proc in new_file
-		int index = find_procedure_index(proc, it->thread_nr, new_file);
-
-		// procedure is not defined
-		if (index == -1)
-		{
-			//add procedure definition
-			std::vector<command_data> tmp_proc;
-			procedure_data m(proc, 1);
-			m.set_commands(tmp_proc);
-			new_file.push_back(m);
-			prev_line[proc] = 0;
-
-			index = new_file.size() - 1;
-		}
-
-		std::vector<command_data> proc_lines = new_file[index].commands;
-
-		if (prev_line.find(current_instance_proc) == prev_line.end())
-		{
-			std::cout << current_instance_proc
-			    << " Error in if (prev_line.find(current_instance_proc) == prev_line.end())\n";
-		}
-
-		if (prev_line[current_instance_proc] == line1)
-			// same line
-			continue;
-
-
-		// print atomic for previous line
-		for (std::map<std::string, int>::iterator i = prev_line.begin(); i != prev_line.end(); ++i)
-		{
-			if (i->second <= 0)
-				continue;
-
-			int tmp = atomic_sign.at(i->second - 1);
-			if (tmp != -1)
-			{
-				for (int j = i->second + 1; j < tmp; ++j)
-					proc_lines.push_back(command_data(j, proc, it->thread_nr));
-				prev_line[i->first] = tmp;
-			}
-		}
-
-		// find path
-		lines_tmp = find_lines(prev_line[current_instance_proc], line1, CFG, checked);
-
-		if (lines_tmp.size() == 0)
-		// reach the end of procedure, start again
-		{
-			std::cout << prev_line[current_instance_proc] << " vssssss " << line1
-			    << " Error in if (lines_tmp.size() == 0)\n";
-			continue;
-		}
-
-		for (int k = 0; k < lines_tmp.size() - 1; ++k)
-		{
-			proc_lines.push_back(command_data(lines_tmp[k] - 1, proc, it->thread_nr));
-		}
-
-		// handle loop
-		int line2 = -1;
-		if (it->is_location())
-		{
-			std::list<goto_trace_stept>::iterator itx = std::next(it);
-//			std::cout << "we here\n";
-			while (true)
-			{
-				if (itx == goto_trace.steps.end())
-					break;
-				if (itx->hidden || itx->pc->source_location.is_nil())
-				{
-					itx = std::next(itx);
-					continue;
-				}
-
-				if (as_string((*itx).pc->source_location.get_function()).compare(proc) == 0 &&
-						lines_map[std::stoi(as_string((*itx).pc->source_location.get_line()), nullptr)] != line1)
-				{
-					line2 = std::stoi(as_string((*itx).pc->source_location.get_line()),
-					    nullptr);
-					break;
-				} else
-					itx = std::next(itx);
-			}
-
-		}
-		if (line2 > 0)
-			line2 = lines_map[line2];
-
-		std::string expr_condition;
-		if (prev_line[current_instance_proc] > line1)
-			expr_condition = get_condition_expr(lines, (line1 - 1), it, line2, slicing_lines[line1]);
-		else
-			expr_condition = get_condition_expr(lines, -(line1 - 1), it, line2, slicing_lines[line1]);
-
-		if (expr_condition.size() > 0)
-			std::cout << "expr_condition: " << expr_condition << std::endl;
-
-		// handle assignment
-		bool nondet_assign = false;
-		if (it->type == goto_trace_stept::ASSIGNMENT)
-		{
-			std::cout << "assignment\n";
-			const irep_idt &identifier = it->lhs_object.get_identifier();
-			if (is_index_member_symbol(it->full_lhs))
-			{
-				expr_condition = from_expr(ns, identifier, it->full_lhs_value);
-			} else
-			{
-				expr_condition = from_expr(ns, identifier, it->lhs_object_value);
-			}
-
-			if (slicing_lines[line1] == RightAssign)
-			{
-				nondet_assign = true;
-				std::cout << "nondet_Assign: " << line1 << std::endl;
-			}
-		}
-		if (!nondet_assign)
-			proc_lines.push_back(command_data(lines_tmp[lines_tmp.size() - 1] - 1, expr_condition, proc, it->thread_nr));
-		else
-			proc_lines.push_back(command_data(lines_tmp[lines_tmp.size() - 1] - 1, expr_condition, true));
-
-		prev_line[current_instance_proc] = line1;
-
-		// handle function call
-		if (it->pc->is_function_call())
-		{
-			// reverse call function
-			proc_lines.at(proc_lines.size() - 1) = command_data(
-			    -proc_lines.at(proc_lines.size() - 1).line_number,
-			    proc_lines.at(proc_lines.size() - 1).condition, proc, it->thread_nr);
-
-			std::string code = from_expr(ns, (*it).pc->source_location.get_function(),
-			    (*it).pc->code);
-			std::cout << code << std::endl;
-
-			std::string new_proc_name = get_proc_name(code);
-
-			std::cout << "New proc name: " << new_proc_name << std::endl;
-
-			// create new instance of procedure
-			bool added = new_proc_name.find("__VERIFIER_atomic_")
-			    == std::string::npos;
-			if (added)
-			{
-				procedure_data tmp_proc(new_proc_name, it->thread_nr);
-				new_file.push_back(tmp_proc);
-				prev_line[generate_new_name(new_proc_name, it->thread_nr)] = 0;
-				std::cout << "Instance: " << it->thread_nr << std::endl;
-			} else
-			{
-				std::cout << "Instance: Nope" << std::endl;
-			}
-		}
-
-		if (index == -1)
-			std::cerr << "if (index == -1) beng beng\n";
-		else
-		{
-			new_file.at(index) = procedure_data(proc, it->thread_nr,
-			    proc_lines);
-		}
-	}
-
-	write_to_file(++counter, new_file, lines);
-}
-
-/*******************************************************************\
-
-Function: simulate_trace for concurrent program ---> one procedure
-
-  Inputs:
-
- Outputs:
-
- Purpose:
-
-\*******************************************************************/
-void bmct::simulate_trace_2(goto_tracet goto_trace,
-    std::vector<variable_struct> variables,
-    std::vector<int> lines_map,
-    std::vector<std::string> lines,
-    std::vector<std::vector<int>> CFG,
-    const std::vector<int> slicing_lines,
-
-    std::vector<int> atomic_sign)
-{
-	static int counter = 0;
-	bool checked[10000];
-	memset(checked, false, sizeof checked);
-	for (std::vector<int>::const_iterator it = slicing_lines.begin();
-	    it != slicing_lines.end(); ++it)
-		if ((*it) > 0)
-			checked[*it] = true;
-
-	// possibly a false, check it
-	// if the last step is assert -> false
-	std::vector<procedure_data> new_file;
-	std::map<std::string, int> prev_line;
-	int pre_thread = 0;
-	std::string pre_thread_name = "";
-	int prev_instance = -1;
+	// store the current instance of procedure
+	std::map<std::string, int> current_instance;
 
 	// add "main"
 	std::vector<command_data> line_proc_main;
@@ -762,7 +501,8 @@ void bmct::simulate_trace_2(goto_tracet goto_trace,
 
 		// do not handle atomic because there are no atomic blocks
 		if (proc.size() == 0 ||
-				proc.find("__VERIFIER_atomic_") != std::string::npos)
+				proc.find("__VERIFIER_atomic_begin") != std::string::npos ||
+		    proc.find("__VERIFIER_atomic_end") != std::string::npos)
 			continue;
 
 		// do not handle procedure of C-thread
@@ -770,27 +510,35 @@ void bmct::simulate_trace_2(goto_tracet goto_trace,
 		    || proc.compare("pthread_create") == 0)
 			continue;
 
+		std::cout << line1 << " -in- " << proc << std::endl;
+
 		// get the current name of proc
 		std::string current_instance_proc;
 		if (proc.compare("main") == 0 || proc.find("__VERIFIER_atomic_") != std::string::npos)
 			current_instance_proc = proc;
 		else
-			current_instance_proc = proc + "_call_" + std::to_string(it->thread_nr);
+			current_instance_proc = proc + "_call_" + std::to_string(current_instance[proc]);
 
 		// find index proc in new_file
-		int index = find_procedure_index(proc, it->thread_nr, new_file);
+		int index = find_procedure_index(proc, current_instance[proc], new_file);
 
 		// procedure is not defined
 		if (index == -1)
 		{
 			//add procedure definition
 			std::vector<command_data> tmp_proc;
-			procedure_data m(proc, 0);
+			procedure_data m(proc, 1);
 			m.set_commands(tmp_proc);
 			new_file.push_back(m);
 			prev_line[proc] = 0;
 
 			index = new_file.size() - 1;
+		}
+
+		if (prev_line.find(current_instance_proc) == prev_line.end())
+		{
+			std::cout << current_instance_proc
+			    << " Error in if (prev_line.find(current_instance_proc) == prev_line.end())\n";
 		}
 
 		if (prev_line[current_instance_proc] == line1)
@@ -808,15 +556,13 @@ void bmct::simulate_trace_2(goto_tracet goto_trace,
 			if (tmp != -1)
 			{
 				for (int j = i->second + 1; j < tmp; ++j)
-					proc_lines.push_back(command_data(j, proc, it->thread_nr));
+					proc_lines.push_back(command_data(j));
 				prev_line[i->first] = tmp;
 			}
 		}
 
-		std::cout << "Proc name:: " << line1 << " " << proc << std::endl;
-
 		// find path
-		std::vector<int> lines_tmp = find_lines(prev_line[current_instance_proc], line1, CFG, checked);
+		lines_tmp = find_lines(prev_line[current_instance_proc], line1, CFG, checked);
 
 		if (lines_tmp.size() == 0)
 		// reach the end of procedure, start again
@@ -828,28 +574,10 @@ void bmct::simulate_trace_2(goto_tracet goto_trace,
 
 		for (int k = 0; k < lines_tmp.size() - 1; ++k)
 		{
-			std::cout << "check line: " << lines_tmp[k] << std::endl;
-			// check the loop/if: go direct to inside loop/if, we need to check the begining of loop/if
-			if (lines.at(lines_tmp[k] - 1).find("if") != std::string::npos ||
-					lines.at(lines_tmp[k] - 1).find("while") != std::string::npos)
-			{
-				int start_bracket = -1, finish_bracket = -1;
-				find_brackets(lines_tmp[k] - 1, lines, start_bracket, finish_bracket);
-				std::cout << "if or while: " << line1 - 1 << " " << start_bracket << " " << finish_bracket << std::endl;
-				if (line1 < finish_bracket)
-				{
-					assert(finish_bracket != -1);
-					proc_lines.push_back(command_data(lines_tmp[k] - 1, " ", proc, it->thread_nr));
-				}
-				else
-					proc_lines.push_back(command_data(lines_tmp[k] - 1, proc, it->thread_nr));
-			}
-			else
-				proc_lines.push_back(command_data(lines_tmp[k] - 1, proc, it->thread_nr));
+			proc_lines.push_back(command_data(lines_tmp[k] - 1));
 		}
 
 		// handle loop
-		// --> check the next statement in trace
 		int line2 = -1;
 		if (it->is_location())
 		{
@@ -865,8 +593,11 @@ void bmct::simulate_trace_2(goto_tracet goto_trace,
 					continue;
 				}
 
-				if (as_string((*itx).pc->source_location.get_function()).compare(proc) == 0 &&
-						lines_map[std::stoi(as_string((*itx).pc->source_location.get_line()), nullptr)] != line1)
+				if (as_string((*itx).pc->source_location.get_function()).compare(proc)
+				    == 0
+				    && lines_map[std::stoi(
+				        as_string((*itx).pc->source_location.get_line()), nullptr)]
+				        != line1)
 				{
 					line2 = std::stoi(as_string((*itx).pc->source_location.get_line()),
 					    nullptr);
@@ -874,16 +605,16 @@ void bmct::simulate_trace_2(goto_tracet goto_trace,
 				} else
 					itx = std::next(itx);
 			}
+
 		}
-		if (line2 > 0) line2 = lines_map[line2];
-		std::cout << "slicing_lines :: " << line1 << " " << slicing_lines[line1] << std::endl;
+		if (line2 > 0)
+			line2 = lines_map[line2];
+
 		std::string expr_condition;
 		if (prev_line[current_instance_proc] > line1)
-			expr_condition = get_condition_expr(lines, (line1 - 1), it, line2, slicing_lines[line1]); // loop
+			expr_condition = get_condition_expr(lines, (line1 - 1), it, line2);
 		else
-			expr_condition = get_condition_expr(lines, -(line1 - 1), it, line2, slicing_lines[line1]); // loop, but go ahead
-
-		std::cout << "expr_condition: " <<lines[line1 - 1] << ": " << expr_condition << std::endl;
+			expr_condition = get_condition_expr(lines, -(line1 - 1), it, line2);
 
 		// handle assignment
 		bool nondet_assign = false;
@@ -906,9 +637,9 @@ void bmct::simulate_trace_2(goto_tracet goto_trace,
 			}
 		}
 		if (!nondet_assign)
-			proc_lines.push_back(command_data(lines_tmp[lines_tmp.size() - 1] - 1, expr_condition, proc, it->thread_nr));
+			proc_lines.push_back(command_data(lines_tmp[lines_tmp.size() - 1] - 1, expr_condition));
 		else
-			proc_lines.push_back(command_data(lines_tmp[lines_tmp.size() - 1] - 1, expr_condition, true, proc, it->thread_nr));
+			proc_lines.push_back(command_data(lines_tmp[lines_tmp.size() - 1] - 1, expr_condition, true));
 
 		prev_line[current_instance_proc] = line1;
 
@@ -918,9 +649,7 @@ void bmct::simulate_trace_2(goto_tracet goto_trace,
 			// reverse call function
 			proc_lines.at(proc_lines.size() - 1) = command_data(
 			    -proc_lines.at(proc_lines.size() - 1).line_number,
-			    proc_lines.at(proc_lines.size() - 1).condition,
-			    proc,
-			    it->thread_nr);
+			    proc_lines.at(proc_lines.size() - 1).condition);
 
 			std::string code = from_expr(ns, (*it).pc->source_location.get_function(),
 			    (*it).pc->code);
@@ -931,16 +660,24 @@ void bmct::simulate_trace_2(goto_tracet goto_trace,
 			std::cout << "New proc name: " << new_proc_name << std::endl;
 
 			// create new instance of procedure
-			bool added = new_proc_name.find("__VERIFIER_atomic_") == std::string::npos;
-			if (added)
+			std::map<std::string, int>::iterator it_proc = current_instance.find(new_proc_name);
+			std::vector<command_data> line_proc;
+			if (it_proc != current_instance.end())
 			{
-				procedure_data tmp_proc(new_proc_name, it->thread_nr);
-				new_file.push_back(tmp_proc);
-				prev_line[generate_new_name(new_proc_name, it->thread_nr)] = 0;
-				std::cout << "Instance: " << it->thread_nr << std::endl;
+				bool added = change_current_instance(current_instance, new_proc_name);
+				if (added)
+				{
+					int t_proc = current_instance[new_proc_name];
+					procedure_data tmp_proc(new_proc_name, t_proc + 1);
+					new_file.push_back(tmp_proc);
+					prev_line[generate_new_name(new_proc_name, t_proc + 1)] = 0;
+				}
 			} else
 			{
-				std::cout << "Instance: Nope" << std::endl;
+				current_instance[new_proc_name] = 1;
+				procedure_data tmp_proc(new_proc_name, 1);
+				new_file.push_back(tmp_proc);
+				prev_line[generate_new_name(new_proc_name, 1)] = 0;
 			}
 		}
 
@@ -948,12 +685,12 @@ void bmct::simulate_trace_2(goto_tracet goto_trace,
 			std::cerr << "if (index == -1) beng beng\n";
 		else
 		{
-			new_file.at(index) = procedure_data(proc, it->thread_nr,
+			new_file.at(index) = procedure_data(proc, current_instance[proc],
 			    proc_lines);
 		}
 	}
 
-	write_to_file_2(++counter, proc_lines, lines, variables);
+	write_to_file_2(++counter, proc_lines, lines);
 }
 /*******************************************************************\
 
@@ -966,344 +703,344 @@ Function: simulate_trace
  Purpose:
 
 \*******************************************************************/
-//void bmct::simulate_trace(goto_tracet goto_trace,
-//    std::vector<variable_struct> variables,
-//    std::vector<int> lines_map,
-//    std::vector<std::string> lines,
-//    std::vector<std::vector<int>> CFG,
-//    const std::vector<int> slicing_lines)
-//{
-//	static int counter = 0;
-//	bool checked[10000];
-//	memset(checked, false, sizeof checked);
-//	for (std::vector<int>::const_iterator it = slicing_lines.begin(); it != slicing_lines.end(); ++it)
-//		if ((*it) > 0)
-//				checked[*it] = true;
-//
-//	// possibly a false, check it
-//	// if the last step is assert -> false
-//	std::vector<procedure_data> new_file;
-//	std::map<std::string, int> prev_line;
-//	int pre_thread = 0;
-//	std::string pre_thread_name = "";
-//	int prev_instance = -1;
-//	std::vector<int> lines_tmp;
-//
-//	// store the current instance of procedure
-//	std::map<std::string, int> current_instance;
-//
-//	// add "main"
-//	std::vector<command_data> line_proc_main;
-//	procedure_data m("main", 1);
-//	m.set_commands(line_proc_main);
-//	new_file.push_back(m);
-//	prev_line["main"] = 0;
-//
-//	bool added_begin_atomic = false, added_end_atomic = false;
-//
-//	int remain_begin_atomic[1000];
-//	memset(remain_begin_atomic, 0, sizeof remain_begin_atomic);
-//
-//	// get start from thread 0
-//	for (std::list<goto_trace_stept>::iterator it = goto_trace.steps.begin();
-//	    it != goto_trace.steps.end();)
-//	{
-//		if (it->hidden || it->pc->source_location.is_nil())
-//		{
-//			it++;
-//			continue;
-//		}
-//		if (it->thread_nr == 0)
-//			break;
-//		else
-//			it = goto_trace.steps.erase(it);
-//	}
-//
-//	// handle instructions
-//	for (std::list<goto_trace_stept>::iterator it = goto_trace.steps.begin();
-//	    it != goto_trace.steps.end(); ++it)
-//	{
-//		if (it->hidden || it->pc->source_location.is_nil())
-//			continue;
-//
-//		unsigned int line1 = std::stoi(
-//		    as_string((*it).pc->source_location.get_line()), nullptr);
-//		unsigned int bak_line = line1;
-//
-//		line1 = lines_map[line1];
-//
-//		std::string proc = as_string((*it).pc->source_location.get_function());
-//
-//		std::cout << "line: " << line1 << std::endl;
-//		if (proc.size() == 0 ||
-//				(proc.find("__VERIFIER_atomic_begin") != std::string::npos && added_begin_atomic) ||
-//				(proc.find("__VERIFIER_atomic_end") != std::string::npos && added_end_atomic))
-//			continue;
-//
-//		if (proc.compare("__actual_thread_spawn") == 0
-//		    || proc.compare("pthread_create") == 0)
-//			continue;
-//
-////		std::cout << line1 << " -in- " << proc << std::endl;
-//
-//		// get the current name of proc
-//		std::string current_instance_proc;
-//		if (proc.compare("main") == 0 ||
-//				proc.find("__VERIFIER_atomic_") != std::string::npos)
-//		{
-//			current_instance_proc = proc;
-//		}
-//		else
-//			current_instance_proc = proc + "_call_"
-//			    + std::to_string(current_instance[proc]);
-//
-//		// find index proc
-//		int index = find_procedure_index(proc, current_instance[proc], new_file);
-//
-//		// procedure is defined
-//		if (index == -1)
-//		{
-//			//add procedure definition
-//			std::vector<command_data> tmp_proc;
-//			procedure_data m(proc, 1);
-//			m.set_commands(tmp_proc);
-//			new_file.push_back(m);
-//			prev_line[proc] = 0;
-//
-//			index = new_file.size() - 1;
-//		}
-//
-//		if (prev_line.find(current_instance_proc) == prev_line.end())
-//		{
-//			std::cout << current_instance_proc
-//			    << " Error in if (prev_line.find(current_instance_proc) == prev_line.end())\n";
-//		}
-//
-//		if (prev_line[current_instance_proc] == line1)
-//			// same line
-//			continue;
-//
-//		lines_tmp = find_lines(prev_line[current_instance_proc], line1, CFG,
-//		    checked);
-//
-//		if (lines_tmp.size() == 0)
-//		// reach the end of procedure, start again
-//		{
-//			std::cout << prev_line[current_instance_proc] << " vssssss " << line1
-//			    << " Error in if (lines_tmp.size() == 0)\n";
-//			continue;
-//		}
-//
-//		std::cout << "index: " << index << std::endl;
-//		std::vector<command_data> proc_lines = new_file[index].commands;
-//
-//		// for concurrent program
-//		if (pre_thread != it->thread_nr)
-//		{
-//			// add atomic begin
-//			if (proc.find("atomic") == std::string::npos)
-//			{
-//				if (proc.compare("main") != 0)
-//					proc_lines.push_back(command_data(32760, proc, it->thread_nr));
-//			} else
-//				remain_begin_atomic[it->thread_nr] = 1;
-//
-//			// add atomic end for prev thread
-//			int prev_index = find_procedure_index(pre_thread_name, prev_instance,
-//			    new_file);
-//
-//			if (prev_index != -1 && pre_thread_name.compare("main") != 0)
-//			{
-//				std::vector<command_data> prev_lines = new_file.at(prev_index).commands;
-//
-//				// find position to add "end atomic"
-//				// --> if not call, add at the end; otherwise add before the call
-//				std::string last_line = lines.at(abs(prev_lines.at(prev_lines.size() - 1).line_number));
-//				std::cout << "Last line: " << last_line << std::endl;
-//				if (!is_procedure_call(last_line))
-//				{
-//					std::cout << "Add bracket\n";
-//					prev_lines.push_back(command_data(-32760));
-//				} else
-//				{
-//					command_data temp = prev_lines.at(prev_lines.size() - 1);
-//					prev_lines.pop_back();
-//					prev_lines.push_back(command_data(-32760));
-//					prev_lines.push_back(temp);
-//					std::cout << "Change atomic order because of call\n";
-//				}
-//
-//				procedure_data tmp_proc(pre_thread_name, prev_instance, prev_lines);
-//				new_file.at(prev_index) = tmp_proc;
-//				std::cout << "End atomic: " << pre_thread_name << " " << prev_instance
-//				    << std::endl;
-//			}
-//
-//			pre_thread_name = proc;
-//			pre_thread = it->thread_nr;
-//			prev_instance = current_instance[proc];
-//			std::cout << "Pre thread: " << pre_thread_name << " " << prev_instance
-//			    << std::endl;
-//		}
-//
-//		else if (pre_thread_name.compare(proc) != 0)
-//		{
-//			if (remain_begin_atomic[it->thread_nr] == 1
-//			    && proc.find("atomic") == std::string::npos)
-//			{
-//				proc_lines.push_back(command_data(32760, proc, it->thread_nr));
-//				remain_begin_atomic[it->thread_nr] = 0;
-//			}
-//			pre_thread_name = proc;
-//
-//		}
-//
-//		for (int k = 0; k < lines_tmp.size() - 1; ++k)
-//		{
-//			proc_lines.push_back(command_data(lines_tmp[k] - 1, proc, it->thread_nr));
-//		}
-//
-//		// handle loop
-//		int line2 = -1;
-//		if (it->is_location())
-//		{
-//			std::list<goto_trace_stept>::iterator itx = std::next(it);
-////			std::cout << "we here\n";
-//			while (true)
-//			{
-//				if (itx == goto_trace.steps.end())
-//					break;
-//				if (itx->hidden || itx->pc->source_location.is_nil())
-//				{
-//					itx = std::next(itx);
-//					continue;
-//				}
-//
-//				if (as_string((*itx).pc->source_location.get_function()).compare(proc) == 0
-//				    && lines_map[std::stoi( as_string((*itx).pc->source_location.get_line()), nullptr)] != line1)
-//				{
-//					line2 = std::stoi(as_string((*itx).pc->source_location.get_line()), nullptr);
-//					break;
-//				} else
-//					itx = std::next(itx);
-//			}
-//
-//		}
-//		if (line2 > 0)
-//			line2 = lines_map[line2];
-//
-//		std::string expr_condition;
-//		if (prev_line[current_instance_proc] > line1)
-//			expr_condition = get_condition_expr(lines, (line1 - 1), it, line2);
-//		else
-//			expr_condition = get_condition_expr(lines, -(line1 - 1), it, line2);
-//
-//		// handle assignment
-//		bool nondet_assign = false;
-//		if (it->type == goto_trace_stept::ASSIGNMENT)
-//		{
-//			const irep_idt &identifier = it->lhs_object.get_identifier();
-//			if (is_index_member_symbol(it->full_lhs))
-//			{
-//				std::cout << "assignment 3: " << from_expr(ns, identifier, it->full_lhs)
-//				    << "-->" << from_expr(ns, identifier, it->full_lhs_value)
-//				    << std::endl;
-//				expr_condition = from_expr(ns, identifier, it->full_lhs_value);
-//			} else
-//			{
-//				std::cout << "assignment 3: "
-//				    << from_expr(ns, identifier, it->lhs_object) << "-->"
-//				    << from_expr(ns, identifier, it->lhs_object_value) << std::endl;
-//				expr_condition = from_expr(ns, identifier, it->lhs_object_value);
-//			}
-//
-//			if (slicing_lines[bak_line] == RightAssign)
-//				nondet_assign = true;
-//		}
-//		if (nondet_assign)
-//			proc_lines.push_back(command_data(lines_tmp[lines_tmp.size() - 1] - 1, expr_condition, proc, it->thread_nr));
-//		else
-//			proc_lines.push_back(command_data(lines_tmp[lines_tmp.size() - 1] - 1, expr_condition, true));
-//
-//		prev_line[current_instance_proc] = line1;
-//		if (it->pc->is_function_call())
-//		{
-//			// reverse call function
-//			proc_lines.at(proc_lines.size() - 1) = command_data(
-//			    -proc_lines.at(proc_lines.size() - 1).line_number,
-//			    proc_lines.at(proc_lines.size() - 1).condition, proc, it->thread_nr);
-//
-//			std::string code = from_expr(ns, (*it).pc->source_location.get_function(),
-//			    (*it).pc->code);
-//			std::cout << code << std::endl;
-//
-//			std::string new_proc_name = get_proc_name(code);
-//
-//			std::cout << "New proc name: " << new_proc_name << std::endl;
-//
-//			// create new instance of procedure
-//			std::map<std::string, int>::iterator it_proc = current_instance.find(
-//			    new_proc_name);
-//			std::vector<command_data> line_proc;
-//			if (it_proc != current_instance.end())
-//			{
-//				bool added = change_current_instance(current_instance, new_proc_name);
-//				if (added)
-//				{
-//					int t_proc = current_instance[new_proc_name];
-//					procedure_data tmp_proc(new_proc_name, t_proc + 1);
-//					new_file.push_back(tmp_proc);
-//					prev_line[generate_new_name(new_proc_name, t_proc + 1)] = 0;
-//				}
-//				else
-//				{
-//					if (new_proc_name.compare("__VERIFIER_atomic_begin") == 0)
-//						added_begin_atomic = true;
-//					else if (new_proc_name.compare("__VERIFIER_atomic_end") == 0)
-//						added_end_atomic = true;
-//				}
-//			} else
-//			{
-//				current_instance[new_proc_name] = 1;
-//				procedure_data tmp_proc(new_proc_name, 1);
-//				new_file.push_back(tmp_proc);
-//				prev_line[generate_new_name(new_proc_name, 1)] = 0;
-//			}
-//		}
-//
-//		if (index == -1)
-//			std::cerr << "if (index == -1) beng beng\n";
-//		else
-//		{
-//			new_file.at(index) = procedure_data(proc, current_instance[proc],
-//			    proc_lines);
-//		}
-//	}
-//
-//	// add the last slicing_unlock
-//	for (int itt = 0; itt != new_file.size(); itt++)
-//	{
-//		int counterx = 0;
-//		std::vector<command_data> tmp = new_file[itt].commands;
-//		for (std::vector<command_data>::iterator itx = tmp.begin();
-//		    itx != tmp.end(); ++itx)
-//		{
-//			if ((*itx).line_number == 32760)
-//				counterx++;
-//			else if ((*itx).line_number == -32760)
-//				counterx--;
-//		}
-//		if (counterx == 1)
-//		{
-//			command_data tmp_command(-32760);
-//			tmp.push_back(tmp_command);
-//			procedure_data tmp_proc(new_file[itt].name, new_file[itt].instance, tmp);
-//			new_file.at(itt) = tmp_proc;
-//		}
-//	}
-//
-//	write_to_file(++counter, new_file, lines);
-//}
+void bmct::simulate_trace(goto_tracet goto_trace,
+    std::vector<variable_struct> variables,
+    std::vector<int> lines_map,
+    std::vector<std::string> lines,
+    std::vector<std::vector<int>> CFG,
+    const std::vector<int> slicing_lines)
+{
+	static int counter = 0;
+	bool checked[10000];
+	memset(checked, false, sizeof checked);
+	for (std::vector<int>::const_iterator it = slicing_lines.begin(); it != slicing_lines.end(); ++it)
+		if ((*it) > 0)
+				checked[*it] = true;
+
+	// possibly a false, check it
+	// if the last step is assert -> false
+	std::vector<procedure_data> new_file;
+	std::map<std::string, int> prev_line;
+	int pre_thread = 0;
+	std::string pre_thread_name = "";
+	int prev_instance = -1;
+	std::vector<int> lines_tmp;
+
+	// store the current instance of procedure
+	std::map<std::string, int> current_instance;
+
+	// add "main"
+	std::vector<command_data> line_proc_main;
+	procedure_data m("main", 1);
+	m.set_commands(line_proc_main);
+	new_file.push_back(m);
+	prev_line["main"] = 0;
+
+	bool added_begin_atomic = false, added_end_atomic = false;
+
+	int remain_begin_atomic[1000];
+	memset(remain_begin_atomic, 0, sizeof remain_begin_atomic);
+
+	// get start from thread 0
+	for (std::list<goto_trace_stept>::iterator it = goto_trace.steps.begin();
+	    it != goto_trace.steps.end();)
+	{
+		if (it->hidden || it->pc->source_location.is_nil())
+		{
+			it++;
+			continue;
+		}
+		if (it->thread_nr == 0)
+			break;
+		else
+			it = goto_trace.steps.erase(it);
+	}
+
+	// handle instructions
+	for (std::list<goto_trace_stept>::iterator it = goto_trace.steps.begin();
+	    it != goto_trace.steps.end(); ++it)
+	{
+		if (it->hidden || it->pc->source_location.is_nil())
+			continue;
+
+		unsigned int line1 = std::stoi(
+		    as_string((*it).pc->source_location.get_line()), nullptr);
+		unsigned int bak_line = line1;
+
+		line1 = lines_map[line1];
+
+		std::string proc = as_string((*it).pc->source_location.get_function());
+
+		std::cout << "line: " << line1 << std::endl;
+		if (proc.size() == 0 ||
+				(proc.find("__VERIFIER_atomic_begin") != std::string::npos && added_begin_atomic) ||
+				(proc.find("__VERIFIER_atomic_end") != std::string::npos && added_end_atomic))
+			continue;
+
+		if (proc.compare("__actual_thread_spawn") == 0
+		    || proc.compare("pthread_create") == 0)
+			continue;
+
+		std::cout << line1 << " -in- " << proc << std::endl;
+
+		// get the current name of proc
+		std::string current_instance_proc;
+		if (proc.compare("main") == 0 ||
+				proc.find("__VERIFIER_atomic_") != std::string::npos)
+		{
+			current_instance_proc = proc;
+		}
+		else
+			current_instance_proc = proc + "_call_"
+			    + std::to_string(current_instance[proc]);
+
+		// find index proc
+		int index = find_procedure_index(proc, current_instance[proc], new_file);
+
+		// procedure is defined
+		if (index == -1)
+		{
+			//add procedure definition
+			std::vector<command_data> tmp_proc;
+			procedure_data m(proc, 1);
+			m.set_commands(tmp_proc);
+			new_file.push_back(m);
+			prev_line[proc] = 0;
+
+			index = new_file.size() - 1;
+		}
+
+		if (prev_line.find(current_instance_proc) == prev_line.end())
+		{
+			std::cout << current_instance_proc
+			    << " Error in if (prev_line.find(current_instance_proc) == prev_line.end())\n";
+		}
+
+		if (prev_line[current_instance_proc] == line1)
+			// same line
+			continue;
+
+		lines_tmp = find_lines(prev_line[current_instance_proc], line1, CFG,
+		    checked);
+
+		if (lines_tmp.size() == 0)
+		// reach the end of procedure, start again
+		{
+			std::cout << prev_line[current_instance_proc] << " vssssss " << line1
+			    << " Error in if (lines_tmp.size() == 0)\n";
+			continue;
+		}
+
+		std::cout << "index: " << index << std::endl;
+		std::vector<command_data> proc_lines = new_file[index].commands;
+
+		// for concurrent program
+		if (pre_thread != it->thread_nr)
+		{
+			// add atomic begin
+			if (proc.find("atomic") == std::string::npos)
+			{
+				if (proc.compare("main") != 0)
+					proc_lines.push_back(command_data(32760));
+			} else
+				remain_begin_atomic[it->thread_nr] = 1;
+
+			// add atomic end for prev thread
+			int prev_index = find_procedure_index(pre_thread_name, prev_instance,
+			    new_file);
+
+			if (prev_index != -1 && pre_thread_name.compare("main") != 0)
+			{
+				std::vector<command_data> prev_lines = new_file.at(prev_index).commands;
+
+				// find position to add "end atomic"
+				// --> if not call, add at the end; otherwise add before the call
+				std::string last_line = lines.at(abs(prev_lines.at(prev_lines.size() - 1).line_number));
+				std::cout << "Last line: " << last_line << std::endl;
+				if (!is_procedure_call(last_line))
+				{
+					std::cout << "Add bracket\n";
+					prev_lines.push_back(command_data(-32760));
+				} else
+				{
+					command_data temp = prev_lines.at(prev_lines.size() - 1);
+					prev_lines.pop_back();
+					prev_lines.push_back(command_data(-32760));
+					prev_lines.push_back(temp);
+					std::cout << "Change atomic order because of call\n";
+				}
+
+				procedure_data tmp_proc(pre_thread_name, prev_instance, prev_lines);
+				new_file.at(prev_index) = tmp_proc;
+				std::cout << "End atomic: " << pre_thread_name << " " << prev_instance
+				    << std::endl;
+			}
+
+			pre_thread_name = proc;
+			pre_thread = it->thread_nr;
+			prev_instance = current_instance[proc];
+			std::cout << "Pre thread: " << pre_thread_name << " " << prev_instance
+			    << std::endl;
+		}
+
+		else if (pre_thread_name.compare(proc) != 0)
+		{
+			if (remain_begin_atomic[it->thread_nr] == 1
+			    && proc.find("atomic") == std::string::npos)
+			{
+				proc_lines.push_back(command_data(32760));
+				remain_begin_atomic[it->thread_nr] = 0;
+			}
+			pre_thread_name = proc;
+
+		}
+
+		for (int k = 0; k < lines_tmp.size() - 1; ++k)
+		{
+			proc_lines.push_back(command_data(lines_tmp[k] - 1));
+		}
+
+		// handle loop
+		int line2 = -1;
+		if (it->is_location())
+		{
+			std::list<goto_trace_stept>::iterator itx = std::next(it);
+			std::cout << "we here\n";
+			while (true)
+			{
+				if (itx == goto_trace.steps.end())
+					break;
+				if (itx->hidden || itx->pc->source_location.is_nil())
+				{
+					itx = std::next(itx);
+					continue;
+				}
+
+				if (as_string((*itx).pc->source_location.get_function()).compare(proc) == 0
+				    && lines_map[std::stoi( as_string((*itx).pc->source_location.get_line()), nullptr)] != line1)
+				{
+					line2 = std::stoi(as_string((*itx).pc->source_location.get_line()), nullptr);
+					break;
+				} else
+					itx = std::next(itx);
+			}
+
+		}
+		if (line2 > 0)
+			line2 = lines_map[line2];
+
+		std::string expr_condition;
+		if (prev_line[current_instance_proc] > line1)
+			expr_condition = get_condition_expr(lines, (line1 - 1), it, line2);
+		else
+			expr_condition = get_condition_expr(lines, -(line1 - 1), it, line2);
+
+		// handle assignment
+		bool nondet_assign = false;
+		if (it->type == goto_trace_stept::ASSIGNMENT)
+		{
+			const irep_idt &identifier = it->lhs_object.get_identifier();
+			if (is_index_member_symbol(it->full_lhs))
+			{
+				std::cout << "assignment 3: " << from_expr(ns, identifier, it->full_lhs)
+				    << "-->" << from_expr(ns, identifier, it->full_lhs_value)
+				    << std::endl;
+				expr_condition = from_expr(ns, identifier, it->full_lhs_value);
+			} else
+			{
+				std::cout << "assignment 3: "
+				    << from_expr(ns, identifier, it->lhs_object) << "-->"
+				    << from_expr(ns, identifier, it->lhs_object_value) << std::endl;
+				expr_condition = from_expr(ns, identifier, it->lhs_object_value);
+			}
+
+			if (slicing_lines[bak_line] == RightAssign)
+				nondet_assign = true;
+		}
+		if (nondet_assign)
+			proc_lines.push_back(command_data(lines_tmp[lines_tmp.size() - 1] - 1, expr_condition));
+		else
+			proc_lines.push_back(command_data(lines_tmp[lines_tmp.size() - 1] - 1, expr_condition, true));
+
+		prev_line[current_instance_proc] = line1;
+		if (it->pc->is_function_call())
+		{
+			// reverse call function
+			proc_lines.at(proc_lines.size() - 1) = command_data(
+			    -proc_lines.at(proc_lines.size() - 1).line_number,
+			    proc_lines.at(proc_lines.size() - 1).condition);
+
+			std::string code = from_expr(ns, (*it).pc->source_location.get_function(),
+			    (*it).pc->code);
+			std::cout << code << std::endl;
+
+			std::string new_proc_name = get_proc_name(code);
+
+			std::cout << "New proc name: " << new_proc_name << std::endl;
+
+			// create new instance of procedure
+			std::map<std::string, int>::iterator it_proc = current_instance.find(
+			    new_proc_name);
+			std::vector<command_data> line_proc;
+			if (it_proc != current_instance.end())
+			{
+				bool added = change_current_instance(current_instance, new_proc_name);
+				if (added)
+				{
+					int t_proc = current_instance[new_proc_name];
+					procedure_data tmp_proc(new_proc_name, t_proc + 1);
+					new_file.push_back(tmp_proc);
+					prev_line[generate_new_name(new_proc_name, t_proc + 1)] = 0;
+				}
+				else
+				{
+					if (new_proc_name.compare("__VERIFIER_atomic_begin") == 0)
+						added_begin_atomic = true;
+					else if (new_proc_name.compare("__VERIFIER_atomic_end") == 0)
+						added_end_atomic = true;
+				}
+			} else
+			{
+				current_instance[new_proc_name] = 1;
+				procedure_data tmp_proc(new_proc_name, 1);
+				new_file.push_back(tmp_proc);
+				prev_line[generate_new_name(new_proc_name, 1)] = 0;
+			}
+		}
+
+		if (index == -1)
+			std::cerr << "if (index == -1) beng beng\n";
+		else
+		{
+			new_file.at(index) = procedure_data(proc, current_instance[proc],
+			    proc_lines);
+		}
+	}
+
+	// add the last slicing_unlock
+	for (int itt = 0; itt != new_file.size(); itt++)
+	{
+		int counterx = 0;
+		std::vector<command_data> tmp = new_file[itt].commands;
+		for (std::vector<command_data>::iterator itx = tmp.begin();
+		    itx != tmp.end(); ++itx)
+		{
+			if ((*itx).line_number == 32760)
+				counterx++;
+			else if ((*itx).line_number == -32760)
+				counterx--;
+		}
+		if (counterx == 1)
+		{
+			command_data tmp_command(-32760);
+			tmp.push_back(tmp_command);
+			procedure_data tmp_proc(new_file[itt].name, new_file[itt].instance, tmp);
+			new_file.at(itt) = tmp_proc;
+		}
+	}
+
+	write_to_file(++counter, new_file, lines);
+}
 
 /*******************************************************************\
 
@@ -1365,61 +1102,97 @@ int run_constructed_file(int number) {
 	return result;
 }
 
+
 /*******************************************************************\
 
-Function: creat_new_guard
+Function: add_to_map
 
   Inputs:
 
  Outputs:
 
- Purpose:
+ Purpose: add element to map if it is not available
 
 \*******************************************************************/
-exprt bmct::creat_new_guard(std::vector<exprt> new_guards, std::vector<variable_struct> alone_vars)
+void add_to_map(std::string line, std::string expr_str, std::vector<std::pair<std::string, std::string>> &choices)
+{
+	for (std::vector<std::pair<std::string, std::string>>::iterator it = choices.begin(); it != choices.end(); ++it)
+	{
+		if (it->second.compare(expr_str) == 0)
+			return;
+	}
+	choices.push_back(std::make_pair(line, expr_str));
+}
+
+/*******************************************************************\
+
+Function: bmct::all_properties
+
+  Inputs:
+
+ Outputs:
+
+ Purpose: Map choices to assignment line. We only count the assign statement
+
+\*******************************************************************/
+void bmct::map_choices_to_lines(
+  std::vector<std::pair<std::string, std::string>> &choices_to_lines)
 {
 	languagest languages(ns, new_ansi_c_language());
-	exprt result = true_exprt();
-	for (int i = 0; i < new_guards.size(); ++i)
+	int cnt = 0;
+	for(symex_target_equationt::SSA_stepst::iterator
+			it= equation.SSA_steps.begin();
+			it!=equation.SSA_steps.end();
+			it++)
+	  {
+			const symex_target_equationt::SSA_stept &SSA_step=*it;
+
+			std::string string_value; languages.from_expr(it->cond_expr, string_value);
+
+			if (it->cond_expr.is_not_nil())
+			{
+
+
+				// collect all choice_rf
+				if (it->cond_expr.operands().size() > 1 &&
+						string_value.find("__CPROVER_") == std::string::npos &&
+						string_value.find("==") != std::string::npos)
+				{
+					std::cout << "{-" << cnt << "} " << string_value << "\n";
+					// get the last one
+					exprt last_one = it->cond_expr.operands().at(
+							it->cond_expr.operands().size() - 1);
+					std::string last_one_str;
+					languages.from_expr(last_one, last_one_str);
+
+
+					if (last_one_str.find("choice_rf") != std::string::npos)
+					{
+						std::cout << "\t" << last_one_str << " ---- " << last_one.operands().size()
+													<< "\n";
+						if (last_one_str[0] == '!')
+						{
+							last_one = simplify_expr(not_exprt(last_one), ns);
+							languages.from_expr(last_one, last_one_str);
+							std::cout << "\t --> " << last_one_str << " "
+									<< last_one.operands().size() << "\n";
+							add_to_map(id2string(SSA_step.source.pc->source_location.get_line()), last_one_str, choices_to_lines);
+						}
+					}
+				}
+			}
+			cnt++;
+	  }
+
+#if 1
+	std::cout << "Test choices to lines\n";
+	for (int i = 0; i < choices_to_lines.size(); ++i)
 	{
-		exprt last_one = new_guards.at(i).operands().at(new_guards.at(i).operands().size() - 1);
-		std::string last_one_str, full_expt_str;
-		languages.from_expr(last_one, last_one_str);
-		languages.from_expr(new_guards.at(i), full_expt_str);
-
-		std::cout << "\t" << last_one_str << " " << last_one.operands().size()
-		    << "\n";
-
-		assert(last_one_str.find("choice_rf") != std::string::npos);
-		// get var
-		bool found = false;
-		for (int j = 0; j < alone_vars.size(); ++j)
-		{
-			std::string var_name1 = " " + alone_vars.at(j).name + "#";
-			std::string var_name2 = "(" + alone_vars.at(j).name + "#";
-			if (full_expt_str.find(var_name1) != std::string::npos ||
-					full_expt_str.find(var_name2) != std::string::npos)
-			{
-				found = true;
-				break;
-			}
-		}
-
-		if (found == false)
-		{
-			if (last_one_str[0] == '!')
-			{
-				last_one = not_exprt(last_one);
-			}
-			result = and_exprt(result, last_one);
-			std::cout << "added expr: " << full_expt_str << std::endl;
-		}
-		else
-			std::cout << "not-added expr: " << full_expt_str << std::endl;
+		std::cout << choices_to_lines[i].first << " " << choices_to_lines[i].second << std::endl;
 	}
-	simplify(result, ns);
-	return result;
+#endif
 }
+
 /*******************************************************************\
 
 Function: bmct::all_properties
@@ -1439,12 +1212,8 @@ bool bmct::all_properties(
     std::vector<int> lines_map,
     std::vector<std::string> lines,
     std::vector<std::vector<int>> CFG,
-    const std::vector<int> slicing_lines,
-    std::vector<variable_struct> alone_vars)
+    const std::vector<int> slicing_lines)
 {
-	std::cout << "in bool bmct::all_properties\n";
-	init();
-	CParser c_parser("c_token_automata.dat");
 
 	languagest languages(ns, new_ansi_c_language());
 	int counter_loop = 0;
@@ -1454,7 +1223,10 @@ bool bmct::all_properties(
 	std::vector<int> atomic_sign;
 	construct_atomic_array(atomic_sign, lines);
 
-//	while (!result && counter_loop < 1)
+	std::vector<std::pair<std::string, std::string>> choices_to_lines;
+	map_choices_to_lines(choices_to_lines);
+
+//while (!result && counter_loop < 1)
 	while (!result)
 	{
 		std::unique_ptr<propt> new_solver;
@@ -1537,21 +1309,24 @@ bool bmct::all_properties(
 			 if(it->second.failed)
 			 {
 				 simulate_trace_2(it->second.goto_trace, variables, lines_map, lines, CFG, slicing_lines, atomic_sign);
-//				 int r = run_constructed_file(counter_loop + 1);
-//				 if (r == 0)
-//				 {
-//					 std::cout << "Number of loop traces: " << counter_loop << std::endl;
-//					 return false;
-//				 }
+				 int r = run_constructed_file(counter_loop + 1);
+				 if (r == 0)
+				 {
+					 std::cout << "Number of loop traces: FALSE" << counter_loop << std::endl;
+					 return false;
+				 }
 			 }
 		}
-
 
 		//updating solver
 		for (int i = 0; i < bmc_all_properties.updating_exprt.size(); ++i)
 		{
-			exprt new_guard = creat_new_guard(bmc_all_properties.updating_exprt[i].new_guards, alone_vars);
+			exprt new_guard = true_exprt();
+
 			std::string expr_str, old_str;
+
+			new_guard = bmc_all_properties.updating_exprt[i].new_guard;
+			simplify(new_guard, ns);
 
 			languages.from_expr(new_guard, expr_str);
 			languages.from_expr(bmc_all_properties.updating_exprt[i].guard, old_str);
@@ -1589,21 +1364,10 @@ bool bmct::all_properties(
 		counter_loop++;
 	}
 
-	std::cout << "Number of loop traces: " << counter_loop << std::endl;
+	std::cout << "Number of loop traces: TRUE " << counter_loop << std::endl;
 	return true;
 }
 
-/*******************************************************************\
-
-Function: bmct::all_properties
-
-  Inputs:
-
- Outputs:
-
- Purpose:
-
-\*******************************************************************/
 bool bmct::all_properties(
   const goto_functionst &goto_functions,
   prop_convt &solver)
@@ -1695,7 +1459,7 @@ bool bmct::all_properties(
 			std::string expr_str, old_str;
 
 //			new_guard = and_exprt(bmc_all_properties.updating_exprt[i].guard, bmc_all_properties.updating_exprt[i].new_guard);
-//			new_guard = bmc_all_properties.updating_exprt[i].new_guard;------------------------------------------------------------------
+			new_guard = bmc_all_properties.updating_exprt[i].new_guard;
 			simplify(new_guard, ns);
 
 			languages.from_expr(new_guard, expr_str);

@@ -89,20 +89,16 @@ public:
   		std::vector<int> lines_map,
   		std::vector<std::string> lines,
   		std::vector<std::vector<int>> original_CFG,
-  		std::vector<int> slicing_lines,
-  		std::vector<variable_struct> alone_vars);
+  		std::vector<int> slicing_lines);
 
   void edit_CFG(std::vector<std::string> lines);
-	std::vector<int> DFS_dependence(
-			std::vector<int> properties,
-			std::vector<std::vector<int>> dependencies,
-			std::vector<int> &alone_vars);
+	std::vector<int> DFS_dependence(std::vector<int> properties, std::vector<std::vector<int>> dependencies);
 	std::vector<int> DFS_dependence(
 			int property, std::vector<std::vector<int>> dependencies, bool checked[]);
 	std::vector<int> DFS_dependence_1(
 				int property, std::vector<std::vector<int>> dependencies, bool checked[]);
 
-	void slice_program(
+	void slice_program(std::string file_name,
 			std::vector<int> slicing_lines,
 			std::vector<variable_struct> variables,
 			std::vector<variable_struct> selected_variables,
@@ -135,8 +131,7 @@ protected:
 	    std::vector<int> lines_map,
 	    std::vector<std::string> lines,
 	    std::vector<std::vector<int>> original_CFG,
-	    std::vector<int> slicing_lines,
-	    std::vector<variable_struct> alone_vars);
+	    std::vector<int> slicing_lines);
 
   virtual int get_goto_program(
     const optionst &options,
@@ -158,9 +153,6 @@ protected:
   }
   
   void preprocessing();
-
-  bool is_procedure_call(std::string line);
-  void read_program(std::string file_name, std::vector<std::string> &lines);
 
   std::vector<std::vector<int>> CFG;
 };

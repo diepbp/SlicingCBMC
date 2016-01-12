@@ -1,0 +1,1294 @@
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c
+Converting
+Type-checking thin002_power.oepc_false-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 53244 steps
+no slicing due to threads
+Generated 1 VCC(s), 1 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+166525 variables, 809495 clauses
+SAT checker: negated claim is SATISFIABLE, i.e., does not hold
+Runtime decision procedure: 48.249s
+Building error trace
+
+Counterexample:
+
+State 143 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 148 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 234 function P0 thread 1
+----------------------------------------------------
+  weak$$choice0=TRUE (00000001)
+
+State 151 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 235 function P0 thread 1
+----------------------------------------------------
+  weak$$choice2=FALSE (00000000)
+
+State 152 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 236 function P0 thread 1
+----------------------------------------------------
+  a$flush_delayed=FALSE (00000000)
+
+State 187 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 237 function P0 thread 1
+----------------------------------------------------
+  a$mem_tmp=0 (00000000000000000000000000000000)
+
+State 219 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 238 function P0 thread 1
+----------------------------------------------------
+  weak$$choice1=FALSE (00000000)
+
+State 220 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 239 function P0 thread 1
+----------------------------------------------------
+  a=0 (00000000000000000000000000000000)
+
+State 221 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 240 function P0 thread 1
+----------------------------------------------------
+  a$w_buff0=0 (00000000000000000000000000000000)
+
+State 222 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 241 function P0 thread 1
+----------------------------------------------------
+  a$w_buff1=0 (00000000000000000000000000000000)
+
+State 223 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 242 function P0 thread 1
+----------------------------------------------------
+  a$w_buff0_used=FALSE (00000000)
+
+State 224 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 243 function P0 thread 1
+----------------------------------------------------
+  a$w_buff1_used=FALSE (00000000)
+
+State 225 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 244 function P0 thread 1
+----------------------------------------------------
+  a$r_buff0_thd1=FALSE (00000000)
+
+State 226 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 245 function P0 thread 1
+----------------------------------------------------
+  a$r_buff1_thd1=FALSE (00000000)
+
+State 227 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 246 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_p0_EAX$read_delayed=TRUE (00000001)
+
+State 228 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 247 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_p0_EAX$read_delayed_var=&a (0000011000000000000000000000000000000000000000000000000000000000)
+
+State 229 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 248 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_p0_EAX=0 (00000000000000000000000000000000)
+
+State 230 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 249 function P0 thread 1
+----------------------------------------------------
+  a=0 (00000000000000000000000000000000)
+
+State 231 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 250 function P0 thread 1
+----------------------------------------------------
+  a$flush_delayed=FALSE (00000000)
+
+State 234 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 239 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 242 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 253 function P0 thread 1
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 245 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 250 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 253 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 268 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EAX=1 (00000000000000000000000000000001)
+
+State 256 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 261 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 264 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 271 function P1 thread 2
+----------------------------------------------------
+  y=1 (00000000000000000000000000000001)
+
+State 267 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 272 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 277 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 282 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 287 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 292 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 3
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 295 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 286 function P2 thread 3
+----------------------------------------------------
+  __unbuffered_p2_EAX=1 (00000000000000000000000000000001)
+
+State 298 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 3
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 303 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 306 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 258 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_cnt=1 (00000000000000000000000000000001)
+
+State 309 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 319 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 3
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 322 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 289 function P2 thread 3
+----------------------------------------------------
+  z=1 (00000000000000000000000000000001)
+
+State 330 file <builtin-library>-pthread_create line 20 function __actual_thread_spawn thread 2
+----------------------------------------------------
+  arg=NULL (0000000000000000000000000000000000000000000000000000000000000000)
+
+State 333 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 3
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 338 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 3
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 343 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 3
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 348 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 3
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 351 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 294 function P2 thread 3
+----------------------------------------------------
+  __unbuffered_cnt=2 (00000000000000000000000000000010)
+
+State 354 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 3
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 369 file <builtin-library>-pthread_create line 20 function __actual_thread_spawn thread 4
+----------------------------------------------------
+  arg=NULL (0000000000000000000000000000000000000000000000000000000000000000)
+
+State 372 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 375 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 276 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_cnt=3 (00000000000000000000000000000011)
+
+State 378 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 388 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 4
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 391 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 304 function P3 thread 4
+----------------------------------------------------
+  __unbuffered_p3_EAX=1 (00000000000000000000000000000001)
+
+State 394 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 4
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 399 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 4
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 402 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 307 function P3 thread 4
+----------------------------------------------------
+  a=1 (00000000000000000000000000000001)
+
+State 405 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 4
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 410 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 4
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 413 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 310 function P3 thread 4
+----------------------------------------------------
+  a=1 (00000000000000000000000000000001)
+
+State 414 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 311 function P3 thread 4
+----------------------------------------------------
+  a$w_buff0_used=FALSE (00000000)
+
+State 415 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 312 function P3 thread 4
+----------------------------------------------------
+  a$w_buff1_used=FALSE (00000000)
+
+State 416 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 313 function P3 thread 4
+----------------------------------------------------
+  a$r_buff0_thd4=FALSE (00000000)
+
+State 422 file <builtin-library>-pthread_create line 20 function __actual_thread_spawn thread 3
+----------------------------------------------------
+  arg=NULL (0000000000000000000000000000000000000000000000000000000000000000)
+
+State 425 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 314 function P3 thread 4
+----------------------------------------------------
+  a$r_buff1_thd4=FALSE (00000000)
+
+State 428 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 4
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 433 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 4
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 436 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 317 function P3 thread 4
+----------------------------------------------------
+  __unbuffered_cnt=4 (00000000000000000000000000000100)
+
+State 439 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 4
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 448 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 451 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 352 function main thread 0
+----------------------------------------------------
+  main$tmp_guard0=TRUE (00000001)
+
+State 454 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 459 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 462 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 356 function main thread 0
+----------------------------------------------------
+  a=1 (00000000000000000000000000000001)
+
+State 463 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 357 function main thread 0
+----------------------------------------------------
+  a$w_buff0_used=FALSE (00000000)
+
+State 464 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 358 function main thread 0
+----------------------------------------------------
+  a$w_buff1_used=FALSE (00000000)
+
+State 465 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 359 function main thread 0
+----------------------------------------------------
+  a$r_buff0_thd0=FALSE (00000000)
+
+State 466 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 360 function main thread 0
+----------------------------------------------------
+  a$r_buff1_thd0=FALSE (00000000)
+
+State 469 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 474 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 479 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 365 function main thread 0
+----------------------------------------------------
+  weak$$choice1=TRUE (00000001)
+
+State 488 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 368 function main thread 0
+----------------------------------------------------
+  __unbuffered_p0_EAX=1 (00000000000000000000000000000001)
+
+State 489 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 371 function main thread 0
+----------------------------------------------------
+  main$tmp_guard1=FALSE (00000000)
+
+State 492 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 497 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 375 function main thread 0
+----------------------------------------------------
+  expression=0 (00000000000000000000000000000000)
+
+Violated property:
+  file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.oepc_false-unreach-call.c line 2 function __VERIFIER_assert
+  assertion
+  FALSE
+
+VERIFICATION FAILED
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c
+Converting
+Type-checking thin002_power.opt_false-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 55367 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+189952 variables, 930237 clauses
+SAT checker: negated claim is SATISFIABLE, i.e., does not hold
+Runtime decision procedure: 55.229s
+Building error trace
+
+Counterexample:
+
+State 206 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 4
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 211 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 303 function P3 thread 4
+----------------------------------------------------
+  weak$$choice0=TRUE (00000001)
+
+State 214 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 304 function P3 thread 4
+----------------------------------------------------
+  weak$$choice2=FALSE (00000000)
+
+State 215 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 305 function P3 thread 4
+----------------------------------------------------
+  z$flush_delayed=FALSE (00000000)
+
+State 216 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 306 function P3 thread 4
+----------------------------------------------------
+  z$mem_tmp=0 (00000000000000000000000000000000)
+
+State 219 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 307 function P3 thread 4
+----------------------------------------------------
+  weak$$choice1=FALSE (00000000)
+
+State 220 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 308 function P3 thread 4
+----------------------------------------------------
+  z=0 (00000000000000000000000000000000)
+
+State 221 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 309 function P3 thread 4
+----------------------------------------------------
+  z$w_buff0=0 (00000000000000000000000000000000)
+
+State 222 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 310 function P3 thread 4
+----------------------------------------------------
+  z$w_buff1=0 (00000000000000000000000000000000)
+
+State 223 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 311 function P3 thread 4
+----------------------------------------------------
+  z$w_buff0_used=FALSE (00000000)
+
+State 224 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 312 function P3 thread 4
+----------------------------------------------------
+  z$w_buff1_used=FALSE (00000000)
+
+State 225 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 313 function P3 thread 4
+----------------------------------------------------
+  z$r_buff0_thd4=FALSE (00000000)
+
+State 226 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 314 function P3 thread 4
+----------------------------------------------------
+  z$r_buff1_thd4=FALSE (00000000)
+
+State 227 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 315 function P3 thread 4
+----------------------------------------------------
+  __unbuffered_p3_EAX$read_delayed=TRUE (00000001)
+
+State 228 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 316 function P3 thread 4
+----------------------------------------------------
+  __unbuffered_p3_EAX$read_delayed_var=&z (0000011000000000000000000000000000000000000000000000000000000000)
+
+State 229 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 317 function P3 thread 4
+----------------------------------------------------
+  __unbuffered_p3_EAX=0 (00000000000000000000000000000000)
+
+State 230 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 318 function P3 thread 4
+----------------------------------------------------
+  z=0 (00000000000000000000000000000000)
+
+State 231 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 319 function P3 thread 4
+----------------------------------------------------
+  z$flush_delayed=FALSE (00000000)
+
+State 234 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 4
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 239 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 4
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 242 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 322 function P3 thread 4
+----------------------------------------------------
+  a=1 (00000000000000000000000000000001)
+
+State 245 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 4
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 250 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 4
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 253 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 325 function P3 thread 4
+----------------------------------------------------
+  z=0 (00000000000000000000000000000000)
+
+State 254 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 326 function P3 thread 4
+----------------------------------------------------
+  z$w_buff0_used=FALSE (00000000)
+
+State 255 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 327 function P3 thread 4
+----------------------------------------------------
+  z$w_buff1_used=FALSE (00000000)
+
+State 256 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 328 function P3 thread 4
+----------------------------------------------------
+  z$r_buff0_thd4=FALSE (00000000)
+
+State 257 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 329 function P3 thread 4
+----------------------------------------------------
+  z$r_buff1_thd4=FALSE (00000000)
+
+State 260 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 4
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 265 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 268 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 234 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_p0_EAX=1 (00000000000000000000000000000001)
+
+State 271 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 276 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 4
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 279 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 332 function P3 thread 4
+----------------------------------------------------
+  __unbuffered_cnt=1 (00000000000000000000000000000001)
+
+State 282 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 4
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 291 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 294 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 237 function P0 thread 1
+----------------------------------------------------
+  x=1 (00000000000000000000000000000001)
+
+State 297 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 302 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 305 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 252 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_p1_EAX=1 (00000000000000000000000000000001)
+
+State 308 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 313 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 318 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 323 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 1
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 326 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 242 function P0 thread 1
+----------------------------------------------------
+  __unbuffered_cnt=2 (00000000000000000000000000000010)
+
+State 329 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 1
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 339 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 342 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 255 function P1 thread 2
+----------------------------------------------------
+  y=1 (00000000000000000000000000000001)
+
+State 345 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 350 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 355 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 360 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 3
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 363 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 270 function P2 thread 3
+----------------------------------------------------
+  __unbuffered_p2_EAX=1 (00000000000000000000000000000001)
+
+State 366 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 3
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 371 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 3
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 374 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 273 function P2 thread 3
+----------------------------------------------------
+  z$w_buff1=0 (00000000000000000000000000000000)
+
+State 375 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 274 function P2 thread 3
+----------------------------------------------------
+  z$w_buff0=1 (00000000000000000000000000000001)
+
+State 376 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 275 function P2 thread 3
+----------------------------------------------------
+  z$w_buff1_used=FALSE (00000000)
+
+State 377 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 276 function P2 thread 3
+----------------------------------------------------
+  z$w_buff0_used=TRUE (00000001)
+
+State 380 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 277 function P2 thread 3
+----------------------------------------------------
+  expression=1 (00000000000000000000000000000001)
+
+State 384 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 278 function P2 thread 3
+----------------------------------------------------
+  z$r_buff1_thd0=FALSE (00000000)
+
+State 385 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 279 function P2 thread 3
+----------------------------------------------------
+  z$r_buff1_thd1=FALSE (00000000)
+
+State 386 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 280 function P2 thread 3
+----------------------------------------------------
+  z$r_buff1_thd2=FALSE (00000000)
+
+State 387 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 281 function P2 thread 3
+----------------------------------------------------
+  z$r_buff1_thd3=FALSE (00000000)
+
+State 388 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 282 function P2 thread 3
+----------------------------------------------------
+  z$r_buff1_thd4=FALSE (00000000)
+
+State 389 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 283 function P2 thread 3
+----------------------------------------------------
+  z$r_buff0_thd3=TRUE (00000001)
+
+State 392 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 3
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 397 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 2
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 400 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 260 function P1 thread 2
+----------------------------------------------------
+  __unbuffered_cnt=3 (00000000000000000000000000000011)
+
+State 403 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 2
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 413 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 3
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 416 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 286 function P2 thread 3
+----------------------------------------------------
+  z=1 (00000000000000000000000000000001)
+
+State 417 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 287 function P2 thread 3
+----------------------------------------------------
+  z$w_buff0_used=FALSE (00000000)
+
+State 418 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 288 function P2 thread 3
+----------------------------------------------------
+  z$w_buff1_used=FALSE (00000000)
+
+State 424 file <builtin-library>-pthread_create line 20 function __actual_thread_spawn thread 2
+----------------------------------------------------
+  arg=NULL (0000000000000000000000000000000000000000000000000000000000000000)
+
+State 427 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 289 function P2 thread 3
+----------------------------------------------------
+  z$r_buff0_thd3=TRUE (00000001)
+
+State 429 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 290 function P2 thread 3
+----------------------------------------------------
+  z$r_buff1_thd3=FALSE (00000000)
+
+State 432 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 3
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 437 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 3
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 440 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 293 function P2 thread 3
+----------------------------------------------------
+  __unbuffered_cnt=4 (00000000000000000000000000000100)
+
+State 443 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 3
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 453 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 456 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 367 function main thread 0
+----------------------------------------------------
+  main$tmp_guard0=TRUE (00000001)
+
+State 459 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 464 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 467 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 371 function main thread 0
+----------------------------------------------------
+  z=1 (00000000000000000000000000000001)
+
+State 468 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 372 function main thread 0
+----------------------------------------------------
+  z$w_buff0_used=FALSE (00000000)
+
+State 474 file <builtin-library>-pthread_create line 20 function __actual_thread_spawn thread 4
+----------------------------------------------------
+  arg=NULL (0000000000000000000000000000000000000000000000000000000000000000)
+
+State 477 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 373 function main thread 0
+----------------------------------------------------
+  z$w_buff1_used=FALSE (00000000)
+
+State 478 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 374 function main thread 0
+----------------------------------------------------
+  z$r_buff0_thd0=FALSE (00000000)
+
+State 479 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 375 function main thread 0
+----------------------------------------------------
+  z$r_buff1_thd0=FALSE (00000000)
+
+State 482 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 487 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 4 function __VERIFIER_atomic_begin thread 0
+----------------------------------------------------
+  __global_lock=1 (00000000000000000000000000000001)
+
+State 492 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 380 function main thread 0
+----------------------------------------------------
+  weak$$choice1=TRUE (00000001)
+
+State 501 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 383 function main thread 0
+----------------------------------------------------
+  __unbuffered_p3_EAX=1 (00000000000000000000000000000001)
+
+State 502 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 386 function main thread 0
+----------------------------------------------------
+  main$tmp_guard1=FALSE (00000000)
+
+State 505 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 5 function __VERIFIER_atomic_end thread 0
+----------------------------------------------------
+  __global_lock=0 (00000000000000000000000000000000)
+
+State 510 file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 390 function main thread 0
+----------------------------------------------------
+  expression=0 (00000000000000000000000000000000)
+
+Violated property:
+  file /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_power.opt_false-unreach-call.c line 2 function __VERIFIER_assert
+  assertion
+  FALSE
+
+VERIFICATION FAILED
+CBMC version 5.1 64-bit x86_64 macos
+CBMC version 5.1 64-bit x86_64 macos
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_rmo.oepc_false-unreach-call.c
+Converting
+Type-checking thin002_rmo.oepc_false-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 52599 steps
+no slicing due to threads
+Generated 0 VCC(s), 0 remaining after simplification
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_rmo.opt_false-unreach-call.c
+Converting
+Type-checking thin002_rmo.opt_false-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 52599 steps
+no slicing due to threads
+Generated 0 VCC(s), 0 remaining after simplification
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+CBMC version 5.1 64-bit x86_64 macos
+CBMC version 5.1 64-bit x86_64 macos
+CBMC version 5.1 64-bit x86_64 macos
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_pso.oepc_true-unreach-call.c
+Converting
+Type-checking thin002_pso.oepc_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 50740 steps
+no slicing due to threads
+Generated 0 VCC(s), 0 remaining after simplification
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_pso.opt_true-unreach-call.c
+Converting
+Type-checking thin002_pso.opt_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 50740 steps
+no slicing due to threads
+Generated 0 VCC(s), 0 remaining after simplification
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+CBMC version 5.1 64-bit x86_64 macos
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_tso.oepc_true-unreach-call.c
+Converting
+Type-checking thin002_tso.oepc_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 50740 steps
+no slicing due to threads
+Generated 1 VCC(s), 1 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+86308 variables, 477291 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 1.675s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/thin002_tso.opt_true-unreach-call.c
+Converting
+Type-checking thin002_tso.opt_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 50740 steps
+no slicing due to threads
+Generated 1 VCC(s), 1 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+86308 variables, 477291 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 1.821s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_power.oepc_true-unreach-call.c
+Converting
+Type-checking rfi002_power.oepc_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 32717 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+222084 variables, 1041402 clauses
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_power.oepc_true-unreach-call.c
+Converting
+Type-checking rfi002_power.oepc_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 32717 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+222084 variables, 1041402 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 343.452s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_power.opt_true-unreach-call.c
+Converting
+Type-checking rfi002_power.opt_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 32717 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+222084 variables, 1041402 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 359.252s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_pso.oepc_true-unreach-call.c
+Converting
+Type-checking rfi002_pso.oepc_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 32717 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+222084 variables, 1041402 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 454.295s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_pso.opt_true-unreach-call.c
+Converting
+Type-checking rfi002_pso.opt_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 32717 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+222084 variables, 1041402 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 540.463s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_rmo.oepc_true-unreach-call.c
+Converting
+Type-checking rfi002_rmo.oepc_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 32717 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+222084 variables, 1041402 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 336.719s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_rmo.opt_true-unreach-call.c
+Converting
+Type-checking rfi002_rmo.opt_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 32717 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+222084 variables, 1041402 clauses
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_power.oepc_true-unreach-call.c
+Converting
+Type-checking rfi002_power.oepc_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 32717 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+222084 variables, 1041402 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 238.477s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_tso.oepc_true-unreach-call.c
+Converting
+Type-checking rfi002_tso.oepc_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 35330 steps
+no slicing due to threads
+Generated 3 VCC(s), 3 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+264071 variables, 1220461 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 261.823s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_power.opt_true-unreach-call.c
+Converting
+Type-checking rfi002_power.opt_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 32717 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+222084 variables, 1041402 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 178.303s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_tso.opt_true-unreach-call.c
+Converting
+Type-checking rfi002_tso.opt_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 35330 steps
+no slicing due to threads
+Generated 3 VCC(s), 3 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+264071 variables, 1220461 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 259.234s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_pso.oepc_true-unreach-call.c
+Converting
+Type-checking rfi002_pso.oepc_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 32717 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+222084 variables, 1041402 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 184.52s
+VERIFICATION SUCCESSFUL
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 218.372s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_pso.opt_true-unreach-call.c
+Converting
+Type-checking rfi002_pso.opt_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 32717 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+222084 variables, 1041402 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 236.622s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_rmo.oepc_true-unreach-call.c
+Converting
+Type-checking rfi002_rmo.oepc_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 32717 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+222084 variables, 1041402 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 222.409s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_rmo.opt_true-unreach-call.c
+Converting
+Type-checking rfi002_rmo.opt_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 32717 steps
+no slicing due to threads
+Generated 2 VCC(s), 2 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+222084 variables, 1041402 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 218.667s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_tso.oepc_true-unreach-call.c
+Converting
+Type-checking rfi002_tso.oepc_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 35330 steps
+no slicing due to threads
+Generated 3 VCC(s), 3 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+264071 variables, 1220461 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 180.027s
+VERIFICATION SUCCESSFUL
+CBMC version 5.1 64-bit x86_64 macos
+Parsing /Users/diepbp/Documents/workspace/SlicingCBMC/test/pthread-wmm/rfi002_tso.opt_true-unreach-call.c
+Converting
+Type-checking rfi002_tso.opt_true-unreach-call
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Partial Inlining
+Generic Property Instrumentation
+Starting Bounded Model Checking
+Adding SC constraints
+size of program expression: 35330 steps
+no slicing due to threads
+Generated 3 VCC(s), 3 remaining after simplification
+Passing problem to propositional reduction
+converting SSA
+Running propositional reduction
+Post-processing
+Solving with MiniSAT 2.2.0 with simplifier
+264071 variables, 1220461 clauses
+SAT checker: negated claim is UNSATISFIABLE, i.e., holds
+Runtime decision procedure: 131.011s
+VERIFICATION SUCCESSFUL
