@@ -6,7 +6,7 @@ Requirement:
 - CBMC 5.1: http://www.cprover.org/cbmc/
 
 Install: 
-- Import project to Eclipse
+- Import project to Eclipse CDT
 - Compile
 - And run with option: --no-unwinding-assertions --unwind 5 --all-properties [C file name]
 - Several test files are provided in the folder SlicingCBMC/src/tests/
