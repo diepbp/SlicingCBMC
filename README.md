@@ -9,4 +9,4 @@ Install:
 - Import project to Eclipse CDT
 - Compile
 - And run with option: --no-unwinding-assertions --unwind 5 --all-properties [C file name]
-- Several test files are provided in the folder SlicingCBMC/src/tests/
+- Several test files are provided in the folder SlicingCBMC/src/tests/pthread-wmm/
